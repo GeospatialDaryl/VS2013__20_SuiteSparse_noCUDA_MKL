@@ -1,0 +1,193 @@
+<html lang="en">
+<head>
+<title>LAPACK-ACML_PROGRESS - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="LAPACK.html#LAPACK" title="LAPACK">
+<link rel="prev" href="LAPACK_002dIEEE.html#LAPACK_002dIEEE" title="LAPACK-IEEE">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="LAPACK-ACML_PROGRESS"></a>
+<a name="LAPACK_002dACML_005fPROGRESS"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="LAPACK_002dIEEE.html#LAPACK_002dIEEE">LAPACK-IEEE</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="LAPACK.html#LAPACK">LAPACK</a>
+<hr>
+</div>
+
+<h3 class="section">4.5 Progress monitoring function: ACML_PROGRESS</h3>
+
+<p><a name="index-Progress-monitoring-function_003a-ACML_005fPROGRESS-54"></a>
+Sometimes when using LAPACK routines to solve very large problems
+it may be convenient to know how far through the solution
+ACML has got. For this purpose ACML uses the function
+<code>ACML_PROGRESS</code>.
+
+   <p>A default version of <code>ACML_PROGRESS</code> is contained in ACML. 
+You may override the default version by compiling and linking in
+your own version of the routine. (Note that this may not be possible
+with some versions of ACML, in particular with Microsoft Windows
+DLLs which do not allow a routine to be overridden in this manner).
+
+<div class="defun">
+&mdash; INTEGER: <b>FUNCTION</b><var> ACML_PROGRESS </var>(<var>THREAD,NTHREADS,STEP,PERCENT,STAGE</var>)<var><a name="index-FUNCTION-55"></a></var><br>
+<blockquote><div class="defun">
+&mdash; Input: INTEGER <b>THREAD</b><var><a name="index-THREAD-56"></a></var><br>
+<blockquote> <p>On input: the number of the thread that <code>ACML_PROGRESS</code> is called from. 
+For sequential code this will be 0. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>NTHREADS</b><var><a name="index-NTHREADS-57"></a></var><br>
+<blockquote> <p>On input: the number of the threads in the parallel region. 
+For sequential code this will be 1. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>STEP</b><var><a name="index-STEP-58"></a></var><br>
+<blockquote> <p>On input: <var>STEP</var> is the linear progress indicator that shows the
+amount of work done. Increases from 0 to the linear size of the problem
+during the computation. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>PERCENT</b><var><a name="index-PERCENT-59"></a></var><br>
+<blockquote> <p>On input: <var>PERCENT</var> is the (approximate) percentage of work done
+so far towards solving the whole problem. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: CHARACTER* <b>(</b><var>*</var>)<var> STAGE<a name="index-g_t_0028-60"></a></var><br>
+<blockquote> <p>On input: <var>STAGE</var> is the name of the LAPACK routine from which
+<code>ACML_PROGRESS</code> is called. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Output: ACML_PROGRESS <b>function</b><var> return value.<a name="index-function-61"></a></var><br>
+<blockquote> <p>On output: set <var>ACML_PROGRESS</var> to 0 to continue, or set to any non-zero
+value to terminate execution of the LAPACK routine on this thread. 
+</p></blockquote></div>
+        </p></blockquote></div>
+
+   <p>The default version of <code>ACML_PROGRESS</code> looks like this:
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<pre class="example">           INTEGER FUNCTION ACML_PROGRESS(THREAD,NTHREADS,STEP,PERCENT,STAGE)
+     C     .. Scalar Arguments ..
+           INTEGER          STEP, THREAD, NTHREADS, PERCENT
+           CHARACTER*(*)    STAGE
+     C
+     C   This function gets called from some ACML LAPACK routines to
+     C   allow the user's program to monitor progress.
+     C
+     C    THREAD: INTEGER
+     C      The number of the thread from which ACML_PROGRESS is called.
+     C      0 is passed for sequential code.
+     C
+     C    NTHREADS: INTEGER
+     C      The number of threads in the parallel region.
+     C
+     C    STEP: INTEGER
+     C      The linear progress indicator that shows the amount of work done.
+     C      Increases from 0 to the linear size of the problem during the
+     C      computation.
+     C
+     C    PERCENT: INTEGER
+     C      The (approximate) percentage of work done towards solving the
+     C      whole problem.
+     C
+     C    STAGE: CHARACTER*(*)
+     C      The name of the LAPACK routine from which ACML_PROGRESS
+     C      is called.
+     C
+     C    Function return value:
+     C      Set ACML_PROGRESS = 0 to continue, or set to any non-zero
+     C      value to terminate execution of the LAPACK routine.
+     C
+     C     This is the default version of ACML_PROGRESS. Users may override
+     C     it by supplying their own version.
+     C
+     C     .. Executable Statements ..
+     C
+     C     Sample usage of ACML_PROGRESS:
+     C
+     C      IF (THREAD.EQ.0) THEN
+     C         WRITE (*,99) 'ACML_PROGRESS: thread = ', THREAD, ' / ',
+     C     *      NTHREADS, ', stage:' // STAGE(:LEN_TRIM(STAGE)) //
+     C     *      ', step:', STEP, ', percent: ', percent
+     C  99     FORMAT(1X,A,I0,A,I0,A,I0,A,I0)
+     C      END IF
+     C
+           ACML_PROGRESS = 0
+           RETURN
+           END
+</pre>
+   </td></tr></table>
+
+   <p>You may use this as a template for your own version of <code>ACML_PROGRESS</code>. 
+An example of the kind of things you might do is given as comments in the
+code above.
+
+   <p>Note that the interface shown above is Fortran-style. You may wish to
+write your version of the function in C rather than Fortran. If so, you
+must follow the rules of mixed-language programming on your system. 
+A C version of <code>ACML_PROGRESS</code> for use with Linux versions of ACML
+might look like this:
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<pre class="example">     #include &lt;stdio.h&gt;
+     #include &lt;string.h&gt;
+     #include &lt;stdlib.h&gt;
+     int acml_progress_(int *thread, int *nthreads, int *step,
+                        int *percent, char *stage, int len_stage)
+     {
+       /* Sample usage of ACML_PROGRESS: */
+       if (*thread == 0)
+       {
+         char *stagebuff = (char *)malloc(len_stage+1);
+         strncpy(stagebuff, stage, len_stage);
+         stagebuff[len_stage] = '\0';
+         printf(
+           "ACML_PROGRESS: thread = %d / %d, stage: %s, step: %d, percent: %d\n",
+           *thread, *nthreads, stagebuff, *step, *percent);
+         free(stagebuff);
+       }
+       return 0;
+     }
+</pre>
+   </td></tr></table>
+
+   <p>Note that the character string input <var>stage</var> is <em>not</em>
+NULL-terminated, and its length is passed by value as argument <var>len_stage</var>. 
+All other arguments are passed by reference - this is
+the norm when being called from a Fortran program.
+
+   <p>Currently, <code>ACML_PROGRESS</code> only works in conjunction with the LAPACK
+LU factorization routines CGETRF, DGETRF, SGETRF and ZGETRF.
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- End of LAPACK section -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- Start of FFT section -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+   </body></html>
+

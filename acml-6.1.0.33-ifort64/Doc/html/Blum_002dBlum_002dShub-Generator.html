@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>Blum-Blum-Shub Generator - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Base-Generators.html#Base-Generators" title="Base Generators">
+<link rel="prev" href="L_0027Ecuyer_0027s-Combined-Recursive-Generator.html#L_0027Ecuyer_0027s-Combined-Recursive-Generator" title="L'Ecuyer's Combined Recursive Generator">
+<link rel="next" href="User-Supplied-Generators.html#User-Supplied-Generators" title="User Supplied Generators">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Blum-Blum-Shub-Generator"></a>
+<a name="Blum_002dBlum_002dShub-Generator"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="User-Supplied-Generators.html#User-Supplied-Generators">User Supplied Generators</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="L_0027Ecuyer_0027s-Combined-Recursive-Generator.html#L_0027Ecuyer_0027s-Combined-Recursive-Generator">L'Ecuyer's Combined Recursive Generator</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Base-Generators.html#Base-Generators">Base Generators</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.7 Blum-Blum-Shub Generator</h4>
+
+<p><a name="index-base-generator_002c-blum_002dblum_002dshub-513"></a><a name="index-blum_002dblum_002dshub-generator-514"></a><a name="index-cryptologically-secure_002c-generator-515"></a>The Blum-Blum-Shub pseudo random number generator is cryptologically
+secure under the assumption that the quadratic residuosity problem is
+intractable [8]. The algorithm consists of the following:
+     <ul>
+<li>Generate two large and distinct primes, p and q, each congruent to
+3 mod 4. 
+Define m = pq. 
+<li>Select a seed s taking a value between 1 and m-1,
+such that the greatest common divisor between s and m is
+1. 
+<li>Let
+x(0) = s * s mod m. For i = 1,2,... generate x(i) = x(i-1) * x(i-1) mod m,
+z(i) = v least significant bits of x(i). 
+where v&gt;=1
+. 
+<li>The bit-sequence
+z(1),z(2),z(3), ... 
+is then the output sequence used. 
+</ul>
+   <!-- ================================================================================= -->
+<!-- ================================================================================= -->
+
+   </body></html>
+

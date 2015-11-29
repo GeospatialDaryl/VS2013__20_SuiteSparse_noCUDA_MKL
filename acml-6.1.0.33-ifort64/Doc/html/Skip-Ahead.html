@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+<title>Skip Ahead - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Multiple-Streams.html#Multiple-Streams" title="Multiple Streams">
+<link rel="prev" href="Using-Different-Generators.html#Using-Different-Generators" title="Using Different Generators">
+<link rel="next" href="Leap-Frogging.html#Leap-Frogging" title="Leap Frogging">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Skip-Ahead"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Leap-Frogging.html#Leap-Frogging">Leap Frogging</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-Different-Generators.html#Using-Different-Generators">Using Different Generators</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Multiple-Streams.html#Multiple-Streams">Multiple Streams</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.2.3 Skip Ahead</h4>
+
+<ul class="menu">
+<li><a accesskey="1" href="DRANDSKIPAHEAD.html#DRANDSKIPAHEAD">DRANDSKIPAHEAD</a>:  Routine to advance a stream k places
+</ul>
+<a name="index-multiple-streams_002c-skip-ahead-549"></a><a name="index-multiple-streams_002c-block-splitting-550"></a><a name="index-multiple-streams_002c-NAG-basic-generator-551"></a><a name="index-multiple-streams_002c-Wichmann_002dHill-generator-552"></a><a name="index-multiple-streams_002c-L_0027Ecuyer_0027s-combined-recursive-generator-553"></a>
+Independent sequences of variates can be generated from a single base
+generator through the use of block-splitting, or skipping-ahead.  This
+method consists of splitting the sequence into k
+non-overlapping blocks, each of length n, where n is
+larger than the maximum number of variates required from any of the
+sequences. For example:
+Block 1:x(1),x(2),...,x(n), Block 2:x(n + 1), x(n + 2), ..., x(2 * n), Block 3:x(2 * n + 1), x(2 * n + 2), ..., x(3 * n), etc. 
+Each of the <var>k</var> blocks provide an independent sequence.
+
+<p>The block splitting algorithm therefore requires the sequence to be
+advanced a large number of places. Due to their form this can be done
+efficiently for linear congruential generators and multiple
+congruential generators. The ACML provides block-splitting for the NAG
+Basic generator, the Wichmann-Hill generators and L'Ecuyer's Combined
+Recursive generator. 
+<!-- ================================================================================= -->
+
+<!-- ================================================================================= -->
+   </body></html>
+

@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+<title>Initialization of the Base Generators - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Base-Generators.html#Base-Generators" title="Base Generators">
+<link rel="next" href="Calling-the-Base-Generators.html#Calling-the-Base-Generators" title="Calling the Base Generators">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Initialization-of-the-Base-Generators"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Calling-the-Base-Generators.html#Calling-the-Base-Generators">Calling the Base Generators</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Base-Generators.html#Base-Generators">Base Generators</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.1 Initialization of the Base Generators</h4>
+
+<ul class="menu">
+<li><a accesskey="1" href="DRANDINITIALIZE.html#DRANDINITIALIZE">DRANDINITIALIZE </a>:  Initialize an ACML supplied base generator
+<li><a accesskey="2" href="DRANDINITIALIZEBBS.html#DRANDINITIALIZEBBS">DRANDINITIALIZEBBS </a>:  Initialize the Blum-Blum-Shub generator
+
+</ul>
+<a name="index-base-generator_002c-initialization-464"></a><a name="index-initialization-of-a-generator-465"></a><a name="index-saving-the-state-of-a-generator-466"></a><a name="index-retrieving-the-state-of-a-generator-467"></a><a name="index-copying-a-generator-468"></a>A random number generator must be initialized before use. 
+Three routines are supplied within the ACML for
+this purpose: <code>DRANDINITIALIZE</code>,
+<code>DRANDINITIALIZEBBS</code> and <code>DRANDINITIALIZEUSER</code> (see
+<a href="DRANDINITIALIZE.html#DRANDINITIALIZE">DRANDINITIALIZE</a>, <a href="DRANDINITIALIZEBBS.html#DRANDINITIALIZEBBS">DRANDINITIALIZEBBS</a> and
+<a href="DRANDINITIALIZEUSER.html#DRANDINITIALIZEUSER">DRANDINITIALIZEUSER</a>, respectively). Of these,
+<code>DRANDINITIALIZE</code> is used to initialize all of the supplied base
+generators, <code>DRANDINITIALIZEBBS</code> supplies an alternative
+interface to <code>DRANDINITIALIZE</code> for the Blum-Blum-Shub generator,
+and <code>DRANDINITIALIZEUSER</code> allows the user to register and
+initialize their own base generator.
+
+   <p>Both double and single precision versions of all
+RNG routines are supplied. Double precision names are
+prefixed by <code>DRAND</code>, and single precision by <code>SRAND</code>. 
+Note that if a generator has been initialized using the
+relevant double precision routine, then the double precision
+versions of the distribution generators must also be used,
+and vice versa. This even applies to generators with no
+double or single precision parameters; for example, a call
+of <code>DRANDDISCRETEUNIFORM</code> must be preceded by a call
+to one of the double precision initializers (typically
+<code>DRANDINITIALIZE</code>).
+
+   <p>No utilities for saving, retrieving or copying the current state of a
+generator have been provided. All of the information on the current
+state of a generator (or stream, if multiple streams are being used)
+is stored in the integer array <var>STATE</var> and as such this array can
+be treated as any other integer array, allowing for easy copying,
+restoring etc.
+
+   <p>The statistical properties of a sequence of random numbers are only
+guaranteed within the sequence, and not between sequences provided by
+the same generator. Therefore it is likely that repeated
+initialization will render the numbers obtained less, rather than
+more, independent. In most cases there should only be a single call to
+one of the initialization routines, per application, and this call
+must be made before any variates are generated. One example of where
+multiple initialization may be required is briefly touched upon in
+<a href="Multiple-Streams.html#Multiple-Streams">Multiple Streams</a>.
+
+   <p>In order to initialize the Blum-Blum-Shub generator a number of
+additional parameters, as well as an initial state (seed), are
+required. Although this generator can be initialized through the
+<code>DRANDINITIALIZE</code> routine it is recommended that the
+<code>DRANDINITIALIZEBBS</code> routine is used instead. 
+<!-- =================================================================================================================== -->
+
+   </body></html>
+

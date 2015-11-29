@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+<title>SCFFT1M - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Multiple-1D-Real_002dTo_002dComplex-FFT-_0028Complex_002dHermitian-Storage_0029.html#Multiple-1D-Real_002dTo_002dComplex-FFT-_0028Complex_002dHermitian-Storage_0029" title="Multiple 1D Real-To-Complex FFT (Complex-Hermitian Storage)">
+<link rel="prev" href="DZFFT1M.html#DZFFT1M" title="DZFFT1M">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="SCFFT1M"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="DZFFT1M.html#DZFFT1M">DZFFT1M</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Multiple-1D-Real_002dTo_002dComplex-FFT-_0028Complex_002dHermitian-Storage_0029.html#Multiple-1D-Real_002dTo_002dComplex-FFT-_0028Complex_002dHermitian-Storage_0029">Multiple 1D Real-To-Complex FFT (Complex-Hermitian Storage)</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>SCFFT1M</code> Routine Documentation</h5>
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>SCFFT1M</b> (<var>MODE,M,N,X,Y,COMM,INFO</var>)<var><a name="index-SCFFT1M-360"></a></var><br>
+<blockquote><div class="defun">
+&mdash; Input: INTEGER <b>MODE</b><var><a name="index-MODE-361"></a></var><br>
+<blockquote> <p>The value of <var>MODE</var> on input determines the operation performed by
+<code>SCFFT1M</code>. 
+<br>
+On input:
+               <ul>
+<li><var>MODE</var>=0 : only default initializations (specific to <var>N</var>)
+  are performed; this is usually followed by
+  calls to the same routine with <var>MODE</var>=1. 
+<li><var>MODE</var>=1 : a real-to-complex transform is performed. 
+  Initializations are assumed to have been performed by a prior call to
+  <code>SCFFT1M</code>. 
+<li><var>MODE</var>=2 : (default) initializations and a real-to-complex transform are performed. 
+<li><var>MODE</var>=100 : similar to <var>MODE</var>=0; only initializations
+  are performed, but first a plan is generated. This plan is chosen based on
+  the fastest FFT computation for a subset of all possible plans. 
+</ul>
+             </p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>M</b><var><a name="index-M-362"></a></var><br>
+<blockquote> <p>On input: <var>M</var> is the number of sequences to be transformed. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>N</b><var><a name="index-N-363"></a></var><br>
+<blockquote> <p>On input: <var>N</var> is length of the sequence in <var>X</var>
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: REAL <b>X</b>(<var>N*M</var>)<var><a name="index-X-364"></a></var><br>
+<blockquote> <p>On input: <var>X</var> contains the <var>M</var> real sequences of length <var>N</var> to be transformed. Element <var>i</var> of sequence <var>j</var> is stored in location <var>i + (j - 1) * N</var> of <var>X</var>. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Output: COMPLEX <b>Y</b>((<var>N/2+1</var>)<var>*M</var>)<var><a name="index-Y-365"></a></var><br>
+<blockquote> <p>On output: <var>Y</var> contains the transformed Hermitian sequences in complex-Hermitian storage. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input/Output: REAL <b>COMM</b>(<var>4*N+100</var>)<var><a name="index-COMM-366"></a></var><br>
+<blockquote> <p><var>COMM</var> is a communication array. Some portions of the array are used to store initializations for subsequent calls with the same sequence length <var>N</var>. 
+The remainder is used as temporary store. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-367"></a></var><br>
+<blockquote> <p>On output: <var>INFO</var> is an error indicator. On successful exit, <var>INFO</var>
+contains 0. If <var>INFO</var> = -i on exit, the i-th argument had an illegal
+value. 
+</p></blockquote></div>
+
+     </blockquote></div>
+   Example:
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<pre class="example">             CALL SCFFT1M(0,M,N,X,Y,COMM,INFO)
+             CALL SCFFT1M(1,M,N,X,Y,COMM,INFO)
+             DO J = 1, M
+                DO I = 1, N/2+1
+                   Y(I,J) = -Y(I,J)*EXP(-REAL(I-1)/REAL(N))
+                END DO
+             EMD DO
+             CALL CSFFT1M(2,M,N,Y,X,COMM,INFO)
+</pre>
+   </td></tr></table>
+
+   </body></html>
+

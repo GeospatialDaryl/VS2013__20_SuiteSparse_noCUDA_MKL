@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+<title>Basic NAG Generator - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Base-Generators.html#Base-Generators" title="Base Generators">
+<link rel="prev" href="Calling-the-Base-Generators.html#Calling-the-Base-Generators" title="Calling the Base Generators">
+<link rel="next" href="Wichmann_002dHill-Generator.html#Wichmann_002dHill-Generator" title="Wichmann-Hill Generator">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Basic-NAG-Generator"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Wichmann_002dHill-Generator.html#Wichmann_002dHill-Generator">Wichmann-Hill Generator</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Calling-the-Base-Generators.html#Calling-the-Base-Generators">Calling the Base Generators</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Base-Generators.html#Base-Generators">Base Generators</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.3 Basic NAG Generator</h4>
+
+<p><a name="index-base-generator_002c-basic-NAG-generator-500"></a><a name="index-basic-NAG-base-generator-501"></a><a name="index-linear-congruential-generator_002c-basic-NAG-generator-502"></a>The NAG basic generator is a linear congruential generator (LCG) and,
+like all LCGs, has the form:
+x(i) = a1 * x(i-1) mod m1, u(i) = x(i) / m1, where the u(i), i=1,2,... form the required sequence.
+
+   <p>The NAG basic generator takes
+a1 = 13^(13) and m1 = 2^(59), which gives a period of approximately 2^(57). 
+This generator has been part of the NAG numerical library [9] since
+Mark 6 and as such has been widely used. It suffers from no known
+problems, other than those due to the lattice structure inherent in
+all LCGs, and, even though the period is relatively short compared to
+many of the newer generators, it is sufficiently large for many
+practical problems. 
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+
+   </body></html>
+

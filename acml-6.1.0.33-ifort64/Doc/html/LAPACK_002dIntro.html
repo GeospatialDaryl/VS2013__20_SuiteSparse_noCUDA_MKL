@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>LAPACK-Intro - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="LAPACK.html#LAPACK" title="LAPACK">
+<link rel="prev" href="LAPACK.html#LAPACK" title="LAPACK">
+<link rel="next" href="LAPACK_002dreferences.html#LAPACK_002dreferences" title="LAPACK-references">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="LAPACK-Intro"></a>
+<a name="LAPACK_002dIntro"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="LAPACK_002dreferences.html#LAPACK_002dreferences">LAPACK-references</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="LAPACK.html#LAPACK">LAPACK</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="LAPACK.html#LAPACK">LAPACK</a>
+<hr>
+</div>
+
+<h3 class="section">4.1 Introduction to LAPACK</h3>
+
+<p>LAPACK ([5]) is a library of FORTRAN 77 subroutines for
+solving commonly occurring
+problems in numerical linear algebra. LAPACK components
+can solve systems of linear
+equations, linear least squares problems, eigenvalue problems and singular
+value problems. Dense and banded matrices are provided for, but not general
+sparse matrices. In all areas, similar functionality is provided for real and
+complex matrices.
+
+   <p>LAPACK routines are written so that as much as possible of the computations
+is performed by calls to the BLAS. The efficiency of LAPACK routines depends,
+in large part, on the efficiency of the BLAS being called. Block algorithms
+are employed wherever possible to maximize the use of calls to level 3 BLAS,
+which generally run faster than lower level BLAS due to the high number
+of operations per memory access.
+
+<!-- @subsection -->
+   <p>The performance of
+some of the LAPACK routines has been further improved by reworking the
+computational algorithms. Some of the LAPACK routines contained
+in ACML are therefore based on code that is different from the
+LAPACK sources available in the public domain. In all these cases the
+algorithmic and numerical properties of the original LAPACK routines have
+been strictly preserved. Furthermore, key LAPACK routines have been
+treated using OpenMP to take advantage of multiple processors when running on
+SMP machines. Your application will automatically benefit when you
+link with the OpenMP versions of ACML.
+
+   </body></html>
+

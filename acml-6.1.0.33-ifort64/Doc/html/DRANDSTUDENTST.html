@@ -1,0 +1,131 @@
+<html lang="en">
+<head>
+<title>DRANDSTUDENTST - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Continuous-Univariate-Distributions.html#Continuous-Univariate-Distributions" title="Continuous Univariate Distributions">
+<link rel="prev" href="DRANDLOGNORMAL.html#DRANDLOGNORMAL" title="DRANDLOGNORMAL">
+<link rel="next" href="DRANDTRIANGULAR.html#DRANDTRIANGULAR" title="DRANDTRIANGULAR">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="DRANDSTUDENTST"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="DRANDTRIANGULAR.html#DRANDTRIANGULAR">DRANDTRIANGULAR</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="DRANDLOGNORMAL.html#DRANDLOGNORMAL">DRANDLOGNORMAL</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Continuous-Univariate-Distributions.html#Continuous-Univariate-Distributions">Continuous Univariate Distributions</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>DRANDSTUDENTST / SRANDSTUDENTST</code></h5>
+
+<p><a name="index-students-t-distribution-672"></a><a name="index-t-distribution-673"></a><a name="index-continuous-univariate-distribution_002c-students-t-674"></a><a name="index-continuous-univariate-distribution_002c-t-675"></a><a name="index-univariate-distribution_002c-t-676"></a><a name="index-univariate-distribution_002c-students-t-677"></a>Generates a vector of random variates from a Students T distribution
+with probability density function, f(X), where:
+f(X) = [((v - 1) / 2)!] / [(v / 2 - 1)! * sqrt(Pi * v) * (1 + X^2 / v)^((v + 1) / 2). 
+Here v is the degrees of freedom, <var>DF</var>.
+
+   <p><a name="index-SRANDSTUDENTST-678"></a><em>
+(Note that SRANDSTUDENTST is the single precision version of DRANDSTUDENTST. The argument lists of both routines are identical except that any double precision arguments of DRANDSTUDENTST are replaced in SRANDSTUDENTST by single precision arguments - type REAL in FORTRAN or type float in C). 
+</em>
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>DRANDSTUDENTST</b> (<var>N,DF,STATE,X,INFO</var>)<var><a name="index-DRANDSTUDENTST-679"></a></var><br>
+<blockquote><!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: INTEGER <b>N</b><var><a name="index-N-680"></a></var><br>
+<blockquote><!-- @deftypevr {Input} INTEGER N -->
+             <p>On input: number of variates required. 
+<br> Constraint: <var>N</var>&gt;=0.
+
+          <!-- @end deftypevr -->
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>DF</b><var><a name="index-DF-681"></a></var><br>
+<blockquote> <p>On input: degrees of freedom. 
+<br>Constraint: <var>DF</var>&gt;0.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>STATE</b>(<var>*</var>)<var><a name="index-STATE-682"></a></var><br>
+<blockquote><!-- @deftypevr {Input/Output} INTEGER STATE(*) -->
+             <p>The <var>STATE</var> vector holds information on the state of the base
+generator being used and as such its minimum length varies. Prior to
+calling <code>DRANDSTUDENTST</code> <var>STATE</var> must have been initialized. See
+<a href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators">Initialization of the Base Generators</a> for information on
+initialization of the <var>STATE</var> variable. 
+<br> On input: the current state of the base generator. 
+<br> On output: the updated state of the base generator. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: DOUBLE PRECISION <b>X</b>(<var>N</var>)<var><a name="index-X-683"></a></var><br>
+<blockquote><!-- @deftypevr {Output} DOUBLE PRECISION X(@var{N}) -->
+             <p>On output: vector of variates from the specified distribution. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-684"></a></var><br>
+<blockquote><!-- @deftypevr {Output} INTEGER INFO -->
+             <p>On output: <var>INFO</var> is an error indicator. On successful exit,
+<var>INFO</var> contains 0. If <var>INFO</var> = -i on exit, the i-th
+argument had an illegal value. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        </p></blockquote></div>
+
+<!-- Using set rather than the raw variables in the example as PDF and INFO act -->
+<!-- differently with raw variables, but the same with @value{} -->
+<pre class="display">     Example:
+     <p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+     <pre class="example">          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Generate 100 values from the Students T distribution
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER LSTATE,N
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->PARAMETER (LSTATE=16,N=100)
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER I,INFO,SEED(1),STATE(LSTATE)
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER DF
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->DOUBLE PRECISION X(N)
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Set the seed
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->SEED(1) = 1234
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Read in the distributional parameters
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->READ(5,*) DF
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Initialize the STATE vector
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->CALL DRANDINITIALIZE(1,1,SEED,1,STATE,LSTATE,INFO)
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Generate N variates from the Students T distribution
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->CALL DRANDSTUDENTST(N,DF,STATE,X,INFO)
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Print the results
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->WRITE(6,*) (X(I),I=1,N)
+</pre>
+     </td></tr></table>
+</pre>
+   <!-- ================================================================================= -->
+<!-- ================================================================================= -->
+   </body></html>
+

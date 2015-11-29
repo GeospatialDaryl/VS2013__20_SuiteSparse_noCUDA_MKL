@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+<title>Integer sizes - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="General.html#General" title="General">
+<link rel="prev" href="Interfaces.html#Interfaces" title="Interfaces">
+<link rel="next" href="Version.html#Version" title="Version">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Integer-sizes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Version.html#Version">Version</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Interfaces.html#Interfaces">Interfaces</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="General.html#General">General</a>
+<hr>
+</div>
+
+<h3 class="section">2.5 ACML variants using 64-bit integer (INTEGER*8) arguments</h3>
+
+<p><a name="index-INTEGER_002a8-arguments-23"></a><a name="index-size-of-integer-arguments-24"></a>Where compilers support, through the use of switches, the automatic
+promotion of regular INTEGER (32-bit) arguments to INTEGER*8 (64-bit) arguments,
+ACML variants exist to use this facility. This means that if you have a
+64-bit Fortran program using INTEGER*8 variables, or a 64-bit C program
+using 8-byte long variables, there is an ACML version that you can use. 
+This applies to 64-bit ACML versions built with PGI, Open64, gfortran,
+Intel and NAG compilers.
+
+   <p>The INTEGER*8 versions of these libraries are distinguished from the usual
+versions by having the string &ldquo;_int64&rdquo; as part of the name of the directory
+under which ACML is installed. Thus, for example, if the regular PGI 64-bit
+library is in a directory named pgi64, then the INTEGER*8 version will be
+installed in directory pgi64_int64.
+
+   <p>For these ACML variants, all ACML documentation that mentions arguments
+of Fortran type <em>INTEGER</em> or C type <em>int</em> should be read as
+<em>INTEGER*8</em> or <em>long</em> respectively.
+
+   <p>It is important to ensure that if you have INTEGER*8 variables in your code,
+you link to the int64 variant, and not otherwise. Unexpected program
+crashes are likely to occur if you link to the wrong version.
+
+   </body></html>
+

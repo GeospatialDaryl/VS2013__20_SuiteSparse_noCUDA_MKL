@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+<title>Using Different Seeds - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Multiple-Streams.html#Multiple-Streams" title="Multiple Streams">
+<link rel="next" href="Using-Different-Generators.html#Using-Different-Generators" title="Using Different Generators">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-Different-Seeds"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Using-Different-Generators.html#Using-Different-Generators">Using Different Generators</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Multiple-Streams.html#Multiple-Streams">Multiple Streams</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.2.1 Using Different Seeds</h4>
+
+<p><a name="index-multiple-streams_002c-using-different-seeds-543"></a><a name="index-multiple-streams_002c-Mersenne-twister-544"></a><a name="index-Mersenne-twister_002c-multiple-streams-545"></a>
+A different sequence of variates can be generated from the same base
+generator by initializing the generator using a different set of
+seeds. Of the four methods for creating multiple streams described
+here, this is the least satisfactory.  As mentioned in
+<a href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators">Initialization of the Base Generators</a>, the statistical
+properties of the base generators are only guaranteed within
+sequences, not between sequences. For example, sequences generated
+from different starting points may overlap if the initial values are
+not far enough apart. The potential for overlapping sequences is
+reduced if the period of the generator being used is large. Although
+there is no guarantee of the independence of the sequences, due to its
+extremely large period, using the Mersenne Twister with random
+starting values is unlikely to lead to problems, especially if the
+number of sequences required is small.  This is the only way in which
+multiple sequences can be generated with the ACML using the Mersenne
+Twister as the base generator.
+
+   <p>If the statistical properties of different sequences must be provable
+then one of the other methods should be adopted. 
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+
+   </body></html>
+

@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+<title>Leap Frogging - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Multiple-Streams.html#Multiple-Streams" title="Multiple Streams">
+<link rel="prev" href="Skip-Ahead.html#Skip-Ahead" title="Skip Ahead">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Leap-Frogging"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Skip-Ahead.html#Skip-Ahead">Skip Ahead</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Multiple-Streams.html#Multiple-Streams">Multiple Streams</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.2.4 Leap Frogging</h4>
+
+<ul class="menu">
+<li><a accesskey="1" href="DRANDLEAPFROG.html#DRANDLEAPFROG">DRANDLEAPFROG</a>:  Routine to generate every kth value from a stream
+</ul>
+<a name="index-multiple-streams_002c-leap-frogging-559"></a><a name="index-multiple-streams_002c-NAG-basic-generator-560"></a><a name="index-multiple-streams_002c-Wichmann_002dHill-generator-561"></a><a name="index-multiple-streams_002c-L_0027Ecuyer_0027s-combined-recursive-generator-562"></a>
+Independent sequences of variates can be generated from a single base
+generator through the use of leap-frogging.  This method involves
+splitting the sequence from a single generator into k disjoint
+subsequences. For example:
+Subsequence 1: x(1),x(k + 1),x(2 * k + 1), ...,
+Subsequence 2: x(2),x(k + 3),x(2 * k + 3), ...,
+Subsequence k: x(k),x(2 * k),x(3 * k), ... 
+each subsequence is then provides an independent stream.
+
+<p>The leap-frog algorithm therefore requires the generation of every
+kth variate of a sequence. Due to their form this can be done
+efficiently for linear congruential generators and multiple
+congruential generators. The ACML provides leap-frogging for the NAG
+Basic generator, the Wichmann-Hill generators and L'Ecuyer's Combined
+Recursive generator.
+
+   <p>As an illustrative example, a brief description of the algebra behind
+the implementation of the leap-frog algorithm (and block-splitting
+algorithm) for a linear congruential generator (LCG) will be given. A
+linear congruential generator has the form
+x(i+1) = a1 * x(i) mod m1. 
+The recursive nature of a LCG means that
+x(i + v) = a1 * x(i + v - 1) mod m1 = a1 * [a1 * x(i + v - 2) mod m1] mod m1 = a1^2 * x(i + v - 2) mod m1 = a1^v * x(i) mod m1. 
+The sequence can be quickly advanced v places by multiplying
+the current state
+(x(i)), by a1^v mod m1,
+ hence allowing block-splitting. Leap-frogging is implemented by using
+a1^k
+where k is the number of streams required, in place of
+a1
+in the standard LCG recursive formula. In a linear congruential generator
+the multiplier
+a1
+is constructed so that the generator has good statistical properties
+in, for example, the spectral test. When using leap-frogging to
+construct multiple streams this multiplier is replaced with
+a1^k
+ and there is no guarantee that this new multiplier will have suitable
+properties especially as the value of k depends on the number
+of streams required and so is likely to change depending on the
+application. This problem can be emphasised by the lattice structure
+of LCGs.
+
+   <p>Note that, due to rounding, a sequence generated using leap-frogging and
+a sequence constructed by taking every kth value from a set of
+variates generated without leap-frogging may differ slightly. These differences
+should only affect the least significant digit. 
+<!-- ================================================================================= -->
+
+<!-- ================================================================================= -->
+   </body></html>
+

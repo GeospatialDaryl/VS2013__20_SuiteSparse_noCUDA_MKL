@@ -1,0 +1,169 @@
+<html lang="en">
+<head>
+<title>ILAENV-ILAENVSET - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="LAPACK.html#LAPACK" title="LAPACK">
+<link rel="prev" href="LAPACK_002dreferences.html#LAPACK_002dreferences" title="LAPACK-references">
+<link rel="next" href="LAPACK_002dIEEE.html#LAPACK_002dIEEE" title="LAPACK-IEEE">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="ILAENV-ILAENVSET"></a>
+<a name="ILAENV_002dILAENVSET"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="LAPACK_002dIEEE.html#LAPACK_002dIEEE">LAPACK-IEEE</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="LAPACK_002dreferences.html#LAPACK_002dreferences">LAPACK-references</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="LAPACK.html#LAPACK">LAPACK</a>
+<hr>
+</div>
+
+<h3 class="section">4.3 LAPACK block sizes, ILAENV and ILAENVSET</h3>
+
+<p><a name="index-LAPACK-blocking-factors-45"></a>
+As described in Section 6.2 of the LAPACK User's Guide, block sizes
+and other parameters used by various LAPACK routines are returned by the
+LAPACK inquiry function ILAENV. In ACML, values returned by ILAENV
+have been chosen to achieve very good performance on a wide variety of
+hardware and problem sizes.
+
+   <p>In general it is unlikely that you will want or need to be concerned
+with these parameters. However, in some cases it may be that a default
+value returned by ILAENV is not optimal for your particular hardware and
+problem size. Following the advice in the LAPACK User's Guide
+may enable you to choose a better value in some circumstances.
+
+   <p>For convenience, ACML includes a subroutine which
+allows you to override default values returned by ILAENV if you
+have superior knowledge. The routine is named ILAENVSET and has
+the following specification.
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>ILAENVSET</b> (<var>ISPEC,NAME,OPTS,N1,N2,N3,N4,NVALUE,INFO</var>)<var><a name="index-ILAENVSET-46"></a></var><br>
+<blockquote><div class="defun">
+&mdash; Input: INTEGER <b>ISPEC</b><var><a name="index-ISPEC-47"></a></var><br>
+<blockquote> <p>On input: <var>ISPEC</var> specifies the parameter to be set (see Section 6.2
+of the LAPACK User's Guide for details). 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: CHARACTER* <b>(</b><var>*</var>)<var> NAME<a name="index-g_t_0028-48"></a></var><br>
+<blockquote> <p>On input: <var>NAME</var> specifies the name of the LAPACK subroutine for which
+the parameter is to be set. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: CHARACTER* <b>(</b><var>*</var>)<var> OPTS<a name="index-g_t_0028-49"></a></var><br>
+<blockquote> <p>On input: <var>OPTS</var> is a character string of options to the subroutine. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>N1</b><var>, N2, N3, N4<a name="index-N1-50"></a></var><br>
+<blockquote> <p>On input: <var>N1</var>, <var>N2</var>, <var>N3</var> and <var>N4</var> are problem dimensions. 
+A value of -1 means that the dimension is unused or irrelevant. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>NVALUE</b><var><a name="index-NVALUE-51"></a></var><br>
+<blockquote> <p>On input: <var>NVALUE</var> is the value to be set for the parameter specified
+by <var>ISPEC</var>. This value will be retrieved by any future call of
+<code>ILAENV</code> with similar arguments, including the call of <code>ILAENV</code>
+coming directly from the routine specified by argument <var>NAME</var>. In most
+cases, but not all, the value set will apply irrespective of the values of
+arguments <var>OPTS</var>, <var>N1</var>, <var>N2</var>, <var>N3</var> and <var>N4</var>. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-52"></a></var><br>
+<blockquote> <p>On output: <var>INFO</var> is an error indicator. On successful exit, <var>INFO</var>
+contains 0. If <var>INFO</var> = -i on exit, the i-th argument had an illegal
+value. 
+</p></blockquote></div>
+        </p></blockquote></div>
+
+   <p>All arguments of <code>ILAENVSET</code> apart from the last two,
+<var>NVALUE</var> and <var>INFO</var>, are identical to the arguments of <code>ILAENV</code>. 
+<code>ILAENVSET</code> should be called <em>before</em> you call the LAPACK
+routine in question.
+
+   <p>It should be noted that not all LAPACK routines make
+use of the <code>ILAENV</code> mechanism (because not all routines use
+blocked algorithms or require other tuning parameters). Calls of
+<code>ILAENVSET</code> with argument <var>NAME</var> set to the name of such a routine
+will fail with <var>INFO=0</var>. In addition, the ACML versions of some
+important routines that do use blocked algorithms, such as
+the QR factorization routine <code>DGEQRF</code>, bypass <code>ILAENV</code>
+because they make use of a different tuning system which is independent
+of standard LAPACK. For all such routines, <code>ILAENVSET</code>
+can still be called with no error exit, but calls will have no effect
+on performance of the routine.
+
+   <p>Below we give examples of how to call <code>ILAENVSET</code> in both
+FORTRAN and C.
+
+   <p>Example (FORTRAN code):
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<pre class="example">     
+           INTEGER ILO, IHI, INFO, N, NS
+           CHARACTER COMPZ, JOB
+           INTEGER ILAENV
+           EXTERNAL ILAENV, ILAENVSET
+           JOB = 'E'
+           COMPZ = 'I'
+           N = 512
+           ILO = 1
+           IHI = 512
+     C     Check the default shift parameter (ISPEC=4) used by DHSEQR
+           NS = ILAENV(4, 'DHSEQR', JOB//COMPZ, N, ILO, IHI, -1)
+           WRITE (*,*) 'Default NS = ', NS
+     C     Set a new value 5 for the shift parameter
+           CALL ILAENVSET(4, 'DHSEQR', JOB//COMPZ, N, ILO, IHI, -1, 5, INFO)
+     C     Then check the shift parameter again
+           NS = ILAENV(4, 'DHSEQR', JOB//COMPZ, N, ILO, IHI, -1)
+           WRITE (*,*) 'Revised NS = ', NS
+           END
+</pre>
+   </td></tr></table>
+
+   <p>Example (C code):
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<pre class="example">     
+           #include &lt;acml.h&gt;
+           #include &lt;stdio.h&gt;
+           int main(void)
+           {
+             int n=512, ilo=1, ihi=512, ns, info;
+             char compz = 'I', job = 'E', opts[3];
+             opts[0] = job;
+             opts[1] = compz;
+             opts[2] = '\0';
+           /* Check the default shift parameter (ISPEC=4) used by DHSEQR */
+             ns = ilaenv(4, "DHSEQR", opts, n, ilo, ihi, -1);
+             printf("Default ns = %d\n", ns);
+           /* Set a new value 5 for the shift parameter */
+             ilaenvset(4, "DHSEQR", opts, n, ilo, ihi, -1, 5, &amp;info);
+           /* Then check the shift parameter again */
+             ns = ilaenv(4, "DHSEQR", opts, n, ilo, ihi, -1);
+             printf("Revised ns = %d\n", ns);
+             return 0;
+           }
+</pre>
+   </td></tr></table>
+
+   </body></html>
+

@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+<title>DFT Complex - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="FFT_002dIntro.html#FFT_002dIntro" title="FFT-Intro">
+<link rel="prev" href="FFT_002dIntro.html#FFT_002dIntro" title="FFT-Intro">
+<link rel="next" href="DFT-Real.html#DFT-Real" title="DFT Real">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="DFT-Complex"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="DFT-Real.html#DFT-Real">DFT Real</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FFT_002dIntro.html#FFT_002dIntro">FFT-Intro</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="FFT_002dIntro.html#FFT_002dIntro">FFT-Intro</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.2.1 Transform definitions and Storage for Complex Data</h4>
+
+<p><a name="index-complex-FFT-64"></a>The simplest transforms to describe are those performed on sequences of complex
+data. Such data are stored as arrays of type complex. The result of
+a complex FFT is also a complex sequence of the same length and, for the
+simple interfaces, is written back to the original array. Where multiple (m, say),
+same-length sequences (of length n) of complex data are to
+be transformed, the sequences are held in a single complex array; in the simple
+interfaces the array will be of length m*n containing m end-to-end
+sequences and the results of the m FFTs are returned in the original array. 
+Expert interfaces are provided which give: greater flexibility in the storage of the
+original data and results, user provided scaling, and whether results should be
+written to a separate array or not.
+
+   <p>The definition of a complex DFT used here is given by:
+
+<pre class="example">          xtilde_j = (1 / sqrt(n)) * sum(for k=0,n-1) x_k exp(+-i*2*pi*j*k/n)
+              for j = 0, 1, ..., n-1
+</pre>
+   <p class="noindent">where x_k are the complex data to be transformed, xtilde_j
+are the transformed data, and the sign of (+-) determines the direction
+of the transform: (-) for forward and (+) for backward.
+
+   <p>Note that,
+in this definition, both directional transforms have the same scaling
+and performing both consecutively recovers the original data; this is the
+prescribed scaling provided in the simple FFT interfaces, whereas, in the expert
+interfaces, the scaling factor must be supplied by the user.
+
+   <p>For the simple interfaces, a two dimensional array of complex data,
+with m rows and n columns is stored in the same order as a
+set of n sequences of length m (as described above). That
+is, column elements are stored contiguously and the first element of the
+next column follows the last element of the current column. In the
+expert interfaces, column elements may be separated by a fixed step
+length (increment) while row elements may be separated by a second
+increment; if the first increment is 1 and the second increment is m
+then we have the same storage as in the simple interface.
+
+   <p>The definition of a complex 2D DFT used here is given by:
+
+<pre class="example">       xtilde_jp = (1 / sqrt(m*n)) * sum(for l=0,m-1) sum(for k=0,n-1)
+                             x_kl exp(+-i*2*pi*j*k/n) exp(+-i*2*pi*p*l/m)
+         for j=0,1,...,n-1 and p=0,1,...,m-1,
+</pre>
+   <p class="noindent">where x_kl are the complex data to be transformed, xtilde_jp
+are the transformed data, and the sign of (+-) determines the direction
+of the transform.
+
+   </body></html>
+

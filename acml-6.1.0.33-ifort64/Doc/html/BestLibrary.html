@@ -1,0 +1,145 @@
+<html lang="en">
+<head>
+<title>BestLibrary - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="General.html#General" title="General">
+<link rel="prev" href="General.html#General" title="General">
+<link rel="next" href="Linking_002fLinux.html#Linking_002fLinux" title="Linking/Linux">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="BestLibrary"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Linking_002fLinux.html#Linking_002fLinux">Linking/Linux</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="General.html#General">General</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="General.html#General">General</a>
+<hr>
+</div>
+
+<h3 class="section">2.1 Determining the best ACML version for your system</h3>
+
+<p><a name="index-determining-the-best-ACML-version-for-your-system-4"></a>
+ACML comes in versions for 64-bit processors, running
+both Linux and Microsoft
+Windows(R)
+ operating systems. To use the following tables, you will need
+to know answers to these questions:
+
+     <ul>
+<li>Are you running a 64-bit operating system (on AMD64 hardware such as
+Opteron or Athlon64)? 
+<li>Is the operating system Linux or Microsoft Windows? 
+<li>Do you have the GNU compilers (gfortran/gcc) or compatible compilers
+(compilers such as Absoft that are interoperable with the GNU compilers) installed? 
+<li>Do you have the PGI compilers (pgf77/pgf90/pgcc) installed? 
+<li>Do you have the Open64 compilers (openf95/opencc) installed? 
+<li>Do you have the NAGWare compiler (f95) installed? 
+<li>Do you have a single processor system or a multiprocessor (SMP) system? 
+The single processor version of ACML can be run on an SMP machine and
+vice versa, but (if you have the right compilers)
+it is more efficient to run the version appropriate to the machine. 
+<li>Does the machine support advanced instruction sets such as FMA4 or AVX? 
+</ul>
+
+   <p>The ACML installation includes a binary utility that can help you find
+an answer to the last question. The utility lies in directory
+util, and is named cpuid.exe. It interrogates the processor
+to determine what instruction families exist.
+
+<pre class="example">     util/cpuid.exe
+</pre>
+   <p class="noindent">Under a Linux operating system, another way of finding out the answer
+to the last question is to look at the special file /proc/cpuinfo,
+and see what appears under the &ldquo;flags&rdquo; label. 
+Try this command:
+
+<pre class="example">     cat /proc/cpuinfo | grep flags
+</pre>
+   <p class="noindent">If the list of flags includes the flag &ldquo;sse2&rdquo; then your machine
+supports SSE2 instructions. If it also includes &ldquo;fma4&rdquo; then your machine
+supports FMA4 instructions. If your machine supports these instructions,
+it is better to use a version of ACML which was built to take advantage of
+them, for reasons of good performance.
+
+   <p>The method of examining /proc/cpuinfo can also be used under Microsoft
+Windows if you have the Cygwin UNIX-like tools installed
+(see http://www.cygwin.com/) and run a bash shell. 
+Note that AMD64 machines always support both SSE and SSE2 instructions,
+under both Linux and Windows. Other manufacturers'
+hardware may or may not support AVX or FMA4.
+
+   <p>If you link to a version of ACML that was built to use AVX or FMA4
+instructions, and your machine does not in fact support them, it is likely
+that your program will halt due to encountering an &ldquo;illegal instruction&rdquo;
+- you may or may not be notified of this by the operating system.
+
+   <p>Once you have answered the questions above, use these tables to
+decide which version of ACML to link against.
+
+<!-- The command below means start a new page in printed output -->
+<!-- if there are less than 2000 thousandths of an inch left on the -->
+<!-- current page. Here it is just to ensure that the title sticks -->
+<!-- to the table. -->
+<p class="noindent"><strong>Linux 64-bit</strong>
+<TABLE BORDER=1>
+<TR><TD><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+   <p><table summary=""><tr align="left"><td valign="top" width="22%"><em>Number of threads</em>    </td><td valign="top" width="38%"><em>Compilers</em>            </td><td valign="top" width="40%"><em>ACML install directory</em>
+<br></td></tr><tr align="left"><td valign="top" width="22%">Single thread               </td><td valign="top" width="38%">PGI pgf77/pgf90/pgcc        </td><td valign="top" width="40%"><code>acml6.1.0/pgi64</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">PGI pgf77/pgf90/pgcc fma4   </td><td valign="top" width="40%"><code>acml6.1.0/pgi64_fma4</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">GNU gfortran/gcc or compat. </td><td valign="top" width="40%"><code>acml6.1.0/gfortran64</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">GNU gfortran/gcc fma4       </td><td valign="top" width="40%"><code>acml6.1.0/gfortran64_fma4</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">Open64 openf95/opencc       </td><td valign="top" width="40%"><code>acml6.1.0/open64_64</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">Open64 openf95/opencc fma4  </td><td valign="top" width="40%"><code>acml6.1.0/open64_64_fma4</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">Intel Fortran               </td><td valign="top" width="40%"><code>acml6.1.0/ifort64</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">Intel Fortran fma4          </td><td valign="top" width="40%"><code>acml6.1.0/ifort64_fma4</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">NAGWare f95                 </td><td valign="top" width="40%"><code>acml6.1.0/nag64</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">Absoft (use gfortran ACML)  </td><td valign="top" width="40%"><code>acml6.1.0/gfortran64</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">Multiple threads            </td><td valign="top" width="38%">PGI pgf77/pgf90/pgcc        </td><td valign="top" width="40%"><code>acml6.1.0/pgi64_mp</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">PGI pgf77/pgf90/pgcc fma4   </td><td valign="top" width="40%"><code>acml6.1.0/pgi64_fma4_mp</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">GNU gfortran/gcc or compat. </td><td valign="top" width="40%"><code>acml6.1.0/gfortran64_mp</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">GNU gfortran/gcc fma4       </td><td valign="top" width="40%"><code>acml6.1.0/gfortran64_fma4_mp</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">Open64 openf95/opencc       </td><td valign="top" width="40%"><code>acml6.1.0/open64_64_mp</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">Open64 openf95/opencc fma4  </td><td valign="top" width="40%"><code>acml6.1.0/open64_64_fma4_mp</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">Intel Fortran               </td><td valign="top" width="40%"><code>acml6.1.0/ifort64_mp</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">Intel Fortran fma4          </td><td valign="top" width="40%"><code>acml6.1.0/ifort64_fma4_mp</code>
+<br></td></tr><tr align="left"><td valign="top" width="22%">        &rdquo;            </td><td valign="top" width="38%">Absoft (use gfortran ACML)  </td><td valign="top" width="40%"><code>acml6.1.0/gfortran64_mp</code>
+   <br></td></tr></table>
+</td></tr></table>
+   </TD></TR>
+</TABLE>
+
+<!-- The command below means start a new page in printed output -->
+<!-- if there are less than 2000 thousandths of an inch left on the -->
+<!-- current page. Here it is just to ensure that the title sticks -->
+<!-- to the table. -->
+<p class="noindent"><strong>Microsoft Windows 64-bit</strong>
+<TABLE BORDER=1>
+<TR><TD><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+   <p><table summary=""><tr align="left"><td valign="top" width="25%"><em>Number of processors</em> </td><td valign="top" width="38%"><em>Compilers</em>          </td><td valign="top" width="37%"><em>ACML install directory</em>
+<br></td></tr><tr align="left"><td valign="top" width="25%">Single processor            </td><td valign="top" width="38%">PGI pgf77/pgf90/pgcc/MSC  </td><td valign="top" width="37%"><code>acml6.1.0/win64</code>
+<br></td></tr><tr align="left"><td valign="top" width="25%">      &rdquo;                </td><td valign="top" width="38%">Intel Fortran/Microsoft C </td><td valign="top" width="37%"><code>acml6.1.0/ifort64</code>
+<br></td></tr><tr align="left"><td valign="top" width="25%">Multi processor or core     </td><td valign="top" width="38%">PGI pgf77/pgf90/pgcc/MSC  </td><td valign="top" width="37%"><code>acml6.1.0/win64_mp</code>
+<br></td></tr><tr align="left"><td valign="top" width="25%">      &rdquo;                </td><td valign="top" width="38%">Intel Fortran/Microsoft C </td><td valign="top" width="37%"><code>acml6.1.0/ifort64_mp</code>
+   <br></td></tr></table>
+</td></tr></table>
+   </TD></TR>
+</TABLE>
+
+   </body></html>
+

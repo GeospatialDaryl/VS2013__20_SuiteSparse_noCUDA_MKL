@@ -1,0 +1,213 @@
+<html lang="en">
+<head>
+<title>DRANDINITIALIZE - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators" title="Initialization of the Base Generators">
+<link rel="next" href="DRANDINITIALIZEBBS.html#DRANDINITIALIZEBBS" title="DRANDINITIALIZEBBS">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="DRANDINITIALIZE"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="DRANDINITIALIZEBBS.html#DRANDINITIALIZEBBS">DRANDINITIALIZEBBS</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators">Initialization of the Base Generators</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>DRANDINITIALIZE / SRANDINITIALIZE</code></h5>
+
+<p>Initialize one of the five supplied base generators; NAG basic
+generator, Wichmann-Hill generator, Mersenne Twister, L'Ecuyer's
+combined recursive generator (MRG32k3a) or the Blum-Blum-Shub
+generator.
+
+   <p><a name="index-SRANDINITIALIZE-469"></a><em>
+(Note that SRANDINITIALIZE is the single precision version of DRANDINITIALIZE. The argument lists of both routines are identical except that any double precision arguments of DRANDINITIALIZE are replaced in SRANDINITIALIZE by single precision arguments - type REAL in FORTRAN or type float in C). 
+</em>
+<!-- ================================================================================= -->
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>DRANDINITIALIZE</b> (<var>GENID,SUBID,SEED,LSEED,STATE, LSTATE,INFO</var>)<var><a name="index-DRANDINITIALIZE-470"></a></var><br>
+<blockquote><!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: INTEGER <b>GENID</b><var><a name="index-GENID-471"></a></var><br>
+<blockquote> <p>On input: a numerical code indicating which of the five base generators to initialize.
+               <ul>
+<li>1 = NAG basic generator (<a href="Basic-NAG-Generator.html#Basic-NAG-Generator">Basic NAG Generator</a>). 
+<li>2 = Wichmann-Hill generator (<a href="Wichmann_002dHill-Generator.html#Wichmann_002dHill-Generator">Wichmann-Hill Generator</a>). 
+<li>3 = Mersenne Twister (<a href="Mersenne-Twister.html#Mersenne-Twister">Mersenne Twister</a>). 
+<li>4 = L'Ecuyer's Combined Recursive generator (<a href="L_0027Ecuyer_0027s-Combined-Recursive-Generator.html#L_0027Ecuyer_0027s-Combined-Recursive-Generator">L'Ecuyer's Combined Recursive Generator</a>). 
+<li>5 = Blum-Blum-Shub generator (<a href="Blum_002dBlum_002dShub-Generator.html#Blum_002dBlum_002dShub-Generator">Blum-Blum-Shub Generator</a>). 
+</ul>
+             <br> Constraint: 1&lt;=<var>GENID</var>
+&lt;=5.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>SUBID</b><var><a name="index-SUBID-472"></a></var><br>
+<blockquote> <p>On input: if <var>GENID</var>=2, then <var>SUBID</var> indicates which of
+the 273 Wichmann-Hill generators to use. If <var>GENID</var>=5 then
+<var>SUBID</var> indicates the number of bits to use (v) from each
+of iteration of the Blum-Blum-Shub generator. In all other cases
+<var>SUBID</var> is not referenced. 
+<br> Constraint: If <var>GENID</var>=2 then 1&lt;=<var>SUBID</var>
+&lt;=273
+. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>SEED</b>(<var>LSEED</var>)<var><a name="index-SEED-473"></a></var><br>
+<blockquote> <p>On input: if
+<var>GENID</var> is not equal to 5
+, then <var>SEED</var> is a vector of initial values for the base
+generator. These values must be positive integers. 
+The number of values required depends on the base generator
+being used. The NAG basic generator requires one initial value, the
+Wichmann-Hill generator requires four initial values, the L'Ecuyer
+combined recursive generator requires six initial values and the
+Mersenne Twister requires 624 initial values. If the number of seeds
+required by the chosen generator is &gt;<var>LSEED</var>
+ then
+<var>SEED</var>(1) is used to initialize the NAG basic generator. This is
+then used to generate all of the remaining seed values required. In
+general it is best not to set all the elements of <var>SEED</var> to
+anything too obvious, such as a single repeated value or a simple
+sequence. Using such a seed array may lead to several similar values
+being created in a row when the generator is subsequently called. This
+is particularly true for the Mersenne Twister generator.
+
+             <p>In order to initialize the Blum-Blum-Shub generator two large prime
+values, p and q are required as well as an initial value
+s. 
+As p, q and s can be of an arbitrary size, these values are factored
+into a expressed as a polynomial in B, where B=2^(24). For example, p
+can be factored into a polynomial of order l_p, with p = p_1 + p_2B +
+p_3B^2 + ... + p_(l_p) * B^(l_p-1). The elements of <var>SEED</var> should
+then be set to the following:
+               <ul>
+<li><var>SEED</var>(1) = l_p
+<li><var>SEED</var>(2) to <var>SEED</var>(l_p+1) = p_1 to
+p_(l_p)
+<li><var>SEED</var>(l_p+2) = l_q
+<li><var>SEED</var>(l_p+3) to <var>SEED</var>(l_p+l_q+2) = q_1 to
+q_(l_q)
+<li><var>SEED</var>(l_p+l_q+3) = l_s
+<li><var>SEED</var>(l_p+l_q+4) to <var>SEED</var>(l_p+l_q+l_s+3) = s_1 to
+s_(l_s)
+</ul>
+             <br> Constraint: If <var>GENID</var> is not equal to 5 then <var>SEED</var>(i)&gt;0 for i=1,2,.... 
+If <var>GENID</var>=5 then <var>SEED</var> must take the values described above. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>LSEED</b><var><a name="index-LSEED-474"></a></var><br>
+<blockquote> <p>On input: either the length of the seed vector, <var>SEED</var>, or a value &lt;=0
+. 
+<br> On output: if <var>LSEED</var>&lt;=0
+ on input, then <var>LSEED</var> is set
+to the number of initial values required by the selected generator,
+and the routine returns. 
+Otherwise <var>LSEED</var> is left unchanged. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>STATE</b>(<var>LSTATE</var>)<var><a name="index-STATE-475"></a></var><br>
+<blockquote> <p>On output: the state vector required by all of the supplied distributional
+and base generators. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>LSTATE</b><var><a name="index-LSTATE-476"></a></var><br>
+<blockquote> <p>On input: either the length of the state vector, <var>STATE</var>, or a value &lt;=0
+. 
+<br> On output: if <var>LSTATE</var>&lt;=0
+ on input, then <var>LSTATE</var> is set
+to the minimum length of the state vector <var>STATE</var> for the base
+generator chosen, and the routine returns. Otherwise <var>LSTATE</var> is
+left unchanged. 
+<br> Constraint: <var>LSTATE</var>&lt;=0
+ or the minimum length for the chosen
+base generator, given by:
+               <ul>
+<li><var>GENID</var>=1: <var>LSTATE</var>&gt;=16,
+
+               <li><var>GENID</var>=2: <var>LSTATE</var>&gt;=20,
+
+               <li><var>GENID</var>=3: <var>LSTATE</var>&gt;=633,
+
+               <li><var>GENID</var>=4: <var>LSTATE</var>&gt;=61,
+
+               <li><var>GENID</var>=5:
+<var>LSTATE</var>&gt;=l_p+l_q+l_s+6
+, where l_p, l_q and l_s are the order of the
+polynomials used to express the parameters p,q and s respectively. 
+</ul>
+             </p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-477"></a></var><br>
+<blockquote> <p>On output: <var>INFO</var> is an error indicator. If <var>INFO</var> = -i
+on exit, the i-th argument had an illegal value. If <var>INFO</var>
+=1 on exit, then either, or both of <var>LSEED</var> and / or
+<var>LSTATE</var> have been set to the required length for vectors
+<var>SEED</var> and <var>STATE</var> respectively.  Of the two variables
+<var>LSEED</var> and <var>LSTATE</var>, only those which had an input value
+&lt;=0
+ will have been set. The <var>STATE</var> vector will not have been
+initialized. If <var>INFO</var> = 0 then the state vector,
+<var>STATE</var>, has been successfully initialized. 
+</p></blockquote></div>
+        </p></blockquote></div>
+   <!-- Using set rather than the raw variables in the example as PDF and INFO act -->
+<!-- differently with raw variables, but the same with @value{} -->
+
+<pre class="display">     Example:
+     <p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+     <pre class="example">          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Generate 100 values from the Beta distribution
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER LSTATE,N
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->PARAMETER (LSTATE=16,N=100)
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER I,INFO,SEED(1),STATE(LSTATE)
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->DOUBLE PRECISION A,B
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->DOUBLE PRECISION X(N)
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Set the seed
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->SEED(1) = 1234
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Read in the distributional parameters
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->READ(5,*) A,B
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Initialize the STATE vector
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->CALL DRANDINITIALIZE(1,1,SEED,1,STATE,LSTATE,INFO)
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Generate N variates from the Beta distribution
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->CALL DRANDBETA(N,A,B,STATE,X,INFO)
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Print the results
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->WRITE(6,*) (X(I),I=1,N)
+</pre>
+     </td></tr></table>
+</pre>
+   <!-- ================================================================================================================= -->
+   </body></html>
+

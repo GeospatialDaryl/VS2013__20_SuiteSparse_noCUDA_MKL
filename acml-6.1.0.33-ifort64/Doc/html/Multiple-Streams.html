@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+<title>Multiple Streams - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="RNGs.html#RNGs" title="RNGs">
+<link rel="prev" href="Base-Generators.html#Base-Generators" title="Base Generators">
+<link rel="next" href="Distribution-Generators.html#Distribution-Generators" title="Distribution Generators">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Multiple-Streams"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Distribution-Generators.html#Distribution-Generators">Distribution Generators</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Base-Generators.html#Base-Generators">Base Generators</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="RNGs.html#RNGs">RNGs</a>
+<hr>
+</div>
+
+<h3 class="section">6.2 Multiple Streams</h3>
+
+<ul class="menu">
+<li><a accesskey="1" href="Using-Different-Seeds.html#Using-Different-Seeds">Using Different Seeds</a>
+<li><a accesskey="2" href="Using-Different-Generators.html#Using-Different-Generators">Using Different Generators</a>
+<li><a accesskey="3" href="Skip-Ahead.html#Skip-Ahead">Skip Ahead</a>
+<li><a accesskey="4" href="Leap-Frogging.html#Leap-Frogging">Leap Frogging</a>
+</ul>
+<a name="index-multiple-streams-542"></a>It is often advantageous to be able to generate variates from
+multiple, independent, streams. For example when running a simulation
+in parallel on several processors. There are four ways of generating
+multiple streams using the routines available in the ACML:
+     <ul>
+<li>(a) Using different seeds
+<li>(b) Using different sequences
+<li>(c) Block-splitting or skipping ahead
+<li>(d) Leap frogging
+</ul>
+
+   <p>The four methods are detailed in the following sections. Of the four,
+(a) should be avoided in most cases, (b) is only really of any
+practical use when using the Wichmann-Hill generator, and is then
+still limited to 273 streams. Both block-splitting and leap-frogging
+work using the sequence from a single generator, both guarantee that
+the different sequences will not overlap and both can be scaled to an
+arbitrary number of streams. Leap-frogging requires no <em>a-priori</em>
+knowledge about the number of variates being generated, whereas
+block-splitting requires the user to know (approximately) the maximum
+number of variates required from each stream. Block-splitting requires
+no <em>a-priori</em> information on the number of streams required. In
+contrast leap-frogging requires the user to know the maximum number of
+streams required, prior to generating the first value.
+
+   <p>It is known that, dependent on the number of streams required,
+leap-frogging can lead to sequences with poor statistical properties,
+especially when applied to linear congruential generators (see
+<a href="Leap-Frogging.html#Leap-Frogging">Leap Frogging</a> for a brief explanation). In addition, for more
+complicated generators like a L'Ecuyer's multiple recursive generator
+leap-frogging can increase the time required to generate each variate
+compared to block-splitting. The additional time required by
+block-splitting occurs at the initialization stage, and not at the
+variate generation stage. Therefore in most instances block-splitting
+would be the preferred method for generating multiple sequences. 
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+
+   </body></html>
+

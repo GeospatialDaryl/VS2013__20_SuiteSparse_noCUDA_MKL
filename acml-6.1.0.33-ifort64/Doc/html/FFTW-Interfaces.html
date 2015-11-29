@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+<title>FFTW Interfaces - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="FFTs.html#FFTs" title="FFTs">
+<link rel="prev" href="Real-FFT-Routines.html#Real-FFT-Routines" title="Real FFT Routines">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="FFTW-Interfaces"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Real-FFT-Routines.html#Real-FFT-Routines">Real FFT Routines</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="FFTs.html#FFTs">FFTs</a>
+<hr>
+</div>
+
+<h3 class="section">5.1 FFTW Interface</h3>
+
+<p>There are no established FFT API standards in the library world as there are for
+BLAS and LAPACK interfaces, but FFTW has become what can be treated as a
+defacto-standard just based on its popularity.  ACML is now providing the FFTW3
+header file and our own implementation of the FFTW library that users can
+link with, <samp><span class="file">acml_fftw</span></samp>.  Through the use of scripting logic described in
+section <a href="ACMLScript.html#ACMLScript">ACMLScript</a> below, ACML will dispatch work between a user provided
+FFTW shared library and the clFFT library that ships with ACML 6.
+
+   <p>The user provided
+FFTW implementation will be chosen to run host side computation, and the clFFT
+implementation will be chosen to run device (GPU) side computation.  It is expected
+for the user to provide the host based shared library implementation, because the
+clFFT implementation only supports a limited set of features at this time, and if
+the host program calls a function with parameters that is not supported, <samp><span class="file">acml_fftw</span></samp>
+needs to be able to call the host based FFTW or it will return an error message. 
+<samp><span class="file">acml_fftw</span></samp> is not using the traditional ACML FFT's to avoid bringing in
+Fortran dependencies to the users program. It is still possible to use only
+<samp><span class="file">acml_fftw</span></samp> and perform FFTs if the transform is supported by the underlying clFFT library.
+
+   <p>ACML expects to find the proper CPU based FFTW libraries in the <samp><span class="env">PATH</span></samp> on
+windows based systems, or in the <samp><span class="env">LD_LIBRARY_PATH</span></samp> on Linux based systems. 
+ACML looks for both the single precision and the double precision version of the
+shared libraries, and loads them both dynamically at runtime if available.
+
+   <p>For linux, ACML looks for the multi-threaded version of the FFTW shared
+libraries in addition to the main library
+     <ul>
+<li>Single Precision: <samp><span class="file">libfftw3f.so</span></samp>, <samp><span class="file">libfftw3f_threads.so</span></samp>
+<li>Double Precision: <samp><span class="file">libfftw3.so</span></samp>, <samp><span class="file">libfftw3_threads.so</span></samp>
+</ul>
+
+   <p>For windows, ACML is looking for libraries with the same naming convention as those
+precompiled libraries available from its website.  For windows, the threading
+support is built straight into the
+     <ul>
+<li>Single Precision: <samp><span class="file">libfftw3f-3.dll</span></samp>
+<li>Double Precision: <samp><span class="file">libfftw3-3.dll</span></samp>
+</ul>
+
+   <p>ACML now ships with the FFTW header file packaged inside of the
+<samp><span class="file">ACML_ROOT/include</span></samp> folder.  Users may include that file and link with the
+<samp><span class="file">acml_fftw</span></samp> library.  ACML 6 does not support all of the available
+API's yet.  The subset that are supported are documented with links below:
+     <ul>
+<li>Basic complex : <a href="http://www.fftw.org/fftw3_doc/Complex-DFTs.html#Complex-DFTs">Complex DFT's</a>
+<li>Advanced complex : <a href="http://www.fftw.org/fftw3_doc/Advanced-Complex-DFTs.html#Advanced-Complex-DFTs">Advanced Complex DFT's</a>
+<li>Basic real : <a href="http://www.fftw.org/fftw3_doc/Real_002ddata-DFTs.html#Real_002ddata-DFTs">http://www.fftw.org/fftw3_doc/Real_002ddata-DFTs.html#Real_002ddata-DFTs</a>
+<li>Advanced real : <a href="http://www.fftw.org/fftw3_doc/Advanced-Real_002ddata-DFTs.html#Advanced-Real_002ddata-DFTs">http://www.fftw.org/fftw3_doc/Advanced-Real_002ddata-DFTs.html#Advanced-Real_002ddata-DFTs</a>
+<li>Guru: not yet supported
+<li>Threaded: <a href="http://www.fftw.org/fftw3_doc/Usage-of-Multi_002dthreaded-FFTW.html#Usage-of-Multi_002dthreaded-FFTW">Multi-threaded Complex DFT's</a>, all API's
+<li>Using Plans: <a href="http://www.fftw.org/doc/Using-Plans.html#Using-Plans">Execute/Destroy/Cleanup Plans</a>
+</ul>
+
+   </body></html>
+

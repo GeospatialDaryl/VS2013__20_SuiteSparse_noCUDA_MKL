@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+<title>BLAS - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="General.html#General" title="General">
+<link rel="next" href="LAPACK.html#LAPACK" title="LAPACK">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="BLAS"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="LAPACK.html#LAPACK">LAPACK</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="General.html#General">General</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">3 BLAS: Basic Linear Algebra Subprograms</h2>
+
+<p><a name="index-BLAS-41"></a><a name="index-sparse-BLAS-42"></a>
+The BLAS are a set of well defined basic linear algebra operations
+([1], [2], [3]). 
+These operations are subdivided into three groups:
+
+     <ul>
+<li>Level 1: operations acting on vectors only (e.g. dot product)
+<li>Level 2: matrix-vector operations (e.g. matrix-vector multiplication)
+<li>Level 3: matrix-matrix operations (e.g. matrix-matrix multiplication)
+</ul>
+
+   <p>Efficient machine-specific implementations of the BLAS are available
+for many modern high-performance computers. 
+The implementation of higher level linear algebra algorithms
+on these systems depends critically on the use of the BLAS as building blocks. 
+AMD provides, as part of the ACML, an implementation of the BLAS
+optimized for performance on AMD64 processors.
+
+   <p>ACML 6 enables the heterogeneous computation of all BLAS Level 3 subroutines and two
+L2 subroutines (GEMV &amp; SYMV) by dispatching work loads between the CPU and GPU. The
+GPU computation is done by calling the clBLAS library that ships with ACML6. The
+dispatching heuristic logic is controlled by ACML scripting language described
+in <a href="ACMLScript.html#ACMLScript">ACMLScript</a>.
+
+   <p>For any information relating to the BLAS please refer to the BLAS FAQ:
+
+   <blockquote>
+<a href="http://www.netlib.org/blas/faq.html">http://www.netlib.org/blas/faq.html</a>
+</blockquote>
+
+   <p>ACML also includes interfaces to the extensions to Level 1 BLAS known as
+the sparse BLAS. These routines perform operations on a sparse vector x
+which is stored in compressed form and a vector y in full storage form. 
+See reference [4] for more information.
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- End of BLAS section -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- Start of LAPACK section -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+   </body></html>
+

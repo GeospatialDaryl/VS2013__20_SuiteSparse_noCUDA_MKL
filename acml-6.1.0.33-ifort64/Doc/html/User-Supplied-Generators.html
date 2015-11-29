@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+<title>User Supplied Generators - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Base-Generators.html#Base-Generators" title="Base Generators">
+<link rel="prev" href="Blum_002dBlum_002dShub-Generator.html#Blum_002dBlum_002dShub-Generator" title="Blum-Blum-Shub Generator">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="User-Supplied-Generators"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Blum_002dBlum_002dShub-Generator.html#Blum_002dBlum_002dShub-Generator">Blum-Blum-Shub Generator</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Base-Generators.html#Base-Generators">Base Generators</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.8 User Supplied Generators</h4>
+
+<ul class="menu">
+<li><a accesskey="1" href="DRANDINITIALIZEUSER.html#DRANDINITIALIZEUSER">DRANDINITIALIZEUSER</a>:  Initialize and register a user supplied base generator
+<li><a accesskey="2" href="UINI.html#UINI">UINI </a>:  Specification for user supplied initialization routine
+<li><a accesskey="3" href="UGEN.html#UGEN">UGEN </a>:  Specification for user supplied base generator
+</ul>
+<a name="index-user-supplied-generators-516"></a><a name="index-base-generator_002c-user-supplied-517"></a>All of the distributional generators described in <a href="Distribution-Generators.html#Distribution-Generators">Distribution Generators</a> require a base generator which returns a uniformly
+distributed value in the semi-open interval (0,1] and ACML includes
+several such generators (as detailed in <a href="Base-Generators.html#Base-Generators">Base Generators</a>). However, for greater flexibility, the ACML routines
+allow the user to register their own base generator function. This
+user-supplied generator then becomes the base generator for all of the
+distribution generators.
+
+<p>A user supplied generator comes in the form of two routines, one to
+initialize the generator and one to generate a set of uniformly
+distributed values in the semi-open interval (0,1]. These two routines can
+be named anything, but are referred to as <code>UINI</code> for the
+initialization routine and <code>UGEN</code> for the generation routine in
+the following documentation.
+
+   <p>In order to register a user supplied generator a call to
+<code>DRANDINITIALIZEUSER</code> must be made. Once registered the generator
+can be accessed and used in the same manner as the ACML supplied base
+generators. The specifications for <code>DRANDINTIALIZEUSER</code>,
+<code>UINI</code> and <code>UGEN</code> are given below. See the ACML example programs
+<code>drandinitializeuser_example.f</code> and
+<code>drandinitializeuser_c_example.c</code> (<a href="Examples.html#Examples">Examples</a>) to understand
+how to use these routines in ACML. 
+<!-- ================================================================================= -->
+
+   </body></html>
+

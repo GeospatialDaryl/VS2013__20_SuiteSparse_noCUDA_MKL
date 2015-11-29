@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+<title>Calling the Base Generators - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Base-Generators.html#Base-Generators" title="Base Generators">
+<link rel="prev" href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators" title="Initialization of the Base Generators">
+<link rel="next" href="Basic-NAG-Generator.html#Basic-NAG-Generator" title="Basic NAG Generator">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Calling-the-Base-Generators"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Basic-NAG-Generator.html#Basic-NAG-Generator">Basic NAG Generator</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators">Initialization of the Base Generators</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Base-Generators.html#Base-Generators">Base Generators</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.2 Calling the Base Generators</h4>
+
+<ul class="menu">
+<li><a accesskey="1" href="DRANDBLUMBLUMSHUB.html#DRANDBLUMBLUMSHUB">DRANDBLUMBLUMSHUB</a>:  Use the Blum-Blum-Shub generator to return a sequence of bits
+</ul>
+<a name="index-random-bit-stream-490"></a><a name="index-accessing-the-base-generators-491"></a><a name="index-calling-the-base-generators-492"></a><a name="index-base-generator_002c-calling-493"></a>With the exception of the Blum-Blum-Shub generator, there are no
+interfaces for direct access to the base generators.  All of the base
+generators return variates uniformly distributed over the semi-open
+interval (0,1]. This functionality can be accessed using the
+uniform distributional generator <code>DRANDUNIFORM</code>, with parameter
+<var>A</var>=0.0 and parameter <var>B</var>=1.0
+(see <a href="DRANDUNIFORM.html#DRANDUNIFORM">DRANDUNIFORM</a>). The base generator used is, as usual, selected
+during the initialization process (see <a href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators">Initialization of the Base Generators</a>).
+
+<p>To directly access the Blum-Blum-Shub generator, use the routine
+<code>DRANDBLUMBLUMSHUB</code>. 
+<!-- ============================================================================================================== -->
+
+   </body></html>
+

@@ -1,0 +1,140 @@
+<html lang="en">
+<head>
+<title>DRANDLEAPFROG - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Leap-Frogging.html#Leap-Frogging" title="Leap Frogging">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="DRANDLEAPFROG"></a>
+<p>
+Up:&nbsp;<a rel="up" accesskey="u" href="Leap-Frogging.html#Leap-Frogging">Leap Frogging</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>DRANDLEAPFROG / SRANDLEAPFROG</code></h5>
+
+<p>Amend a generator so that it will generate every <var>K</var>th value.
+
+   <p><a name="index-SRANDLEAPFROG-563"></a><em>
+(Note that SRANDLEAPFROG is the single precision version of DRANDLEAPFROG. The argument lists of both routines are identical except that any double precision arguments of DRANDLEAPFROG are replaced in SRANDLEAPFROG by single precision arguments - type REAL in FORTRAN or type float in C). 
+</em>
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>DRANDLEAPFROG</b> (<var>N,K,STATE,INFO</var>)<var><a name="index-DRANDLEAPFROG-564"></a></var><br>
+<blockquote><!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: INTEGER <b>N</b><var><a name="index-N-565"></a></var><br>
+<blockquote> <p>On input: total number of streams being used. 
+<br> Constraint: <var>N</var>&gt;0.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>K</b><var><a name="index-K-566"></a></var><br>
+<blockquote> <p>On input: number of the current stream
+<br> Constraint: 0&lt;<var>K</var>
+&lt;=<var>N</var>.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>STATE</b>(<var>*</var>)<var><a name="index-STATE-567"></a></var><br>
+<blockquote><!-- @deftypevr {Input/Output} INTEGER STATE(*) -->
+             <p>The <var>STATE</var> vector holds information on the state of the base
+generator being used and as such its minimum length varies. Prior to
+calling <code>DRANDLEAPFROG</code> <var>STATE</var> must have been initialized. See
+<a href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators">Initialization of the Base Generators</a> for information on
+initialization of the <var>STATE</var> variable. 
+<br> On input: the current state of the base generator. 
+<!-- @end deftypevr -->
+
+             <p><br> On output: The <var>STATE</var> vector for a generator that has been
+advanced <var>K</var>-1 places and will return every <var>N</var>th value. 
+<br> Constraint: The <var>STATE</var> array must be for either the NAG basic,
+Wichmann-Hill or L'Ecuyer Combined Recursive base generators. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-568"></a></var><br>
+<blockquote><!-- @deftypevr {Output} INTEGER INFO -->
+             <p>On output: <var>INFO</var> is an error indicator. On successful exit,
+<var>INFO</var> contains 0. If <var>INFO</var> = -i on exit, the i-th
+argument had an illegal value. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        </p></blockquote></div>
+   <!-- ================================================================================= -->
+
+   <p>Example:
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<pre class="example">     C     Generate 3 * 100 values from the Uniform distribution
+     C     Multiple streams generated using the Leap Frog method
+           INTEGER LSTATE,N
+           PARAMETER (LSTATE=16,N=100)
+           INTEGER I,INFO
+           INTEGER SEED(1),STATE1(LSTATE),STATE2(LSTATE),STATE3(LSTATE)
+           DOUBLE PRECISION X1(N),X2(N),X3(N)
+           DOUBLE PRECISION A,B
+     
+     C     Set the seed
+           SEED(1) = 1234
+     
+     C     Set the distributional parameters
+           A = 0.0D0
+           B = 1.0D0
+     
+     C     Initialize the STATE1 vector
+           CALL DRANDINITIALIZE(1,1,SEED,1,STATE1,LSTATE,INFO)
+     
+     C     Copy the STATE1 vector into other state vectors
+           DO 20 I = 1,LSTATE
+             STATE2(I) = STATE1(I)
+             STATE3(I) = STATE1(I)
+     20    CONTINUE
+     
+     C     Update each stream so they generate every 3rd value
+           CALL DRANDLEAPFROG(3,1,STATE1,INFO)
+           CALL DRANDLEAPFROG(3,2,STATE2,INFO)
+           CALL DRANDLEAPFROG(3,3,STATE3,INFO)
+     
+     C     Generate 3 sets of N variates from the Univariate distribution
+           CALL DRANDUNIFORM(N,A,B,STATE1,X1,LDX,INFO)
+           CALL DRANDUNIFORM(N,A,B,STATE2,X2,LDX,INFO)
+           CALL DRANDUNIFORM(N,A,B,STATE3,X3,LDX,INFO)
+     
+     C     Print the results
+           DO 40 I = 1,N
+             WRITE(6,*) X1(I),X2(I),X3(I)
+     40    CONTINUE
+</pre>
+   </td></tr></table>
+   <!-- ================================================================================= -->
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+   </body></html>
+

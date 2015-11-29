@@ -1,0 +1,134 @@
+<html lang="en">
+<head>
+<title>DRANDSKIPAHEAD - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Skip-Ahead.html#Skip-Ahead" title="Skip Ahead">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="DRANDSKIPAHEAD"></a>
+<p>
+Up:&nbsp;<a rel="up" accesskey="u" href="Skip-Ahead.html#Skip-Ahead">Skip Ahead</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>DRANDSKIPAHEAD / SRANDSKIPAHEAD</code></h5>
+
+<p>Advance a generator <var>N</var> places.
+
+   <p><a name="index-SRANDSKIPAHEAD-554"></a><em>
+(Note that SRANDSKIPAHEAD is the single precision version of DRANDSKIPAHEAD. The argument lists of both routines are identical except that any double precision arguments of DRANDSKIPAHEAD are replaced in SRANDSKIPAHEAD by single precision arguments - type REAL in FORTRAN or type float in C). 
+</em>
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>DRANDSKIPAHEAD</b> (<var>N,STATE,INFO</var>)<var><a name="index-DRANDSKIPAHEAD-555"></a></var><br>
+<blockquote><!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: INTEGER <b>N</b><var><a name="index-N-556"></a></var><br>
+<blockquote> <p>On input: number of places to skip ahead. 
+<br> Constraint: <var>N</var>&gt;=0.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>STATE</b>(<var>*</var>)<var><a name="index-STATE-557"></a></var><br>
+<blockquote><!-- @deftypevr {Input/Output} INTEGER STATE(*) -->
+             <p>The <var>STATE</var> vector holds information on the state of the base
+generator being used and as such its minimum length varies. Prior to
+calling <code>DRANDSKIPAHEAD</code> <var>STATE</var> must have been initialized. See
+<a href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators">Initialization of the Base Generators</a> for information on
+initialization of the <var>STATE</var> variable. 
+<br> On input: the current state of the base generator. 
+<!-- @end deftypevr -->
+
+             <p><br> On output: The <var>STATE</var> vector for a generator that has been
+advanced <var>N</var> places. 
+<br> Constraint: The <var>STATE</var> vector must be for either the NAG
+basic, Wichmann-Hill or L'Ecuyer Combined Recursive base generators. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-558"></a></var><br>
+<blockquote><!-- @deftypevr {Output} INTEGER INFO -->
+             <p>On output: <var>INFO</var> is an error indicator. On successful exit,
+<var>INFO</var> contains 0. If <var>INFO</var> = -i on exit, the i-th
+argument had an illegal value. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        </p></blockquote></div>
+   <!-- ================================================================================= -->
+<!-- Force a page break. This example is very large and looks naff if not on its own page -->
+
+<pre class="display">     Example:
+     <p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+     <pre class="example">          C     Generate 3 * 100 values from the Uniform distribution
+          C     Multiple streams generated using the Skip Ahead method
+                INTEGER LSTATE,N
+                PARAMETER (LSTATE=16,N=100)
+                INTEGER I,INFO,NSKIP
+                INTEGER SEED(1),STATE1(LSTATE),STATE2(LSTATE),STATE3(LSTATE)
+                DOUBLE PRECISION X1(N),X2(N),X3(N)
+                DOUBLE PRECISION A,B
+          
+          C     Set the seed
+                SEED(1) = 1234
+          
+          C     Set the distributional parameters
+                A = 0.0D0
+                B = 1.0D0
+          
+          C     Initialize the STATE1 vector
+                CALL DRANDINITIALIZE(1,1,SEED,1,STATE1,LSTATE,INFO)
+          
+          C     Copy the STATE1 vector into other state vectors
+                DO 20 I = 1,LSTATE
+                  STATE2(I) = STATE1(I)
+                  STATE3(I) = STATE1(I)
+          20    CONTINUE
+          
+          C     Calculate how many places we want to skip, this
+          C     should be &gt;&gt; than the number of variates we
+          C     wish to generate from each stream
+                NSKIP = N * N
+          
+          C     Advance each stream, first does not need changing
+                CALL DRANDSKIPAHEAD(NSKIP,STATE2,INFO)
+                CALL DRANDSKIPAHEAD(2*NSKIP,STATE3,INFO)
+          
+          C     Generate 3 sets of N variates from the Univariate distribution
+                CALL DRANDUNIFORM(N,A,B,STATE1,X1,LDX,INFO)
+                CALL DRANDUNIFORM(N,A,B,STATE2,X2,LDX,INFO)
+                CALL DRANDUNIFORM(N,A,B,STATE3,X3,LDX,INFO)
+          
+          C     Print the results
+                DO 40 I = 1,N
+                  WRITE(6,*) X1(I),X2(I),X3(I)
+          40    CONTINUE
+</pre>
+     </td></tr></table>
+</pre>
+   <!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+   </body></html>
+

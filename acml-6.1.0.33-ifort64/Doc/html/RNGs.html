@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+<title>RNGs - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="FFTs.html#FFTs" title="FFTs">
+<link rel="next" href="ACMLScript.html#ACMLScript" title="ACMLScript">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="RNGs"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="ACMLScript.html#ACMLScript">ACMLScript</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FFTs.html#FFTs">FFTs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">6 Random Number Generators</h2>
+
+<ul class="menu">
+<li><a accesskey="1" href="Base-Generators.html#Base-Generators">Base Generators</a>
+<li><a accesskey="2" href="Multiple-Streams.html#Multiple-Streams">Multiple Streams</a>
+<li><a accesskey="3" href="Distribution-Generators.html#Distribution-Generators">Distribution Generators</a>
+</ul>
+<a name="index-pseudo_002drandom-number_002c-definition-452"></a><a name="index-PRNG_002c-definition-453"></a><a name="index-seed_002c-definition-454"></a><a name="index-period-of-a-random-number-generator_002c-definition-455"></a><a name="index-base-generator_002c-definition-456"></a><a name="index-BRNG_002c-definition-457"></a><a name="index-QRNG_002c-definition-458"></a><a name="index-quasi_002drandom-number_002c-definition-459"></a><a name="index-cryptologically-secure_002c-definition-460"></a><a name="index-distribution-generator_002c-definition-461"></a>
+Within the context of this document, a base random number generator
+(BRNG) is a mathematical algorithm that, given an initial state,
+produces a sequence (or stream) of variates (or values) uniformly
+distributed over the semi-open interval (0,1]. The period of the BRNG
+is defined as the maximum number of values that can be generated
+before the sequence starts to repeat. The initial state of a BRNG is
+often called the seed.
+
+<p>Note that this definition means that the value 1.0 may be returned,
+but the value 0.0 will not.
+
+   <p>A pseudo-random number generator (PRNG) is a BRNG that produces a
+stream of variates that are independent and statistically
+indistinguishable from a random sequence. A PRNG has several
+advantages over a true random number generator in that the generated
+sequence is repeatable, has known mathematical properties and is
+usually much quicker to generate. A quasi-random number generator
+(QRNG) is similar to a PRNG, however the variates generated are not
+statistically independent, rather they are designed to give a more
+even distribution in multidimensional space. Many books on statistics
+and computer science have good introductions to PRNGs and QRNGs, see
+for example Knuth [6] or Banks [7].  All of the BRNGs supplied in the
+ACML are PRNGs.
+
+   <p>In addition to standard PRNGs some applications require
+cryptologically secure generators. A PRNG is said to be
+cryptologically secure if there is no polynomial-time algorithm which,
+on input of the first l bits of the output sequence can predict
+the (l+1)st bit of the sequence with probability significantly
+greater than 0.5. This is equivalent to saying there exists no
+polynomial-time algorithm that can correctly distinguish between an
+output sequence from the PRNG and a truly random sequence of the same
+length with probability significantly greater than 0.5 [8].
+
+   <p>A distribution generator is a routine that takes variates generated
+from a BRNG and transforms them into variates from a specified
+distribution, for example the Gaussian (Normal) distribution.
+
+   <p>The ACML contains five base generators, (<a href="Base-Generators.html#Base-Generators">Base Generators</a>), and
+twenty-three distribution generators (<a href="Distribution-Generators.html#Distribution-Generators">Distribution Generators</a>). 
+In addition users can supply a custom built generator as
+the base generator for all of the distribution generators
+(<a href="User-Supplied-Generators.html#User-Supplied-Generators">User Supplied Generators</a>).
+
+   <p>The base generators were tested using the Big Crush, Small Crush and
+Pseudo Diehard test suites from the TestU01 software library [15]. 
+<!-- ================================================================================================================ -->
+<!-- ================================================================================================================ -->
+
+   </body></html>
+

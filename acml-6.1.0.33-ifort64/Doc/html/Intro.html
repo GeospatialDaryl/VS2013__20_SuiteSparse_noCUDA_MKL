@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+<title>Intro - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="index.html#Top" title="Top">
+<link rel="next" href="General.html#General" title="General">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Intro"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="General.html#General">General</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="index.html#Top">Top</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">1 Introduction</h2>
+
+<p><a name="index-introduction-1"></a>The AMD Core Math Library (ACML) is a set of numerical routines
+tuned specifically for AMD64 platform processors (including
+Opteron(TM)
+ and Athlon(TM) 64
+). 
+The routines, which are available via both FORTRAN 77 and C interfaces,
+include:
+
+     <ul>
+<li>BLAS - Basic Linear Algebra Subprograms (including Sparse Level 1 BLAS);
+<li>LAPACK - A comprehensive package of higher level linear algebra routines;
+<li>FFT - a set of Fast Fourier Transform routines for real and complex data;
+<li>RNG - a set of random number generators and statistical distribution functions. 
+</ul>
+
+   <p>The BLAS and LAPACK routines provide a portable and standard set of
+interfaces for common numerical linear algebra operations
+that allow code containing calls to these routines to be readily ported
+across platforms. Full documentation for the BLAS and LAPACK are available
+online. This manual will, therefore, be restricted to providing brief
+descriptions of the BLAS and LAPACK and providing links to their
+documentation and other materials
+(see <a href="BLAS.html#BLAS">The BLAS</a> and see <a href="LAPACK.html#LAPACK">LAPACK</a>).
+
+   <p>The FFT is an implementation of the Discrete Fourier Transform (DFT)
+that makes use of
+symmetries in the definition to reduce the number of operations required
+from O(n*n) to O(n*log n) when the sequence length, n,
+is the product of small prime factors; in particular, when n is a power of 2. 
+Despite the popularity and widespread use of FFT algorithms, the
+definition of the DFT is not sufficiently precise to prescribe either the forward
+and backward directions (these are sometimes interchanged), or
+the scaling factor associated with the forward and backward transforms
+(the combined forward and backward transforms may only reproduce
+the original sequence by following a prescribed scaling).
+
+   <p>Currently, there is no agreed standard API for FFT routines. Hardware vendors
+usually provide a set of high performance FFTs optimized for their systems:
+no two vendors employ the same interfaces for their FFT routines. 
+The ACML provides a set of FFT routines, optimized for
+AMD64 processors, using an ACML-specific set of interfaces. 
+Beginning with version 6.0, ACML library has adopted the popular FFTW library's interfaces. 
+The functionality, interfaces and use of the ACML FFT routines are described below
+(see <a href="FFTs.html#FFTs">Fast Fourier Transforms</a>).
+
+   <p>The RNG is a comprehensive set of statistical distribution functions
+which are founded on various underlying uniform distribution generators
+<em>(base generators)</em>
+including Wichmann-Hill and an implementation of the Mersenne Twister. 
+In addition there are hooks which allow you to supply your own
+preferred base generator if it is not already included in ACML. 
+All RNG functionality and interfaces are described below
+(see <a href="RNGs.html#RNGs">Random Number Generators</a>).
+
+   <p><a href="General.html#General">General Information</a> provides details on:
+     <ul>
+<li>how to link a user program to the ACML;
+<li>FORTRAN and C interfaces to ACML routines;
+<li>how to obtain the ACML version and build information;
+<li>how to access the ACML documentation. 
+</ul>
+
+   </body></html>
+

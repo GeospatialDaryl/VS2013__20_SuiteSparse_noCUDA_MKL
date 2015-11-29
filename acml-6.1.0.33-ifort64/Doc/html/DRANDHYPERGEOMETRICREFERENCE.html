@@ -1,0 +1,151 @@
+<html lang="en">
+<head>
+<title>DRANDHYPERGEOMETRICREFERENCE - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Discrete-Univariate-Distributions.html#Discrete-Univariate-Distributions" title="Discrete Univariate Distributions">
+<link rel="prev" href="DRANDGEOMETRICREFERENCE.html#DRANDGEOMETRICREFERENCE" title="DRANDGEOMETRICREFERENCE">
+<link rel="next" href="DRANDNEGATIVEBINOMIALREFERENCE.html#DRANDNEGATIVEBINOMIALREFERENCE" title="DRANDNEGATIVEBINOMIALREFERENCE">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="DRANDHYPERGEOMETRICREFERENCE"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="DRANDNEGATIVEBINOMIALREFERENCE.html#DRANDNEGATIVEBINOMIALREFERENCE">DRANDNEGATIVEBINOMIALREFERENCE</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="DRANDGEOMETRICREFERENCE.html#DRANDGEOMETRICREFERENCE">DRANDGEOMETRICREFERENCE</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Discrete-Univariate-Distributions.html#Discrete-Univariate-Distributions">Discrete Univariate Distributions</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>DRANDHYPERGEOMETRICREFERENCE / SRANDHYPERGEOMETRICREFERENCE</code></h5>
+
+<p><a name="index-hypergeometric-distribution_002c-using-reference-vector-825"></a><a name="index-discrete-univariate-distribution_002c-hypergeometric_002c-using-reference-vector-826"></a><a name="index-univariate-distribution_002c-hypergeometric_002c-using-reference-vector-827"></a><a name="index-reference-vector_002c-hypergeometric-distribution-828"></a>Initializes a reference vector for use with <code>DRANDGENERALDISCRETE</code>. 
+Reference vector is for
+a Hypergeometric distribution with probability, f(X), defined by:
+f(X) = [s! * m! * (p - s)!] / [X! * (s - X)! * (m - X)! * (p - m - s + X)! * p!],
+if X = max(0,m+s-p),...,min(l,m), otherwise f(X) = 0. Here p is the size of the population,
+(<var>NP</var>), s is the size of the sample taken from the population, (<var>NS</var>) and m
+is the number of labeled, or specified, items in the population, (<var>M</var>).
+
+   <p><a name="index-SRANDHYPERGEOMETRICREFERENCE-829"></a><em>
+(Note that SRANDHYPERGEOMETRICREFERENCE is the single precision version of DRANDHYPERGEOMETRICREFERENCE. The argument lists of both routines are identical except that any double precision arguments of DRANDHYPERGEOMETRICREFERENCE are replaced in SRANDHYPERGEOMETRICREFERENCE by single precision arguments - type REAL in FORTRAN or type float in C). 
+</em>
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>DRANDHYPERGEOMETRICREFERENCE</b> (<var>NP,NS,M,REF,LREF,INFO</var>)<var><a name="index-DRANDHYPERGEOMETRICREFERENCE-830"></a></var><br>
+<blockquote><!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: INTEGER <b>NP</b><var><a name="index-NP-831"></a></var><br>
+<blockquote> <p>On input: size of population. 
+<br>Constraint: <var>NP</var>&gt;=0.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>NS</b><var><a name="index-NS-832"></a></var><br>
+<blockquote> <p>On input: size of sample being taken from population. 
+<br>Constraint: 0&lt;=<var>NS</var>
+&lt;=<var>NP</var>.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>M</b><var><a name="index-M-833"></a></var><br>
+<blockquote> <p>On input: number of specified items in the population. 
+<br>Constraint: 0&lt;=<var>M</var>
+&lt;=<var>NP</var>.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: DOUBLE PRECISION <b>REF</b>(<var>LREF</var>)<var><a name="index-REF-834"></a></var><br>
+<blockquote><!-- @deftypevr {Output} DOUBLE PRECISION REF(@var{LREF}) -->
+             <p>On output: if <var>INFO</var> returns with a value of 0 then
+<var>REF</var> contains reference information required to generate values
+from a Hypergeometric distribution using DRANDGENERALDISCRETE. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>LREF</b><var><a name="index-LREF-835"></a></var><br>
+<blockquote><!-- @deftypevr {Input/Output} INTEGER LREF -->
+             <p>On input: either the length of the reference vector <var>REF</var>, or -1. 
+<br> On output: if <var>LREF</var>=-1 on input, then <var>LREF</var> is set
+to the recommended length of the reference vector and the routine
+returns. Otherwise <var>LREF</var> is left unchanged. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-836"></a></var><br>
+<blockquote><!-- @deftypevr {Output} INTEGER INFO -->
+             <p>On output: <var>INFO</var> is an error indicator. If <var>INFO</var> = -i
+on exit, the i-th argument had an illegal value. If <var>INFO</var>
+=1 on exit, then <var>LREF</var> has been set to the recommended
+length for the reference vector <var>REF</var>. If <var>INFO</var> = 0
+then the reference vector, <var>REF</var>, has been successfully
+initialized. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        </p></blockquote></div>
+
+<!-- Using set rather than the raw variables in the example as PDF and INFO act -->
+<!-- differently with raw variables, but the same with @value{} -->
+<pre class="display">     Example:
+     <p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+     <pre class="example">          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Generate 100 values from the Hypergeometric distribution
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER LSTATE,N
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->PARAMETER (LSTATE=16,N=100)
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER I,INFO,SEED(1),STATE(LSTATE)
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER NP, NS,M
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER X(N)
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER LREF
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->DOUBLE PRECISION REF(1000)
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Set the seed
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->SEED(1) = 1234
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Read in the distributional parameters
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->READ(5,*) NP, NS,M
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Initialize the STATE vector
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->CALL DRANDINITIALIZE(1,1,SEED,1,STATE,LSTATE,INFO)
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Initialize the reference vector
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->LREF = 1000
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->CALL DRANDHYPERGEOMETRICREFERENCE(NP, NS,M,REF,LREF,INFO)
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Generate N variates from the Hypergeometric distribution
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->CALL DRANDGENERALDISCRETE(N,REF,STATE,X,INFO)
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Print the results
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->WRITE(6,*) (X(I),I=1,N)
+</pre>
+     </td></tr></table>
+</pre>
+   <!-- ================================================================================= -->
+<!-- ================================================================================= -->
+   </body></html>
+

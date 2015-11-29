@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+<title>UGEN - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="User-Supplied-Generators.html#User-Supplied-Generators" title="User Supplied Generators">
+<link rel="prev" href="UINI.html#UINI" title="UINI">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="UGEN"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="UINI.html#UINI">UINI</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="User-Supplied-Generators.html#User-Supplied-Generators">User Supplied Generators</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>UGEN</code></h5>
+
+<p>Specification for a user supplied base generator.
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>UGEN</b> (<var>N,STATE,X,INFO</var>)<var><a name="index-UGEN-537"></a></var><br>
+<blockquote><!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: INTEGER <b>N</b><var><a name="index-N-538"></a></var><br>
+<blockquote> <p>On input: the number of random numbers to be generated. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>STATE</b>(<var>*</var>)<var><a name="index-STATE-539"></a></var><br>
+<blockquote> <p>On input: the internal state of your generator. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: DOUBLE PRECISION <b>X</b>(<var>N</var>)<var><a name="index-X-540"></a></var><br>
+<blockquote> <p>On output: the array of <var>N</var> uniform distributed random numbers,
+each in the semi-open interval (0.0, 1.0] - i.e. 1.0
+is a legitimate return value, but 0.0 is not. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-541"></a></var><br>
+<blockquote> <p>On output: a flag which you can use to signal an error in the
+call of <code>UGEN</code> - for example, if <code>UGEN</code> is called
+without being initialized by <code>UINI</code>. 
+</p></blockquote></div>
+        </p></blockquote></div>
+   <!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+
+   </body></html>
+

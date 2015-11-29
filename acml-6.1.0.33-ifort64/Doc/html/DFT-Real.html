@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+<title>DFT Real - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="FFT_002dIntro.html#FFT_002dIntro" title="FFT-Intro">
+<link rel="prev" href="DFT-Complex.html#DFT-Complex" title="DFT Complex">
+<link rel="next" href="Efficiency.html#Efficiency" title="Efficiency">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="DFT-Real"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Efficiency.html#Efficiency">Efficiency</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="DFT-Complex.html#DFT-Complex">DFT Complex</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="FFT_002dIntro.html#FFT_002dIntro">FFT-Intro</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.2.2 Transform definitions and Storage for Real Data</h4>
+
+<p class="noindent">The DFT of a sequence of real data results in a special form of complex
+sequence known as a Hermitian sequence.
+
+   <p>If the original sequence is purely real valued, i.e. z_j=x_j, then
+the definition of the real DFT used here is given by:
+<pre class="example">       ztilde_j = a_j +  i b_j = 1/sqrt(n) sum(for k=0,n-1) x_k exp(-i*2*pi*j*k/n)
+          for j=0,1,...,n-1
+</pre>
+   <p class="noindent">where x_k are the real data to be transformed, ztilde_j
+are the transformed complex data.
+
+   <p>In full complex representation, the Hermitian sequence would be a sequence
+of n complex values \tildez_j for j=0,1,...,n-1, where
+\tildez_n-j is the complex conjugate of \tildez_j for
+j=1,2,...,(n-1)/2; \tildez_0 is real valued; and, if
+n is even, \tildez_n/2 is also real valued. The symmetries
+defining Hermitian sequence mean that it can be stored using reduced amount
+of memory.
+
+   <p>In ACML, there are two storage formats for the representation of
+Hermitian sequences. The first format, called Hermitian-packed format, is
+used on output from <code>DZFFT</code> routines and on
+input to <code>ZDFFT</code> routines and is defined as follows:
+let X be an array of length n and with first index 0,
+     <ul>
+<li>X(j) contains the real part of \tildez_j (i.e. a_j) for
+      j=0,...,n/2
+<li>X(n-j) contains the imaginary part of \tildez_j (i.e. b_j) for
+      j=1,...,(n-1)/2
+</ul>
+   As seen, a Hermitian sequence can be fully represented by a set of n
+real values, where n is the length of the original real sequence. 
+It is therefore conventional for the array containing the real sequence
+to be overwritten by such a representation of the transformed Hermitian
+sequence.
+
+   <p>An alternative way to store the Hermitian sequence, called complex-Hermitian
+format, is to keep the complex
+representation, store only the first n/2+1 complex numbers and drop the
+remaining elements that contain redundant information. This approach can be
+conveniently extended to multiple dimensions. For example, a 3D real data set
+of size l*m*n can be transformed into Fourier space as a
+complex data set of size (l/2+1)*m*n. It is still possible to
+use l*m*n real numbers to store all Fourier coefficients
+but intepreting such information would be extremely difficult. The 16
+new subroutines (such as
+<code>DZFFT1D/1M/2D/3D</code>) introduced in version 5.0 of ACML all use the
+complex-Hermitian format.
+
+   <p>The following table shows the storage of a one-dimensional Hermitian sequence with 8 elements. 
+<TABLE BORDER=1>
+<TR><TD><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+   <p><table summary=""><tr align="left"><td valign="top" width="34%"><em>Real Input x_j</em> </td><td valign="top" width="6%">x_0 </td><td valign="top" width="6%">x_1 </td><td valign="top" width="6%">x_2 </td><td valign="top" width="6%">x_3 </td><td valign="top" width="6%">x_4 </td><td valign="top" width="12%">x_5 </td><td valign="top" width="12%">x_6 </td><td valign="top" width="12%">x_7
+<br></td></tr><tr align="left"><td valign="top" width="34%"><em>Complex Output \tildez_j=a_j+ib_j</em> </td><td valign="top" width="6%">\tildez_0 </td><td valign="top" width="6%">\tildez_1 </td><td valign="top" width="6%">\tildez_2 </td><td valign="top" width="6%">\tildez_3 </td><td valign="top" width="6%">\tildez_4 </td><td valign="top" width="12%">\tildez_5=\tildez^*_3 </td><td valign="top" width="12%">\tildez_6=\tildez^*_2 </td><td valign="top" width="12%">\tildez_7=\tildez^*_1
+<br></td></tr><tr align="left"><td valign="top" width="34%"><em>Hermitian-Packed Storage</em> </td><td valign="top" width="6%">a_0 </td><td valign="top" width="6%">a_1 </td><td valign="top" width="6%">a_2 </td><td valign="top" width="6%">a_3 </td><td valign="top" width="6%">a_4 </td><td valign="top" width="12%">b_3 </td><td valign="top" width="12%">b_2 </td><td valign="top" width="12%">b_1
+<br></td></tr><tr align="left"><td valign="top" width="34%"><em>Complex-Hermitian Storage</em> </td><td valign="top" width="6%">\tildez_0 </td><td valign="top" width="6%">\tildez_1 </td><td valign="top" width="6%">\tildez_2 </td><td valign="top" width="6%">\tildez_3 </td><td valign="top" width="6%">\tildez_4 </td><td valign="top" width="12%">- </td><td valign="top" width="12%">- </td><td valign="top" width="12%">-
+   <br></td></tr></table>
+</td></tr></table>
+   </TD></TR>
+</TABLE>
+
+   <p>Given a Hermitian sequence, the inverse discrete transform can be defined as:
+
+<pre class="example">       x_j =  1/sqrt(n) sum(for k=0,n-1) ztilde_k exp(i*2*pi*j*k/n)
+         for j=0,1,...,n-1
+</pre>
+   <p class="noindent">or if written using the real and complex components:
+
+<pre class="example">       x_j = 1/sqrt(n) * (a_0 + 2 sum(for k=1,n/2-1) (a_k cos(2*pi*j*k/n)
+                          - b_k sin(2*pi*j*k/n)) + a_n / 2)
+</pre>
+   <p>where a_(n/2)=0 if n is odd, and tildez_k=a_k + i b_k is the
+Hermitian sequence to be transformed.
+
+   <p>Note that, in the second definition above, the inverse transform has a negative
+sign in the exponent. So if a Hermitian sequence is stored in a Hermitian-packed format (for DZFFT, DZFFTM, SCFFT and SCFFTM), performing a forward and a backward transform consecutively does not recover the
+original data. To recover original real data, or otherwise to perform an
+inverse transform on a set of Hermitian data, the Hermitian data must be
+conjugated prior to performing the transform (i.e. changing the sign of the
+stored imaginary parts). This however does not apply to the remaining subroutines using the complex-Hermitian data storage.
+
+   </body></html>
+

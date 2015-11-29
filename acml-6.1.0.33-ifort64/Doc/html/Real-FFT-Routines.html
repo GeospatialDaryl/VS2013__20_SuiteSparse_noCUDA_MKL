@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+<title>Real FFT Routines - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="FFTs.html#FFTs" title="FFTs">
+<link rel="prev" href="Complex-FFT-Routines.html#Complex-FFT-Routines" title="Complex FFT Routines">
+<link rel="next" href="FFTW-Interfaces.html#FFTW-Interfaces" title="FFTW Interfaces">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Real-FFT-Routines"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="FFTW-Interfaces.html#FFTW-Interfaces">FFTW Interfaces</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Complex-FFT-Routines.html#Complex-FFT-Routines">Complex FFT Routines</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="FFTs.html#FFTs">FFTs</a>
+<hr>
+</div>
+
+<h3 class="section">5.4 FFTs on Real and Hermitian Data Sequences</h3>
+
+<p><a name="index-real-data-sequences-_0028FFT_0029-269"></a><a name="index-real-FFT-270"></a><a name="index-Hermitian-data-sequences-_0028FFT_0029-271"></a>The routines documented here compute discrete
+Fourier transforms (DFTs) of sequences of real numbers or of
+Hermitian sequences in either single or double precision arithmetic. 
+The DFTs are computed using a highly-efficient FFT algorithm. 
+Hermitian sequences are represented in one of the two formats that is
+described in <a href="FFT_002dIntro.html#FFT_002dIntro">Introduction to FFTs</a>. 
+The DFT of a real sequence results in a Hermitian sequence; the DFT of
+a Hermitian sequence is a real sequence.
+
+   <p>Please note that prior to Release 2.0 of ACML the routine ZDFFT/CSFFT
+and ZDFFTM/CSFFTM returned results that were scaled by a factor 0.5
+compared with the currently returned results.
+
+<ul class="menu">
+<li><a accesskey="1" href="1D-Real_002dTo_002dComplex-FFT-_0028Hermitian_002dPacked-Storage_0029.html#g_t1D-Real_002dTo_002dComplex-FFT-_0028Hermitian_002dPacked-Storage_0029">1D Real-To-Complex FFT (Hermitian-Packed Storage)</a>:       One-dimensional real-to-complex transform (Hermitian-packed output)
+<li><a accesskey="2" href="Multiple-1D-Real_002dTo_002dComplex-FFT-_0028Hermitian_002dPacked-Storage_0029.html#Multiple-1D-Real_002dTo_002dComplex-FFT-_0028Hermitian_002dPacked-Storage_0029">Multiple 1D Real-To-Complex FFT (Hermitian-Packed Storage)</a>:       Multiple one-dimensional real-to-complex transform (Hermitian-packed output)
+<li><a accesskey="3" href="1D-Complex_002dTo_002dReal-FFT-_0028Hermitian_002dPacked-Storage_0029.html#g_t1D-Complex_002dTo_002dReal-FFT-_0028Hermitian_002dPacked-Storage_0029">1D Complex-To-Real FFT (Hermitian-Packed Storage)</a>:       One-dimensional complex-to-real transform (Hermitian-packed input)
+<li><a accesskey="4" href="Multiple-1D-Complex_002dTo_002dReal-FFT-_0028Hermitian_002dPacked-Storage_0029.html#Multiple-1D-Complex_002dTo_002dReal-FFT-_0028Hermitian_002dPacked-Storage_0029">Multiple 1D Complex-To-Real FFT (Hermitian-Packed Storage)</a>:       Multiple one-dimensional complex-to-real transform (Hermitian-packed input)
+<li><a accesskey="5" href="1D-Real_002dTo_002dComplex-FFT-_0028Complex_002dHermitian-Storage_0029.html#g_t1D-Real_002dTo_002dComplex-FFT-_0028Complex_002dHermitian-Storage_0029">1D Real-To-Complex FFT (Complex-Hermitian Storage)</a>:       One-dimensional real-to-complex transform (complex-Hermitian output)
+<li><a accesskey="6" href="1D-Complex_002dTo_002dReal-FFT-_0028Complex_002dHermitian-Storage_0029.html#g_t1D-Complex_002dTo_002dReal-FFT-_0028Complex_002dHermitian-Storage_0029">1D Complex-To-Real FFT (Complex-Hermitian Storage)</a>:       One-dimensional complex-to-real transform (complex-Hermitian input)
+<li><a accesskey="7" href="Multiple-1D-Real_002dTo_002dComplex-FFT-_0028Complex_002dHermitian-Storage_0029.html#Multiple-1D-Real_002dTo_002dComplex-FFT-_0028Complex_002dHermitian-Storage_0029">Multiple 1D Real-To-Complex FFT (Complex-Hermitian Storage)</a>:  Multiple one-dimensional real-to-complex transforms (complex-Hermitian output)
+<li><a accesskey="8" href="Multiple-1D-Complex_002dTo_002dReal-FFT-_0028Complex_002dHermitian-Storage_0029.html#Multiple-1D-Complex_002dTo_002dReal-FFT-_0028Complex_002dHermitian-Storage_0029">Multiple 1D Complex-To-Real FFT (Complex-Hermitian Storage)</a>:  Multiple one-dimensional complex-to-real transforms (complex-Hermitian input)
+<li><a accesskey="9" href="2D-Real_002dTo_002dComplex-FFT.html#g_t2D-Real_002dTo_002dComplex-FFT">2D Real-To-Complex FFT</a>:       Two-dimensional real-to-complex transform (complex-Hermitian output)
+<li><a href="2D-Complex_002dTo_002dReal-FFT.html#g_t2D-Complex_002dTo_002dReal-FFT">2D Complex-To-Real FFT</a>:       Two-dimensional complex-to-real transform (complex-Hermitian input)
+<li><a href="3D-Real_002dTo_002dComplex-FFT.html#g_t3D-Real_002dTo_002dComplex-FFT">3D Real-To-Complex FFT</a>:       Three-dimensional real-to-complex transform (complex-Hermitian output)
+<li><a href="3D-Complex_002dTo_002dReal-FFT.html#g_t3D-Complex_002dTo_002dReal-FFT">3D Complex-To-Real FFT</a>:       Three-dimensional complex-to-real transform (complex-Hermitian input)
+</ul>
+
+   </body></html>
+

@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+<title>L'Ecuyer's Combined Recursive Generator - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Base-Generators.html#Base-Generators" title="Base Generators">
+<link rel="prev" href="Mersenne-Twister.html#Mersenne-Twister" title="Mersenne Twister">
+<link rel="next" href="Blum_002dBlum_002dShub-Generator.html#Blum_002dBlum_002dShub-Generator" title="Blum-Blum-Shub Generator">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="L'Ecuyer's-Combined-Recursive-Generator"></a>
+<a name="L_0027Ecuyer_0027s-Combined-Recursive-Generator"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Blum_002dBlum_002dShub-Generator.html#Blum_002dBlum_002dShub-Generator">Blum-Blum-Shub Generator</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Mersenne-Twister.html#Mersenne-Twister">Mersenne Twister</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Base-Generators.html#Base-Generators">Base Generators</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.6 L'Ecuyer's Combined Recursive Generator</h4>
+
+<p><a name="index-base-generator_002c-L_0027Ecuyer_0027s-combined-recursive-generator-510"></a><a name="index-L_0027Ecuyer_0027s-combined-recursive-generator-511"></a><a name="index-multiple-recursive-generator_002c-L_0027Ecuyer_0027s-combined-recursive-generator-512"></a>The base generator referred to as L'Ecuyer's combined recursive
+generator is referred to as MRG32k3a in [12] and combines two multiple
+recursive generators:
+x(i) = [a1 * x(i - 1) + a2 * x(i - 2) + a3 * x(i - 3)] mod m1, y(i) = [b1 * y(i - 1) + b2 * y(i - 2) + b3 * y(i - 3)] mod m2, z(i) = [x(i) - y(i)] mod m1, u(i) = z_i / m1, where the u(i),i=1,2,... form the required sequence and a1 = 0, a2 = 1403580, a3 = -810728, m1 = 2^(32)-209, b1 = 527612, b2 = 0, b3 = -1370589 and m2 = 2^(32) - 22853.
+
+   <p>Combining the two multiple recursive generators (MRG) results in
+sequences with better statistical properties in high dimensions and
+longer periods compared with those generated from a single MRG. The
+combined generator described above has a period length of
+approximately
+2^(191)
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+
+   </body></html>
+

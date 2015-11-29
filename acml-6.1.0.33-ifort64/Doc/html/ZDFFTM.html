@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+<title>ZDFFTM - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Multiple-1D-Complex_002dTo_002dReal-FFT-_0028Hermitian_002dPacked-Storage_0029.html#Multiple-1D-Complex_002dTo_002dReal-FFT-_0028Hermitian_002dPacked-Storage_0029" title="Multiple 1D Complex-To-Real FFT (Hermitian-Packed Storage)">
+<link rel="prev" href="Multiple-1D-Complex_002dTo_002dReal-FFT-_0028Hermitian_002dPacked-Storage_0029.html#Multiple-1D-Complex_002dTo_002dReal-FFT-_0028Hermitian_002dPacked-Storage_0029" title="Multiple 1D Complex-To-Real FFT (Hermitian-Packed Storage)">
+<link rel="next" href="CSFFTM.html#CSFFTM" title="CSFFTM">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="ZDFFTM"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="CSFFTM.html#CSFFTM">CSFFTM</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Multiple-1D-Complex_002dTo_002dReal-FFT-_0028Hermitian_002dPacked-Storage_0029.html#Multiple-1D-Complex_002dTo_002dReal-FFT-_0028Hermitian_002dPacked-Storage_0029">Multiple 1D Complex-To-Real FFT (Hermitian-Packed Storage)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Multiple-1D-Complex_002dTo_002dReal-FFT-_0028Hermitian_002dPacked-Storage_0029.html#Multiple-1D-Complex_002dTo_002dReal-FFT-_0028Hermitian_002dPacked-Storage_0029">Multiple 1D Complex-To-Real FFT (Hermitian-Packed Storage)</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>ZDFFTM</code> Routine Documentation</h5>
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>ZDFFTM</b> (<var>M,N,X,COMM,INFO</var>)<var><a name="index-ZDFFTM-312"></a></var><br>
+<blockquote><div class="defun">
+&mdash; Input: INTEGER <b>M</b><var><a name="index-M-313"></a></var><br>
+<blockquote> <p>On input: <var>M</var> is the number of sequences to be transformed. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>N</b><var><a name="index-N-314"></a></var><br>
+<blockquote> <p>On input: <var>N</var> is the length of the sequences in <var>X</var>
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input/Output: DOUBLE PRECISION <b>X</b>(<var>N*M</var>)<var><a name="index-X-315"></a></var><br>
+<blockquote> <p>On input: <var>X</var> contains the <var>M</var> Hermitian sequences
+of length <var>N</var>
+to be transformed. Element i of sequence j is stored in location
+i+(j-1)*<var>N</var> of <var>X</var>.<br>
+On output: <var>X</var> contains the transformed real sequences. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input/Output: DOUBLE PRECISION <b>COMM</b>(<var>3*N+100</var>)<var><a name="index-COMM-316"></a></var><br>
+<blockquote> <p><var>COMM</var> is a communication array. Some portions of the array are used to store
+initializations for subsequent calls with the same sequence length <var>N</var>. 
+The remainder is used as temporary store. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-317"></a></var><br>
+<blockquote> <p>On output: <var>INFO</var> is an error indicator. On successful exit, <var>INFO</var>
+contains 0. If <var>INFO</var> = -i on exit, the i-th argument had an illegal
+value. 
+</p></blockquote></div>
+
+     </blockquote></div>
+   Example:
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<pre class="example">             CALL DZFFTM(1,N,X,COMM,INFO)
+             CALL DZFFTM(2,N,X,COMM,INFO)
+             DO 10 I = 1, N
+                X(I,3) = X(I,1)*X(N-I+1,2)
+        10   CONTINUE
+             CALL ZDFFTM(1,N,X(1,3),COMM,INFO)
+</pre>
+   </td></tr></table>
+
+   </body></html>
+

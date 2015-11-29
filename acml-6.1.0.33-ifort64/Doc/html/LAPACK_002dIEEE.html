@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+<title>LAPACK-IEEE - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="LAPACK.html#LAPACK" title="LAPACK">
+<link rel="prev" href="ILAENV_002dILAENVSET.html#ILAENV_002dILAENVSET" title="ILAENV-ILAENVSET">
+<link rel="next" href="LAPACK_002dACML_005fPROGRESS.html#LAPACK_002dACML_005fPROGRESS" title="LAPACK-ACML_PROGRESS">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="LAPACK-IEEE"></a>
+<a name="LAPACK_002dIEEE"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="LAPACK_002dACML_005fPROGRESS.html#LAPACK_002dACML_005fPROGRESS">LAPACK-ACML_PROGRESS</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="ILAENV_002dILAENVSET.html#ILAENV_002dILAENVSET">ILAENV-ILAENVSET</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="LAPACK.html#LAPACK">LAPACK</a>
+<hr>
+</div>
+
+<h3 class="section">4.4 IEEE exceptions and LAPACK</h3>
+
+<p><a name="index-IEEE-exceptions-and-LAPACK-53"></a>
+Some LAPACK eigensystem routines (namely CHEEVR, DSTEVR, DSYEVR,
+SSTEVR, SSYEVR, ZHEEVR) are able to take advantage of a faster
+algorithm when the full eigenspectrum is requested on machines which
+conform to the IEEE-754 floating point standard [14].
+
+   <p>Normal execution of the faster algorithm (implemented by LAPACK
+routines SSTEGR and DSTEGR, which are called by the routines mentioned
+above) may create NaNs and infinities and hence may abort due to a
+floating point exception in environments which do not handle NaNs
+and infinities in the IEEE standard default manner. 
+This may depend upon the compiler flags used to compile and link
+the main program.
+
+   <p>The LAPACK routine ILAENV, called with ISPEC = 10 or 11, states
+whether or not NaNs or infinities respectively will cause a trap. 
+In ACML, by default ILAENV assumes that NaNs and infinities
+cause traps, even if this reduces the performance of the eigensystem
+routines. This is because it is not possible in general to
+reliably check whether they do trap or not at run-time. The
+intention is to ensure that these routines always
+function correctly, irrespective of how the main program calling
+ACML is compiled.
+
+   <p>However, if your main program is compiled in such a way that NaNs and
+infinities do not cause traps, the ACML-specific routine ILAENVSET
+(see <a href="ILAENV_002dILAENVSET.html#ILAENV_002dILAENVSET">ILAENV-ILAENVSET</a>) may be used to override
+the default operative mode of ILAENV, and allow the xxxEVR routines
+to use the faster xSTEGR algorithm when calculating the full eigenspectrum. 
+When used for this purpose, ILAENVSET should be called as follows:
+
+<pre class="example">           CALL ILAENVSET(10,'X','X',0,0,0,0,1,INFO)
+           CALL ILAENVSET(11,'X','X',0,0,0,0,1,INFO)
+</pre>
+   <p class="noindent">(or the C equivalent).
+
+   <p>It is important to note that if you use ILAENVSET in this way before
+calling an xxxEVR routine, but your program <em>does</em> trap on
+IEEE exceptions, then there is a chance that your program will
+terminate unexpectedly. You should consult the documentation for the
+compiler you are using to find out whether there are compiler flags
+controlling this.
+
+   </body></html>
+

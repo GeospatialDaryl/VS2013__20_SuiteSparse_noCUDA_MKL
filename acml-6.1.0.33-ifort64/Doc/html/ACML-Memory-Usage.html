@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+<title>ACML Memory Usage - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="General.html#General" title="General">
+<link rel="prev" href="Performance-Examples.html#Performance-Examples" title="Performance Examples">
+<link rel="next" href="ACML-Thread-Binding.html#ACML-Thread-Binding" title="ACML Thread Binding">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="ACML-Memory-Usage"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="ACML-Thread-Binding.html#ACML-Thread-Binding">ACML Thread Binding</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Performance-Examples.html#Performance-Examples">Performance Examples</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="General.html#General">General</a>
+<hr>
+</div>
+
+<h3 class="section">2.10 ACML Memory Usage</h3>
+
+<p><a name="index-ACML-Memory-Allocation-38"></a><a name="index-Fast-Malloc-39"></a>Many ACML routines make use of allocated memory as temporary workspace during computation. 
+Normally this workspace is freed as soon as it is no longer required, just before
+exit from the ACML routine that allocated it.
+
+   <p>In general this allocatiom and freeing of memory does not make much difference to
+the performance of ACML. However, in some cases it can make a difference; for
+example, where a kernel routine which allocates memory is repeatedly called by
+a higher level routine to solve subproblems. This applies particularly to some LAPACK
+routines which make many calls to the matrix-matrix multiply routine DGEMM.
+
+   <p>For this reason, we have introduced into ACML a
+system whereby the memory allocation mechanism used by most Level 3 and some
+Level 2 BLAS routines may avoid
+freeing memory, instead re-using memory allocated previously. 
+This feature, called fast malloc, is now
+implemented in both Linux and Windows builds of ACML.
+
+   <p>By default, beginning with ACML 5.3.0, the scheme is turned <em>on</em>. 
+If you wish to turn if off,
+you will need to explicitly switch it off. This can be accomplished by means of
+an environment variable. The variable is named <code>ACML_FAST_MALLOC</code>,
+and can be turned off under Linux like this
+<pre class="example">     export ACML_FAST_MALLOC=0
+</pre>
+   <p class="noindent">(if you use bash or a similar shell), or like this:
+<pre class="example">     setenv ACML_FAST_MALLOC 0
+</pre>
+   <p class="noindent">(if you use csh, tcsh or similar).  Any other value will leave the feature
+enabled.
+
+   <p>At run-time, programs linked with ACML which use e.g. DGEMM, directly or indirectly,
+will use the new scheme. 
+Level 2 routines that will use the fast malloc feature are CGEMV, CGERC, CGERU, CTRMV, CTRSV, DGEMV, DGER, DTRMV, DTRSV, SGEMV, SGER, STRMV, STRSV, ZGEMV, ZGERC, ZGERU, ZTRMV, ZTRSV. 
+Level 3 routines that will use the fast malloc feature are DGEMM, SGEMM, and ZGEMM.
+
+   <p>Since with this scheme memory is not always freed, there is an obvious penalty
+to be paid - some of your machine's memory will be tied up while your program
+is running and will not be available for other use. 
+The default amount of memory that will be assigned is 10 Megabytes
+(actually 10,000,000 bytes) for each thread.  If the problem sizes require
+more workspace memory than is currently allocated, beginning with ACML 5.3.1,
+the previous buffer will be freed and a new buffer allocated that is large enough, and this new larger buffer will be retained. 
+This means that the most memory that will be used may increase above the
+previous limit of 10 MB per thread, but it should reach a maximimum value that
+depends on the problem and the number of threads.
+
+   <p>You can change the default values of the intial allocation size through the use of environment variables. 
+These are <code>ACML_FAST_MALLOC_CHUNK_SIZE</code> which can be used to change the default
+chunk size from 10 Megabytes to any other positive value, given in bytes, and
+<code>ACML_FAST_MALLOC_MAX_CHUNKS</code> which sets the maximum number of chunks that
+may be used. You should use care when changing these values - if you accidentally
+set them too large and your program uses enough threads you may find that your
+program fails due to overallocation.
+
+   <p>There is one final environment variable relevant to the fast memory allocation
+scheme. This is <code>ACML_FAST_MALLOC_DEBUG</code>. If you set this environment variable
+to any value, then ACML will print various messages showing the memory being used
+under the scheme. Note that other memory may still be allocated and freed in the
+normal way by ACML - such allocation will not lead to messages. This environment
+variable is designed to let you verify that the scheme is actually being used. 
+In normal use you would definitely want <code>ACML_FAST_MALLOC_DEBUG</code> not to be set.
+
+   </body></html>
+

@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+<title>2D FFT - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Complex-FFT-Routines.html#Complex-FFT-Routines" title="Complex FFT Routines">
+<link rel="prev" href="Multi_002d1D-FFT.html#Multi_002d1D-FFT" title="Multi-1D FFT">
+<link rel="next" href="3D-FFT.html#g_t3D-FFT" title="3D FFT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="g_t2D-FFT"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="3D-FFT.html#g_t3D-FFT">3D FFT</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Multi_002d1D-FFT.html#Multi_002d1D-FFT">Multi-1D FFT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Complex-FFT-Routines.html#Complex-FFT-Routines">Complex FFT Routines</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.3.3 2D FFT of two-dimensional arrays of data</h4>
+
+<p><a name="index-g_t2D-FFT-147"></a>The routines documented here compute the two-dimensional discrete
+Fourier transforms (DFT) of a two-dimensional array of complex numbers
+in either single or double precision arithmetic. The 2D DFT is
+computed using a highly-efficient FFT algorithm.<br> There are two sets
+of interfaces available: simple drivers and expert drivers. The simple
+drivers perform in-place transforms on data held contiguously in
+memory using a fixed scaling factor; these are simpler to use and are
+sufficient for many problems. The expert drivers offer greater
+flexibility by including a number of additional arguments. These allow
+you to control: the scaling factor applied; whether the result should
+be output to a separate array; the increments used in storing
+successive elements in each dimension (for both input and output); and
+the facility to not perform a final transposition. This final facility
+is useful for those cases where a forward and backward transform are
+to be applied with some data manipulations in between; here two whole
+transpositions can be saved.
+
+<ul class="menu">
+<li><a accesskey="1" href="ZFFT2D.html#ZFFT2D">ZFFT2D</a>:             Two-dimensional Double Complex FFT, simple driver
+<li><a accesskey="2" href="CFFT2D.html#CFFT2D">CFFT2D</a>:             Two-dimensional, single precision, Complex FFT, simple driver
+<li><a accesskey="3" href="ZFFT2DX.html#ZFFT2DX">ZFFT2DX</a>:            Two-dimensional Double Complex FFT, expert driver
+<li><a accesskey="4" href="CFFT2DX.html#CFFT2DX">CFFT2DX</a>:            Two-dimensional, single precision, Double Complex FFT, expert driver
+</ul>
+
+   </body></html>
+

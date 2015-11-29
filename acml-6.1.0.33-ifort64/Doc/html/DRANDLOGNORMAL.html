@@ -1,0 +1,138 @@
+<html lang="en">
+<head>
+<title>DRANDLOGNORMAL - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Continuous-Univariate-Distributions.html#Continuous-Univariate-Distributions" title="Continuous Univariate Distributions">
+<link rel="prev" href="DRANDLOGISTIC.html#DRANDLOGISTIC" title="DRANDLOGISTIC">
+<link rel="next" href="DRANDSTUDENTST.html#DRANDSTUDENTST" title="DRANDSTUDENTST">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="DRANDLOGNORMAL"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="DRANDSTUDENTST.html#DRANDSTUDENTST">DRANDSTUDENTST</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="DRANDLOGISTIC.html#DRANDLOGISTIC">DRANDLOGISTIC</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Continuous-Univariate-Distributions.html#Continuous-Univariate-Distributions">Continuous Univariate Distributions</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>DRANDLOGNORMAL / SRANDLOGNORMAL</code></h5>
+
+<p><a name="index-lognormal-distribution-661"></a><a name="index-continuous-univariate-distribution_002c-lognormal-662"></a><a name="index-univariate-distribution_002c-lognormal-663"></a>Generates a vector of random variates from a lognormal distribution with
+probability density function, f(X), where:
+f(X) = [exp([-(log(X) - m)^2] / [2s^2])] / [X * s * sqrt(2 * Pi)],
+if X &gt; 0, otherwise f(X) = 0. Here m is the mean, (<var>XMU</var>),
+and s^2 is the variance, (<var>VAR</var>) of the underlying Gaussian distribution.
+
+   <p><a name="index-SRANDLOGNORMAL-664"></a><em>
+(Note that SRANDLOGNORMAL is the single precision version of DRANDLOGNORMAL. The argument lists of both routines are identical except that any double precision arguments of DRANDLOGNORMAL are replaced in SRANDLOGNORMAL by single precision arguments - type REAL in FORTRAN or type float in C). 
+</em>
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>DRANDLOGNORMAL</b> (<var>N,XMU,VAR,STATE,X,INFO</var>)<var><a name="index-DRANDLOGNORMAL-665"></a></var><br>
+<blockquote><!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: INTEGER <b>N</b><var><a name="index-N-666"></a></var><br>
+<blockquote><!-- @deftypevr {Input} INTEGER N -->
+             <p>On input: number of variates required. 
+<br> Constraint: <var>N</var>&gt;=0.
+
+          <!-- @end deftypevr -->
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: DOUBLE PRECISION <b>XMU</b><var><a name="index-XMU-667"></a></var><br>
+<blockquote> <p>On input: mean of the underlying Gaussian distribution. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: DOUBLE PRECISION <b>VAR</b><var><a name="index-VAR-668"></a></var><br>
+<blockquote> <p>On input: variance of the underlying Gaussian distribution. 
+<br>Constraint: <var>VAR</var>&gt;=0.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>STATE</b>(<var>*</var>)<var><a name="index-STATE-669"></a></var><br>
+<blockquote><!-- @deftypevr {Input/Output} INTEGER STATE(*) -->
+             <p>The <var>STATE</var> vector holds information on the state of the base
+generator being used and as such its minimum length varies. Prior to
+calling <code>DRANDLOGNORMAL</code> <var>STATE</var> must have been initialized. See
+<a href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators">Initialization of the Base Generators</a> for information on
+initialization of the <var>STATE</var> variable. 
+<br> On input: the current state of the base generator. 
+<br> On output: the updated state of the base generator. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: DOUBLE PRECISION <b>X</b>(<var>N</var>)<var><a name="index-X-670"></a></var><br>
+<blockquote><!-- @deftypevr {Output} DOUBLE PRECISION X(@var{N}) -->
+             <p>On output: vector of variates from the specified distribution. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-671"></a></var><br>
+<blockquote><!-- @deftypevr {Output} INTEGER INFO -->
+             <p>On output: <var>INFO</var> is an error indicator. On successful exit,
+<var>INFO</var> contains 0. If <var>INFO</var> = -i on exit, the i-th
+argument had an illegal value. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        </p></blockquote></div>
+
+<!-- Using set rather than the raw variables in the example as PDF and INFO act -->
+<!-- differently with raw variables, but the same with @value{} -->
+<pre class="display">     Example:
+     <p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+     <pre class="example">          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Generate 100 values from the Lognormal distribution
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER LSTATE,N
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->PARAMETER (LSTATE=16,N=100)
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER I,INFO,SEED(1),STATE(LSTATE)
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->DOUBLE PRECISION XMU,VAR
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->DOUBLE PRECISION X(N)
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Set the seed
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->SEED(1) = 1234
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Read in the distributional parameters
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->READ(5,*) XMU,VAR
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Initialize the STATE vector
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->CALL DRANDINITIALIZE(1,1,SEED,1,STATE,LSTATE,INFO)
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Generate N variates from the Lognormal distribution
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->CALL DRANDLOGNORMAL(N,XMU,VAR,STATE,X,INFO)
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Print the results
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->WRITE(6,*) (X(I),I=1,N)
+</pre>
+     </td></tr></table>
+</pre>
+   <!-- ================================================================================= -->
+<!-- ================================================================================= -->
+   </body></html>
+

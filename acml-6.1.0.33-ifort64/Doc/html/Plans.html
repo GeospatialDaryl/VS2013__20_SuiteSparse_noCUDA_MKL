@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+<title>Plans - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="FFT_002dIntro.html#FFT_002dIntro" title="FFT-Intro">
+<link rel="prev" href="Efficiency.html#Efficiency" title="Efficiency">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Plans"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Efficiency.html#Efficiency">Efficiency</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="FFT_002dIntro.html#FFT_002dIntro">FFT-Intro</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.2.4 Default and Generated Plans</h4>
+
+<p><a name="index-FFT-plan-66"></a><a name="index-plan_002c-generated_002c-FFTs-67"></a><a name="index-plan_002c-default_002c-FFTs-68"></a>For those FFT routines that can be initialized prior to computing the
+FFTs, the initialization can be performed in one of two ways. In either
+case, initialization involves the storing of the factorization of N, and
+the twiddle factors associated with this factorization, in the communication
+array <var>COMM</var>.
+
+   <p>The simpler way to initialize is by setting the argument <var>MODE</var> to zero. 
+This means that a default plan, for the given input dimensions, is
+used to calculate the FFT. This has the advantage that the initialization
+phase is very quick and is generally a small fraction of the time
+required to perform the FFT computation. However, for some problem
+dimensions the default plan may not be optimal, especially where there
+is a mixture of prime factors.
+
+   <p>Under some circumstances, optimality of performance of an FFT
+computation may be crucial. For example, where a very large number of
+FFTs are to be performed on problems of a fixed size (e.g. N remains the
+same), then it is best to initialize by setting the argument <var>MODE</var>
+to 100. This will time a number of plans (this number can be quite large
+when N has a significant number of prime factors) and initialize using
+the plan with the best time. Using this form of initialization can,
+potentially, lead to significant improvements in the performance of the
+FFT computation for the given dimensions.
+
+   <p>Where problem dimensions will not change over a number of runs of a
+program, the communication array could, for example, be written out to a
+file during an initialization run, and then read in from the same file on
+subsequent computation runs. This would be effective for problem
+dimensions that have a large number of possible plans (factor orderings
+and groupings) and therefore take a significant amount of time to find
+the optimal plan.
+
+   <p>Please consult the individual FFT routine documents to determine whether
+plan generation is enabled.
+
+   </body></html>
+

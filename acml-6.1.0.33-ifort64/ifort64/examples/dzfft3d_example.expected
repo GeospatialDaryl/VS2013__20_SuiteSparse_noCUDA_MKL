@@ -1,0 +1,61 @@
+ACML example: FFT of a real sequence using DZFFT3D
+--------------------------------------------------
+
+Components of discrete Fourier transform:
+
+
+Third dimension index =   1
+Column Number   1
+          Real    Imag
+   1   ( 4.5928, 0.0000)
+   2   ( 0.1236,-0.5002)
+   3   ( 0.1220,-0.0530)
+Column Number   2
+          Real    Imag
+   1   (-0.1667, 0.0000)
+   2   ( 0.3302, 0.0017)
+   3   ( 0.0563, 0.0002)
+
+Third dimension index =   2
+Column Number   1
+          Real    Imag
+   1   (-0.7546, 0.0000)
+   2   ( 1.4943, 0.0075)
+   3   ( 0.2546, 0.0008)
+Column Number   2
+          Real    Imag
+   1   (-0.3047, 0.0000)
+   2   (-0.3121, 1.2632)
+   3   (-0.3080, 0.1338)
+
+Original sequence as restored by inverse transform:
+
+       Original  Restored
+
+Third dimension index =   1
+Column Number   1
+   1    1.5403    1.5403
+   2    0.5839    0.5839
+   3    0.0100    0.0100
+   4    0.3464    0.3464
+   5    1.2837    1.2837
+Column Number   2
+   1    1.9602    1.9602
+   2    1.7539    1.7539
+   3    0.8545    0.8545
+   4    0.0889    0.0889
+   5    0.1609    0.1609
+
+Third dimension index =   2
+Column Number   1
+   1    1.0044    1.0044
+   2    1.8439    1.8439
+   3    1.9074    1.9074
+   4    1.1367    1.1367
+   5    0.2403    0.2403
+Column Number   2
+   1    0.0423    0.0423
+   2    0.7248    0.7248
+   3    1.6603    1.6603
+   4    1.9887    1.9887
+   5    1.4081    1.4081

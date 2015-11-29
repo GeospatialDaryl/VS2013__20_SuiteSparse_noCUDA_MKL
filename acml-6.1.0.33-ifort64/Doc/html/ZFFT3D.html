@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+<title>ZFFT3D - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="3D-FFT.html#g_t3D-FFT" title="3D FFT">
+<link rel="prev" href="3D-FFT.html#g_t3D-FFT" title="3D FFT">
+<link rel="next" href="CFFT3D.html#CFFT3D" title="CFFT3D">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="ZFFT3D"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="CFFT3D.html#CFFT3D">CFFT3D</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="3D-FFT.html#g_t3D-FFT">3D FFT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="3D-FFT.html#g_t3D-FFT">3D FFT</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>ZFFT3D</code> Routine Documentation</h5>
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>ZFFT3D</b> (<var>MODE,L,M,N,X,COMM,INFO</var>)<var><a name="index-ZFFT3D-193"></a></var><br>
+<blockquote><div class="defun">
+&mdash; Input: INTEGER <b>MODE</b><var><a name="index-MODE-194"></a></var><br>
+<blockquote> <p>The value of <var>MODE</var> on input determines the direction of transform
+to be performed by <code>ZFFT3D</code>. 
+<br>
+On input:
+               <ul>
+<li><var>MODE</var>=-1 : forward 3D transform is performed. 
+<li><var>MODE</var>=1 : backward (reverse) 3D transform is performed. 
+</ul>
+             </p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>L</b><var><a name="index-L-195"></a></var><br>
+<blockquote> <p>On input: the length of the first dimension of the 3D array of data to
+be transformed. 
+If <var>X</var> is declared as a 3D array then <var>L</var> is the first dimension
+of <var>X</var>. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>M</b><var><a name="index-M-196"></a></var><br>
+<blockquote> <p>On input: the length of the second dimension of the 3D array of data to
+be transformed. 
+If <var>X</var> is declared as a 3D array then <var>M</var> is the second dimension
+of <var>X</var>. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>N</b><var><a name="index-N-197"></a></var><br>
+<blockquote> <p>On input:  the length of the third dimension of the 3D array of data to be
+transformed. 
+If <var>X</var> is declared as a 3D array then <var>N</var> is the third dimension
+of <var>X</var>. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input/Output: COMPLEX*16 <b>X</b>(<var>L*M*N</var>)<var><a name="index-X-198"></a></var><br>
+<blockquote> <p>On input: <var>X</var> contains the <var>L</var> by <var>M</var> by <var>N</var> complex 3D array
+to be transformed. Element ijk is stored in location
+i+(j-1)*<var>L</var>+(k-1)*<var>L</var>*<var>M</var> of <var>X</var>.<br>
+On output: <var>X</var> contains the transformed sequence. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input/Output: COMPLEX*16 <b>COMM</b>(<var>L*M*N+3*</var>(<var>L+M+N</var>))<var><a name="index-COMM-199"></a></var><br>
+<blockquote> <p><var>COMM</var> is a communication array used as temporary store. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-200"></a></var><br>
+<blockquote> <p>On output: <var>INFO</var> is an error indicator. On successful exit, <var>INFO</var>
+contains 0. If <var>INFO</var> = -i on exit, the i-th argument had an illegal
+value. 
+</p></blockquote></div>
+        </p></blockquote></div>
+Example:
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<pre class="example">             CALL ZFFT3D(-1,L,M,N,X,COMM,INFO)
+             DO 30 K = 1, N
+               DO 20 J = 1, M
+                 DO 10 I = 1, L
+                   X(I,J) = X(I,J)*EXP(-0.001D0*DBLE(I+J+K))
+        10       CONTINUE
+        20     CONTINUE
+        30   CONTINUE
+             CALL ZFFT3D(1,L,M,N,X,COMM,INFO)
+</pre>
+   </td></tr></table>
+
+   </body></html>
+

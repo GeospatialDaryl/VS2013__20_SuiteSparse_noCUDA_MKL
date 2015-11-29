@@ -1,0 +1,123 @@
+<html lang="en">
+<head>
+<title>Interfaces - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="General.html#General" title="General">
+<link rel="prev" href="Linking_002fWindows.html#Linking_002fWindows" title="Linking/Windows">
+<link rel="next" href="Integer-sizes.html#Integer-sizes" title="Integer sizes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Interfaces"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Integer-sizes.html#Integer-sizes">Integer sizes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Linking_002fWindows.html#Linking_002fWindows">Linking/Windows</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="General.html#General">General</a>
+<hr>
+</div>
+
+<h3 class="section">2.4 ACML FORTRAN and C interfaces</h3>
+
+<p><a name="index-language-interfaces-18"></a><a name="index-ACML-FORTRAN-interfaces-19"></a><a name="index-FORTRAN-interfaces-in-ACML-20"></a><a name="index-ACML-C-Interfaces-21"></a><a name="index-C-interfaces-in-ACML-22"></a>
+All routines in ACML come with both FORTRAN and C interfaces. 
+The FORTRAN interfaces typically follow the relevant standard
+(e.g. LAPACK, BLAS). Here we document how a C programmer should
+call ACML routines.
+
+   <p>In C code that uses ACML routines, be sure to include the
+header file &lt;acml.h&gt;, which contains function prototypes for all ACML
+C interfaces. The header file also contains C prototypes for FORTRAN
+interfaces, thus the C programmer could call the FORTRAN interfaces
+from C, though there is little reason to do so.
+
+   <p>C interfaces to ACML routines differ from FORTRAN interfaces in
+the following major respects:
+
+     <ul>
+<li>The FORTRAN interface names are appended by an underscore
+(except for the Windows 64-bit Microsoft C/Intel Fortran
+version of ACML, where FORTRAN interface names are distinguished
+from C by being upper case rather than lower case - this is the
+default for the Intel Fortran compiler)
+<li>The C interfaces contain no workspace arguments; all
+workspace memory is allocated internally. 
+<li>Scalar input arguments are passed by value in C interfaces. 
+FORTRAN interfaces pass all arguments (except for character
+string <dfn>length</dfn> arguments that are normally hidden from
+FORTRAN programmers) by reference. 
+<li>Most arguments that are passed as character string pointers
+to FORTRAN interfaces are passed by value as single
+characters to C interfaces. The character string <dfn>length</dfn>
+arguments of FORTRAN interfaces are not required in the
+C interfaces. 
+<li>Unlike FORTRAN, C has no native <dfn>complex</dfn> data type. ACML C routines
+which operate on complex data use the types <dfn>complex</dfn> and
+<dfn>doublecomplex</dfn> defined in &lt;acml.h&gt; for single and double precision
+computations respectively. Some of the programs in the
+ACML examples directory (see <a href="Examples.html#Examples">Examples</a>)
+make use of these types. 
+</ul>
+
+   <p>It is important to note that in both the FORTRAN and C interfaces,
+2-dimensional arrays are assumed to be stored in column-major order. 
+e.g. the matrix
+
+<pre class="example">             A = ( 1.0 2.0 )
+                 ( 3.0 4.0 )
+</pre>
+   <p class="noindent">would be stored in memory as 1.0, 3.0, 2.0, 4.0. This storage order
+corresponds to a FORTRAN-style 2-D array declaration A(2,2), but not
+to an array declared as a[2][2] in C which would be stored in
+row-major order as 1.0, 2.0, 3.0, 4.0.
+
+   <p>As an example, compare the FORTRAN and C interfaces of LAPACK
+routine dsytrf as implemented in ACML.
+
+   <p>FORTRAN:
+<pre class="example">       void dsytrf_(char *uplo, int *n, double *a, int *lda, int *ipiv,
+                    double *work, int *lwork, int *info, int uplo_len);
+</pre>
+   <p>C:
+<pre class="example">       void dsytrf(char uplo, int n, double *a, int lda, int *ipiv,
+                   int *info);
+</pre>
+   <p>C code calling both the above variants might look like this:
+<pre class="example">       double *a;
+       int *ipiv;
+       double *work;
+       int n, lda, lwork, info;
+     
+       /* Assume that all arrays and variables are allocated and
+          initialized as required by dsytrf. */
+     
+       /* Call the FORTRAN version of dsytrf. The first argument
+          is a character string, and the last argument is the
+          length of that string. The input scalar arguments n, lda
+          and lwork, as well as the output scalar argument info,
+          are all passed by reference. */
+       dsytrf_("Upper", &amp;n, a, &amp;lda, ipiv, work, &amp;lwork, &amp;info, 5);
+     
+       /* Call the C version of dsytrf. The first argument is a
+          character, workspace is not required, and input scalar
+          arguments n and lda are passed by value. Output scalar
+          argument info is passed by reference. */
+       dsytrf('U', n, a, lda, ipiv, &amp;info);
+</pre>
+   </body></html>
+

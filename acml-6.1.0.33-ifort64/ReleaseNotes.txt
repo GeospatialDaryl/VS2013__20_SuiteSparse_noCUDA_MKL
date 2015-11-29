@@ -1,0 +1,386 @@
+ACML - the AMD Core Math Library - is a tuned math library designed for
+high performance on AMD64 machines, including Interlagos, Opteron(TM) and
+Athlon(TM) 64, and APU's or discrete graphics cards for 64-bit library versions.
+Gfortran is available for Linux and IFort is available for Windows operating systems.
+
+ACML Contents
+-------------
+A full suite of Basic Linear Algebra (BLAS) routines is provided,
+and key BLAS routines have been tuned for high performance.
+
+A full suite of Linear Algebra (LAPACK) routines is provided and
+takes advantage of the highly tuned BLAS for good performance.
+
+A comprehensive suite of Fast Fourier Transforms (FFTs) is provided,
+again with highly tuned code.
+
+A comprehensive suite of Random Number Generators (RNGs) is provided,
+again with highly tuned code.
+
+
+ACML - Release Notes - version 6.1.0 release
+
+(o) clFFT performance for 1D FFTs has increased significantly
+     * Performance for transform sizes greater than 4096 for single precision and
+       2048 for double precision has improved substantially
+     * Performance improvement includes only complex FFTs and power-of-2 sizes
+     * Though only power-of-2 sizes have improved, other sizes may see performance
+       enhancement if clFFT can internally break the problem down to an enhanced
+       power-of-2 size
+     * Addition of an improved transpose operation
+(o) clFFT performance for 2D FFTs has increased
+     * 1D improvements are reflected naturally in 2D performance
+(o) Problem sizes greater than 2^24 for single precision and 2^22 for double precision
+     are now supported for complex FFT
+     * Artificial size limits (in previous releases of clFFT) are removed in
+       this version 
+     * Problem size is limited only by OpenCL memory allocation limits
+(o) Memory allocation bugs under the FFTW interfaces that affected performance are fixed
+     * Added control in ACMLscript files for memory allocation
+(o) clBLAS performance for SGEMM has increased significantly
+     * Corresponding SGEMM ACMLscript files are updated
+(o) Updates to GEMV and SYMV ACMLscript files
+(o) Renamed the environmnet variable ACML_LOG_FILTER to ACML_TRACE_TYPE, which can take a number
+    to control logging.  Undefined or 0 disables logging, 1 logs to a file, and 2 logs to 
+    the console.  ACML_TRACE_FLUSH can be set to a non 0 number to force the logger to
+    flush all output immediately.
+     * In our release testing, we noticed a threading race-condition related to logging with the 
+     cgemm routine, which results in a segfault.  The cgemm routine itself tests fine.  Workaround
+     is to disable logging, or use single threaded code to log.
+
+ACML - Release Notes - version 6.0.6 release
+
+(o) Resolved multi-threaded race condition in acml_fftw calling into libacml_bridge
+(o) Resolved multi-threaded race condition in libacml calling into libacml_bridge
+........
+(o) Fixed an access violation on Intel Haswell generation cores executing GEMMs with fma3
+(o) Removed logic in libacml to bind threads to cpu cores
+
+ACML - Release Notes - version 6.0.5 release
+
+(o) Added threading locks to protect lua stacks in multi-threaded applications. Fixes
+		inverse matrix bug found in Octave
+(o) Adding thread safety to the logic that loads dependent dlls
+........
+(o) Added missing general rank basic interfaces from FFTW library
+(o) Doc update for the FFTW api addition
+(o) Improved the performance of FFTW interfaces with the use of new OpenCL buffer
+		creation flags
+........
+(o) Changing memalloc_choice to 3 instead of 1 in GEMM, TRSM, TRMM Lua files
+		With the normal default flags copying buffers with the non-copy rect API, it
+		was possible to read from invalid memory.
+........
+(o) Fixed build to exclude the cmakelists.txt file and .svn directory in resources directory
+........
+(o) When opencl support is checked, the library loading logic now
+		makes sure that acml_bridge can also load.  This fixes an issue
+		on systems with Nvidia cards installed, because their runtime
+		only support OpenCL 1.1, and acml_bridge is built with opencl 1.2.  Now,
+		if acml_bridge fails to load, ACML will fall back to host processing.
+........
+(o) Bumped libacml_bridge to 1.0.1
+(o) Bumped libacml version to 6.0.5
+
+ACML - Release Notes - version 6.0.4 release
+
+Improvements since 6.0.3 beta:
+(o) The FFTW wrapper library added support for heterogeneous offload of real transforms
+(o) The FFTW wrapper library no longer requires that the FFTW CPU library to be installed,
+	but it is up to the developer to make sure to call the AMD wrapper library only with
+	supported clFFT features ( clFFT features documented on https://github.com/clMathLibraries/clFFT)
+(o) Heterogeneous acceleration (offload to OpenCL device) has been added for two BLAS
+	L2 routines: GEMV and SYMV ACML_BLOG
+(o) Proper detection of OpenCL on Ubuntu based systems
+(o) OpenCL kernel performance for BLAS routines has improved with the inclusion of
+	clBLAS tuning databases
+(o) The load balancing heuristics now examine how much dedicated memory is available on
+	the OpenCL device, and will only offload the computation if the problem fits
+
+ACML 6 takes on a new direction by supporting computations on
+the graphics processing unit (GPU) transparently using 'clMath', an
+open-source math library based on OpenCL.
+Users of ACML will continue to program with interfaces familiar to
+them yet take advantage of GPU hardware features without the need to
+learn any GPGPU programming technologies.
+
+New features of release 6.0.x of ACML since version 5.3.1:
+
+(o) new FFTW interfaces.  Only a subset of the entire API is supported
+    at this time; please refer to the product documentation section 5.4 for
+    more information.
+
+(o) heterogeneous computing capabilities leveraging the open sources
+    clMath libraries to offload compute to OpenCL devices when appropriate.
+    This capability includes the new FFTW API and the compute heavy level 3
+    BLAS routines.
+
+(o) new scripting language named ACMLScript, to allow end users to
+    customize when the library offloads to OpenCL devices; please refer to
+    the product documentation Chapter 7 for more information.
+
+This version of ACML:
+(o) Does not require OpenCL installation before library use.
+    OpenCL is detected at run time, and loaded dynamically if found.  ACML
+    will search for and dynamically load libOpenCL.so.  If not
+    found, such as on a system that does not have OpenCL installed or it is
+    installed into a different path, OpenCL will not be detected and the
+    computation will always be offloaded to CPU. If ACML is installed
+    on a heterogeneous system, and if OpenCL is detected, ACML will dynamically
+	offload the computations to CPU or GPU, depending on the heuristics
+(o) Supports the use of Intel ifort compiler under Windows 7
+    and Windows 8
+(o) Supports only 64-bit shared libraries on Windows & Linux
+(o) Supports APUs and discrete GPUS
+(o) Supports CPU only and is backwards comparable with ACML 5
+
+In ACML 6.0.3, environment variables are defined to ensure to provide
+flexibility for various customer environments:
+
+(o) OPENCL_LIB_FILE: defines the file location of libOpenCL.so or
+    OpenCL.dll. By default, the library will search "usr/lib64/
+    libOpenCL.so" on Linux systems or %PATH% on Windows systems.
+    For a CPU-only system, this environment variable can be ignored
+(o) ACML_RESOURCES_PATH: defines the path to ACML resources, such as
+    heuristic LUA files. These
+    LUA files defines the offloading logic of ACML. Users have the
+    freedom to modify these files for better performance
+
+Known issues:
+(o) A failure has been observed in the examples/performance/time_dgetrf test
+	application.  This appears to happen when computation from GEMM and TRSM calls
+	are offloaded onto the OpenCL device.  A workaround is to modify the
+	ACMLScript file for GEMM & TRSM (resources/<devicename>/gemm.lua &
+	resources/<devicename>/trsm.lua) to always compute on the Host device,
+	by returning false from the heuristic routine
+
+New features of release 5.3.1 of ACML since version 5.3.0:
+
+(o) Improved multithreaded performance on Windows
+    - Added CPU affinity binding to DGEMM, SGEMM, and ZGEMM.
+    - Implemented fast malloc for Windows.
+    - Changed fast malloc algorithm to remove CHUNK_SIZE limitation.
+    - Added Windows critical section initialization in all sections of code
+      that use fast malloc or the CPU affinity binding
+
+(o) Adopted the MathWorks patches for *hgeqz
+    - See http://netlib.org/lapack/Errata/vrac/lapack_known_issues.html
+
+(o) Fixed bugs including:
+    - A significant SGEMM issue when N mod 12 is greater than 8 and K is
+      greater than 104.
+    - A problem with ZFFT1M segfaulting with size 1024.
+    - Test tolerance failures with certain lapack tests due to the
+      precision differences introduced by ZSCAL and SSCAL.  These two
+      routines have been reverted to use SSE instructions.
+
+New features of release 5.3.0 of ACML since version 5.2.0:
+
+(o) Added FMA3 code paths for many BLAS and FFT routines.
+    - These are included in the run-anywhere builds (for instance
+      gfortran64).
+    - SSE/FMA4/FMA3 code paths are selectable via the ACML_FMA environment
+      variable.
+
+(o) Updated the LAPACK code to version 3.4.0.
+
+(o) Improved performance for complex-complex out-of-place FFTs.
+
+(o) Added Fast Malloc to more BLAS routines.  Fast Malloc is now enabled by
+    default, with no need to set an environment variable.  The feature can
+    be disabled by setting the environment variable to "0"
+    - routines affected include *GEMM (except CGEMM),
+      *SYR2K, *GEMV, *GER, *TRMV, and *TRSV.
+    - Fast Malloc is only enabled for Linux
+
+(o) Expanded coverage of the FFTW Wrapper examples to include double precision
+    routines
+
+(o) Fixed bugs including:
+    - A fast malloc memory leak which occured in rare circumstances.
+    - Memory overwrite problems in the zdfft and scfft 2D/3D routines.
+    - An issue with the L1 BLAS copy routines where larger sizes could
+      overflow an internal 32-bit size parameter.
+    - Resolved a long standing problem with the PGI Windows static library,
+      it is now built with /MT options.
+
+
+New features of release 5.2.0 of ACML since version 5.1.0:
+
+(o) Improved performance for some common applications, due to various
+    optimizations:
+    - Improved dgemm performance for small to medium problem sizes.
+    - Fast malloc enabled in the single threaded library.
+    - Fast malloc added to dtrsm.  Note that the ACML_FAST_MALLOC environment
+    variable must be set by the user to enable these optimizations.
+    - Changed openmp threading behavior in dtrsm, dpotrf, and dgetrf to limit
+    the number of threads for small problems.
+
+(o) Enabled better default FFT radix plans for specific HPCC problem sizes.
+    When using HPCC with these problem sizes, the resulting FFT problem size
+    will choose an optimal FFT radix plan, eliminating the need to use Mode100
+    planning.  This dramatically improves performance.  These sizes result from
+    a set of recommended N values in the HPCC.dat file, based on available
+    system memory.  See the AMD ACML HPCC tuning article for more details.
+
+(o) "Run-anywhere" builds use fma4 instructions for key routines, based on
+    CPUID feature bits.  This allows these libraries to get reasonable
+    performance on AMD Bulldozer CPUs, while still running properly on other
+    processors.  For best performance on Bulldozer machines, it is still
+    possible to link the FMA4 library versions.  As an example, the gfortran64
+    directory contains the run-anywhere library, while the gfortran64_fma4
+    library is intended for use only on AMD Bulldozer CPUs.
+
+(o) Added a set of FFTW Wrappers to assist in using ACML FFTs in applications
+    written to use FFTW.  These wrappers are provided as source code and are
+    found in the ACML example directories.  Examples are provided for a useful
+    subset of the FFTW3 and FFTW2 routines.  The FFTW wrappers are currently
+    not available in the int64 packages.
+
+(o) Fixed register context save issues in L1 BLAS FMA4 *dot routines for the
+    Windows libraries.  These could cause unpredictable results in rare
+    circumstances.
+
+(o) Added a build number to the ACML version string.
+
+
+New features of release 5.1.0 of ACML since version 5.0.0:
+
+(o) ZGEMM and CGEMM have been tuned for AMD Family 15h processors.  These
+    take advantage of AVX and FMA-4 instructions to achieve high efficiency
+    using either one or both threads of a compute unit.
+
+(o) The 1D Real-Complex and Complex-Real FFTs have been tuned for
+    AMD Family 15h processors.  Improvements have been made for both single
+    and double precision r-c ffts.
+    The 2D and 3D r-c FFTs will call these routines and will also benefit with
+    improved performance on AMD Family 15h processors.
+
+(o) A progress indicator call-back function has been introduced in the LU
+    factorization routines (*GETRF).  This allows displaying a percent
+    complete message during factorization calls with large problems.  See
+    the ACML documentation for details.
+
+Applicability
+-------------
+Different ACML versions are provided for use with the GNU compilers
+gfortran/gcc and with the Intel ifort compiler.
+
+Note that from ACML 3.5.0, versions of ACML specific to older 32-bit
+processors which do not support SSE/SSE2 (Streaming SIMD Extensions)
+instructions are no longer produced. All versions of ACML described below
+are for machines which do have SSE and SSE2 instructions. This means they
+are suitable for use on all AMD 64-bit chips and newer 32-bit chips.
+Users wishing to use ACML on such machines should continue to use older
+(pre-3.5.0) versions of ACML.
+
+
+Installation material
+---------------------
+ACML is now distributed as a compressed tarball on linux and as a zip file
+on windows. In all cases the following subdirectories are used for 64-bit builds:
+
+  acml6.0.x/Doc
+  acml6.0.x/util
+
+plus, for the GNU gfortran 64-bit compiler version of ACML:
+
+  acml6.0.x/gfortran64
+  acml6.0.x/gfortran64_mp
+
+plus, for the Linux or Windows Intel 64-bit compiler version of ACML:
+
+  acml6.0.x/ifort64
+  acml6.0.x/ifort64_mp
+
+Any or all of the different compiler variants of ACML can coexist
+in the same install location.
+
+ACML documentation is available in html, pdf, info and plain text
+format in the following files:
+
+  Doc/html/index.html
+  Doc/acml.pdf
+  Doc/acml.info
+  Doc/acml.txt
+
+Under Linux, the installation directories contain only shared
+versions of ACML. For scalar versions of ACML, the shared
+libraries will be named libacml.a and libacml.so respectively. For
+multi-threaded versions of ACML, the shared libraries will
+be named libacml_mp.a and libacml_mp.so respectively.
+
+Under Windows, the installation directories contain only DLL
+versions of ACML. For scalar versions of ACML, the DLL library will be named
+libacml_dll.dll, and have an associated import library named libacml_dll.lib.
+For multi-threaded versions of ACML, the DLL library will be named
+libacml_mp_dll.dll, and have an associated import library named
+libacml_mp_dll.lib.
+
+In all cases, you should be careful to link to the library appropriate
+to your hardware and operating system. If you link to a library that
+uses AVX or FMA4 instructions when your processor does not support them,
+you may get "illegal instruction" or other errors when you run your program.
+
+The ACML installation directory "util" contains a program named cpuid.exe
+which can tell you which instruction sets your processor supports.
+In addition, under Linux, you may be able to determine
+whether or not your processor supports AVX or FMA4 instructions by
+examining the special file /proc/cpuinfo. In the section named "flags",
+look for the appearance of "avx" and "fma4"; if the flags don't appear,
+your processor doesn't have them.
+
+
+Using the ACML Libraries
+------------------------
+For detailed information on how to link with the libraries, see documentation
+(particularly the ACML User Guide, acml.pdf) in the acml6.0.x/Doc directory.
+To verify exactly the version of ACML, and which compiler versions and flags
+were used to build it, note that the routine acmlinfo() can be called.
+For the Windows versions of ACML, see also the batch scripts
+acmlexample.bat and acmlallexamples.bat in the examples directories.
+
+
+Required runtime libraries under Microsoft Windows
+--------------------------------------------------
+ACML versions 6.0.x and later link with the standard runtime library
+provided by the Microsoft Visual Studio 2012 compilers. This requires
+that the machine ACML runs on either has vs2012 installed, or the runtime
+libraries can be separately downloaded from the appropriate Microsoft platform
+links provided below:
+
+Visual Studio vs2012 Redist:
+
+x64
+<http://www.microsoft.com/en-us/download/details.aspx?id=30679>
+
+Recommendation for Windows Vista users with AMD's Family 0x10 processors
+------------------------------------------------------------------------
+(Barcelona, Shanghai cores)
+---------------------------
+A performance loss has been seen in cpu bound single-threaded apps on
+Windows Vista OS's.  An unfavorable interaction between Vista's
+threading policy and AMD's Family 0x10 processors ability to throttle
+clock speeds on a core-by-core basis results in degraded performance.
+Single-threaded apps on Vista tend to rotate around all available cores
+before an individual core fully powers up from a throttled state.  Linux
+and XP builds of Windows have not shown this behavior, and
+fully-threaded apps where the number of threads is equal or greater than
+the number of available cores will keep all the cores busy at their
+unthrottled state.
+
+Several solutions exist for users who may be affected by this
+interaction.  Users may isolate the affinity of their threads to
+individual cores to avoid the wandering of their threads.  This is the
+most power efficient option as unused cores will stay throttled; this
+can be achieved either programmatically or through tools such as Process
+Explorer.  An easier solution is to go into the 'Power Options' pane of
+the vista control panel, and change the machine from 'Balanced mode' to
+'High Performance' mode; this stops Vista from throttling the cores.
+Lastly, in BIOS, the user can turn off 'Cool'n'Quiet' to stop the
+processor itself from throttling.
+
+Bug Reports
+-----------
+Bugs should be reported to the ACML forums at this address:
+http://devgurus.amd.com/community/amd_core_math_library

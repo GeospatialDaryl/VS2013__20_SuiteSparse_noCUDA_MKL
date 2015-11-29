@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+<title>Base Generators - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="RNGs.html#RNGs" title="RNGs">
+<link rel="prev" href="RNGs.html#RNGs" title="RNGs">
+<link rel="next" href="Multiple-Streams.html#Multiple-Streams" title="Multiple Streams">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Base-Generators"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Multiple-Streams.html#Multiple-Streams">Multiple Streams</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RNGs.html#RNGs">RNGs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="RNGs.html#RNGs">RNGs</a>
+<hr>
+</div>
+
+<h3 class="section">6.1 Base Generators</h3>
+
+<p><a name="index-base-generator-462"></a><a name="index-base-generator_002c-recommendation-463"></a>
+
+<ul class="menu">
+<li><a accesskey="1" href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators">Initialization of the Base Generators</a>
+<li><a accesskey="2" href="Calling-the-Base-Generators.html#Calling-the-Base-Generators">Calling the Base Generators</a>
+<li><a accesskey="3" href="Basic-NAG-Generator.html#Basic-NAG-Generator">Basic NAG Generator</a>
+<li><a accesskey="4" href="Wichmann_002dHill-Generator.html#Wichmann_002dHill-Generator">Wichmann-Hill Generator</a>
+<li><a accesskey="5" href="Mersenne-Twister.html#Mersenne-Twister">Mersenne Twister</a>
+<li><a accesskey="6" href="L_0027Ecuyer_0027s-Combined-Recursive-Generator.html#L_0027Ecuyer_0027s-Combined-Recursive-Generator">L'Ecuyer's Combined Recursive Generator</a>
+<li><a accesskey="7" href="Blum_002dBlum_002dShub-Generator.html#Blum_002dBlum_002dShub-Generator">Blum-Blum-Shub Generator</a>
+<li><a accesskey="8" href="User-Supplied-Generators.html#User-Supplied-Generators">User Supplied Generators</a>
+</ul>
+The five base generators (BRNGs) supplied with the ACML are; the NAG
+basic generator [9], a series of Wichmann-Hill generators [10], the
+Mersenne Twister [11], L'Ecuyer's combined recursive generator
+MRG32k3a [12] and the Blum-Blum-Shub generator [8].
+
+   <p>Some of the generators have been slightly modified from their
+usual form to make them consistent between themselves. 
+For instance, the Wichmann-Hill generators in standard form
+may return exactly 0.0 but not exactly 1.0. In ACML we return
+1.0 - x
+to convert the value x into the semi-open interval (0, 1] without affecting
+any other randomness properties. The original Mersenne Twister
+algorithm returns an exact zero about one time in a few billion;
+the ACML implementation returns a tiny non-zero number as
+surrogate for zero.
+
+   <p>If a single stream of variates is required it is recommended that the
+Mersenne Twister (<a href="Mersenne-Twister.html#Mersenne-Twister">Mersenne Twister</a>) base generator is used. This
+generator combines speed with good statistical properties and an
+extremely long period. The NAG basic generator (<a href="Basic-NAG-Generator.html#Basic-NAG-Generator">Basic NAG Generator</a>) is another quick generator suitable for generating a
+single stream. However it has a shorter period than the Mersenne
+Twister and being a linear congruential generator, its statistical
+properties are not as good.
+
+   <p>If 273 or fewer multiple streams, with a period of up to
+2^(80)
+are required then it is recommended that the Wichmann-Hill generators
+are used (<a href="Wichmann_002dHill-Generator.html#Wichmann_002dHill-Generator">Wichmann-Hill Generator</a>). For more streams or multiple
+streams with a longer period it is recommended that the L'Ecuyer
+combined recursive generator (<a href="L_0027Ecuyer_0027s-Combined-Recursive-Generator.html#L_0027Ecuyer_0027s-Combined-Recursive-Generator">L'Ecuyer's Combined Recursive Generator</a>) is used in combination with the skip ahead routine
+(<a href="Skip-Ahead.html#Skip-Ahead">Skip Ahead</a>). Generating multiple streams of variates by
+skipping ahead is generally quicker than generating the streams using
+the leap frog method. More details on multiple streams can be found in
+<a href="Multiple-Streams.html#Multiple-Streams">Multiple Streams</a>.
+
+   <p>The Blum-Blum-Shub generator (<a href="Blum_002dBlum_002dShub-Generator.html#Blum_002dBlum_002dShub-Generator">Blum-Blum-Shub Generator</a>) should
+only be used if a cryptologically secure generator is required. This
+generator is extremely slow and has poor statistical properties when
+used as a base generator for any of the distributional generators. 
+<!-- ===================================================================================================================== -->
+
+   </body></html>
+

@@ -1,0 +1,31 @@
+ACML example: FFT of a real sequence using DZFFT2D
+--------------------------------------------------
+
+Components of discrete Fourier transform:
+
+Column Number   1
+          Real    Imag
+   1   ( 2.9430, 0.0000)
+   2   (-0.0232,-0.5574)
+   3   (-1.1666, 0.6358)
+Column Number   2
+          Real    Imag
+   1   (-0.3241, 0.0000)
+   2   (-0.4662,-0.2296)
+   3   ( 0.3623, 0.2619)
+
+Original sequence as restored by inverse transform:
+
+       Original  Restored
+Column Number   1
+   1    0.0100    0.0100
+   2    1.2837    1.2837
+   3    1.7539    1.7539
+   4    0.0889    0.0889
+   5    1.0044    1.0044
+Column Number   2
+   1    0.3464    0.3464
+   2    1.9602    1.9602
+   3    0.8545    0.8545
+   4    0.1609    0.1609
+   5    1.8439    1.8439

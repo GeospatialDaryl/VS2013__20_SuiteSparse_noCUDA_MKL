@@ -1,0 +1,305 @@
+<html lang="en">
+<head>
+<title>Linking/Linux - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="General.html#General" title="General">
+<link rel="prev" href="BestLibrary.html#BestLibrary" title="BestLibrary">
+<link rel="next" href="Linking_002fWindows.html#Linking_002fWindows" title="Linking/Windows">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Linking%2fLinux"></a>
+<a name="Linking_002fLinux"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Linking_002fWindows.html#Linking_002fWindows">Linking/Windows</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="BestLibrary.html#BestLibrary">BestLibrary</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="General.html#General">General</a>
+<hr>
+</div>
+
+<h3 class="section">2.2 Accessing the Library (Linux)</h3>
+
+<p><a name="index-accessing-ACML-_0028Linux_0029-5"></a><a name="index-linking-with-Linux-ACML-6"></a>
+
+<h4 class="subsection">2.2.1 Accessing the Library under Linux using GNU gfortran/gcc</h4>
+
+<p><a name="index-accessing-ACML-_0028GNU-gfortran_002fgcc-under-Linux_0029-7"></a>
+If the Linux 64-bit gfortran version of ACML was installed in the default directory,
+/opt/acml6.1.0/gfortran64, then the command:
+
+<pre class="example">     gfortran -m64 driver.f -L/opt/acml6.1.0/gfortran64/lib -lacml
+</pre>
+   <p class="noindent">can be used to compile the program driver.f and link it to the ACML.
+
+   <p>The command
+
+<pre class="example">     gfortran -m64 -mavx -mfma4 driver.f \
+              -L/opt/acml6.1.0/gfortran64_fma4/lib -lacml
+</pre>
+   <p class="noindent">will compile and link a 64-bit program with the 64-bit FMA4 ACML.  The Fortran module driver.f will be compiled using AVX and FMA4 instructions where possible in lieu of SSE/SSE2.
+
+   <p>The ACML Library is supplied in both static and shareable versions,
+libacml.a and libacml.so, respectively. By default, the commands
+given above will link to the shareable version of the library, libacml.so,
+if that exists in the directory specified. Linking with the
+static library can be forced either by using the compiler
+flag <tt>-static</tt>, e.g.
+
+<pre class="example">     gfortran -m64 driver.f \
+              -L/opt/acml6.1.0/gfortran64/lib -static -lacml -lrt
+</pre>
+   <p class="noindent">or by inserting the name of the static library explicitly in the
+command line, e.g.
+
+<pre class="example">     gfortran -m64 driver.f /opt/acml6.1.0/gfortran64/lib/libacml.a -lrt
+</pre>
+   <p>Notice that if the application program has been linked
+to the shareable ACML Library, then before running the program, the
+environment variable <samp><span class="env">LD_LIBRARY_PATH</span></samp> must be set. Assuming that
+libacml.so was installed in the directory
+/opt/acml6.1.0/gfortran64/lib, then
+<samp><span class="env">LD_LIBRARY_PATH</span></samp> may be set by, for example, the C-shell command
+
+<pre class="example">     setenv LD_LIBRARY_PATH /opt/acml6.1.0/gfortran64/lib
+</pre>
+   <p class="noindent">(See the man page for ld(1) for more information
+about <samp><span class="env">LD_LIBRARY_PATH</span></samp>.)
+
+   <p>If you have an SMP machine and want to take best advantage of it, link against
+the gfortran OpenMP version of ACML like this:
+<pre class="example">     gfortran -fopenmp -m64 driver.f \
+              -L/opt/acml6.1.0/gfortran64_mp/lib -lacml_mp
+</pre>
+   <p>Note that the directories and library names involved now include the
+suffix <em>_mp</em>.
+
+   <p>To compile and link a 64-bit C program with a 64-bit ACML, invoke
+
+<pre class="example">     gcc -m64 -I/opt/acml6.1.0/gfortran64/include driver.c \
+         -L/opt/acml6.1.0/gfortran64/lib -lacml -lgfortran
+</pre>
+   <p class="noindent">The switch "-I/opt/acml6.1.0/gfortran64/include"
+tells the compiler to search the directory
+/opt/acml6.1.0/gfortran64/include for the ACML C header file
+acml.h, which should be included by driver.c. 
+Note that it is necessary to add the gfortran compiler run-time library
+-lgfortran when linking the program.
+
+<h4 class="subsection">2.2.2 Accessing the Library under Linux using PGI compilers pgf77/pgf90/pgcc</h4>
+
+<p><a name="index-accessing-ACML-_0028PGI-pgf77_002fpgf90_002fpgcc-under-Linux_0029-8"></a>
+Similar commands apply for the PGI versions of ACML. For example,
+
+<pre class="example">     pgf77 -tp=k8-64 -Mcache_align driver.f -L/opt/acml6.1.0/pgi64/lib -lacml
+</pre>
+   <p class="noindent">will compile driver.f and link it to the ACML 64-bit
+version. In the example above we are linking with the
+single-processor PGI version of ACML.
+
+   <p>The command
+
+<pre class="example">     pgf77 -tp=bulldozer -Mcache_align -pgf90libs driver.f \
+           -L/opt/acml6.1.0/pgi64_fma4/lib -lacml
+</pre>
+   <p class="noindent">will compile and link a 64-bit program with the 64-bit FMA4 ACML.  The Fortran module driver.f will be compiled using AVX and FMA4 instructions where possible instead of SSE/SSE2.
+
+   <p>If you have an SMP machine and want to take best advantage of it, link against
+the PGI OpenMP version of ACML like this:
+<pre class="example">     pgf77 -tp=k8-64 -mp -Mcache_align driver.f \
+           -L/opt/acml6.1.0/pgi64_mp/lib -lacml_mp
+</pre>
+   <p>Note that the directories and library names involved now include the
+suffix <em>_mp</em>.
+
+   <p>The -mp flag is important - it tells pgf77
+to link with the appropriate compiler OpenMP run-time library. Without
+it you might get an "unresolved symbol" message at link time. The
+-Mcache_align flag is also important - it tells the compiler to align
+objects on cache-line boundaries.
+
+   <p>The commands
+<pre class="example">     pgcc -c -tp=k8-64 -mp -Mcache_align \
+           -I/opt/acml6.1.0/pgi64_mp/include driver.c
+     pgcc -tp=k8-64 -mp -Mcache_align driver.o \
+           -L/opt/acml6.1.0/pgi64_mp/lib -lacml_mp -lpgftnrtl -lm
+</pre>
+   <p class="noindent">will compile driver.c and link it to the 64-bit ACML. Again, the -mp
+flag is important if you are linking to the PGI OpenMP version of ACML. 
+The C compiler is instructed to search the directory
+/opt/acml6.1.0/pgi64_mp/include for the ACML C header file
+acml.h, which should be included by driver.c, by using the switch
+"-I/opt/acml6.1.0/pgi64_mp/include". 
+Note that in the example
+we add the libraries -lpgftnrtl and -lm to the link command, so that
+required PGI compiler run-time libraries are found.
+
+   <p>Note that since ACML version 3.5.0, all PGI 64-bit
+variants are compiled with the PGI -Mlarge_arrays switch to allow use of larger
+data arrays (see PGI compiler documentation for more information). 
+The special 'large array' variants that were distributed with earlier
+versions of ACML are therefore no longer required.
+
+<h4 class="subsection">2.2.3 Accessing the Library under Linux using Open64 compilers openf95/opencc</h4>
+
+<p><a name="index-accessing-ACML-_0028Open64-openf95_002fopencc-under-Linux_0029-9"></a>
+Similar commands apply for the Open64 versions of ACML. For example,
+
+<pre class="example">     openf95 driver.f -L/opt/acml6.1.0/open64_64/lib -lacml
+</pre>
+   <p class="noindent">will compile driver.f and link it to the ACML 64-bit
+version. In the example above we are linking with the
+single-processor open64 version of ACML.
+
+   <p>The command
+
+<pre class="example">     openf95 driver.f -L/opt/acml6.1.0/open64_64_fma4/lib -lacml
+</pre>
+   <p class="noindent">will compile and link a 64-bit program with the 64-bit FMA4 ACML.  The Fortran module driver.f will be compiled using AVX and FMA4 instructions where possible in lieu of SSE/SSE2.  The open64 compiler automatically detects AVX/FMA4 capability on the host CPU and will use these instructions if the CPU supports them.
+
+   <p>If you have an SMP machine and want to take best advantage of it, link against
+the open64 OpenMP versions of ACML like this:
+<pre class="example">     openf95 -mp driver.f \
+              -L/opt/acml6.1.0/open64_64_mp/lib -lacml_mp
+</pre>
+   <p>Note that the directories and library names involved now include the
+suffix <em>_mp</em>.
+
+   <p>The commands
+<pre class="example">     opencc -c -I/opt/acml6.1.0/open64_64/include driver.c
+     opencc driver.o -L/opt/acml6.1.0/open64_64/lib -lacml -lfortran
+</pre>
+   <p class="noindent">will compile driver.c and link it to the 64-bit ACML. 
+The switch
+<pre class="example">     -I/opt/acml6.1.0/open64_64/include
+</pre>
+   <p class="noindent">tells the C compiler to search directory
+/opt/acml6.1.0/open64_64/include for the ACML C header file
+acml.h, which should be included by driver.c. Note that in the example
+we add the library -lfortran to the link command, so that
+the required Open64 compiler run-time library is found.
+
+<h4 class="subsection">2.2.4 Accessing the Library under Linux using the NAGWare f95 compiler</h4>
+
+<p><a name="index-accessing-ACML-_0028NAGware-f95-compiler-under-Linux_0029-10"></a>
+Similar commands apply for the NAGware f95 versions of ACML. For example,
+
+<pre class="example">     f95 driver.f -L/opt/acml6.1.0/nag64/lib -lacml
+</pre>
+   <p class="noindent">will compile driver.f and link it to the ACML using the 64-bit
+version.
+
+<h4 class="subsection">2.2.5 Accessing the Library under Linux using the Intel ifort compiler</h4>
+
+<p><a name="index-accessing-ACML-_0028Intel-ifort-under-Linux_0029-11"></a>
+Similar commands apply for the Intel ifort versions of ACML. For example,
+
+<pre class="example">     ifort driver.f -L/opt/acml6.1.0/ifort64/lib -lacml
+</pre>
+   <p class="noindent">will compile driver.f and link it to the ACML using the 64-bit
+version.
+
+   <p>The commands
+<pre class="example">     gcc -c -I/opt/acml6.1.0/ifort64/include driver.c
+     ifort -nofor-main driver.o -L/opt/acml6.1.0/ifort64/lib -lacml
+</pre>
+   <p class="noindent">will compile driver.c and link it to the 64-bit ACML. 
+The switch
+<pre class="example">     -I/opt/acml6.1.0/ifort64/include
+</pre>
+   <p class="noindent">tells the C compiler to search directory
+/opt/acml6.1.0/ifort64/include for the ACML C header file
+acml.h, which should be included by driver.c. Note that in the example
+we link the C program using the ifort compiler with the -nofor-main switch,
+so that required ifort compiler run-time libraries are found.
+
+   <p>If you have an SMP machine and want to take best advantage of it, link against
+the ifort OpenMP version of ACML like this:
+<pre class="example">     ifort -openmp driver.f -L/opt/acml6.1.0/ifort64_mp/lib -lacml_mp
+</pre>
+   <p>Note that the directories and library names involved now include the
+suffix <em>_mp</em>.
+
+   <p>The -openmp flag is important - it tells ifort
+to link with the appropriate compiler OpenMP run-time library. Without
+it you might get an "unresolved symbol" message at link time.
+
+<h4 class="subsection">2.2.6 Accessing the Library under Linux using Absoft af90</h4>
+
+<p><a name="index-accessing-ACML-_0028Absoft-af90-under-Linux_0029-12"></a>
+The Absoft compiler af90 is compatible with the GNU compiler gfortran
+version of ACML, so long as the appropriate gfortran run-time libraries
+are installed on your system. 
+If the Linux 64-bit gfortran version of ACML was installed in the default directory,
+/opt/acml6.1.0/gfortran64, then the command:
+
+<pre class="example">     af90 -m64 driver.f -L/opt/acml6.1.0/gfortran64/lib -lacml -lgfortran
+</pre>
+   <p class="noindent">can be used to compile the program driver.f and link it to the ACML. Note that -gfortran
+links to the gfortran run-time library, which must be installed on your system.
+
+   <p>The ACML Library is supplied in both static and shareable versions,
+libacml.a and libacml.so, respectively. By default, the commands
+given above will link to the shareable version of the library, libacml.so,
+if that exists in the directory specified. Linking with the
+static library can be forced either by using the compiler
+flag <tt>-static</tt>, e.g.
+
+<pre class="example">     af90 -m64 driver.f -L/opt/acml6.1.0/gfortran64/lib -static \
+          -lacml -lgfortran -lrt
+</pre>
+   <p class="noindent">or by inserting the name of the static library explicitly in the
+command line, e.g.
+
+<pre class="example">     af90 -m64 driver.f /opt/acml6.1.0/gfortran64/lib/libacml.a \
+          -lgfortran -lrt
+</pre>
+   <p>Notice that if the application program has been linked
+to the shareable ACML Library, then before running the program, the
+environment variable <samp><span class="env">LD_LIBRARY_PATH</span></samp> must be set. Assuming that
+libacml.so was installed in the directory
+/opt/acml6.1.0/gfortran64/lib, then
+<samp><span class="env">LD_LIBRARY_PATH</span></samp> may be set by, for example, the C-shell command
+
+<pre class="example">     setenv LD_LIBRARY_PATH /opt/acml6.1.0/gfortran64/lib
+</pre>
+   <p class="noindent">(See the man page for ld(1) for more information
+about <samp><span class="env">LD_LIBRARY_PATH</span></samp>.)
+
+   <p>If you have an SMP machine and want to take best advantage of it, link against
+the gfortran OpenMP version of ACML like this:
+<pre class="example">     af90 -m64 driver.f -L/opt/acml6.1.0/gfortran64_mp/lib \
+          -lacml_mp -lgfortran -lgomp
+</pre>
+   <p>Note that the directories and library names involved now include the
+suffix <em>_mp</em>. Also note that it is necessary to link to the gfortran
+run-time libraries -lgfortran -lgomp, both of which must be installed
+on your system.
+
+<h4 class="subsection">2.2.7 Accessing the Library under Linux using compilers other than GNU, PGI, Open64, NAGWare, Intel or Absoft</h4>
+
+<p><a name="index-accessing-ACML-_0028other-compilers-under-Linux_0029-13"></a>
+It may be possible to link to some versions of ACML using compilers
+other than those already mentioned, if they are compatible with one
+of the other versions. If you do this, it may be necessary to link
+to the run-time library of the compiler used to build the ACML you
+link to, in order to satisfy run-time symbols. Since doing this is
+very compiler-specific, we give no further details here.
+
+   </body></html>
+

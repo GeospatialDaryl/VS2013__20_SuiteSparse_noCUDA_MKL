@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+<title>FFT-Intro - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="FFTs.html#FFTs" title="FFTs">
+<link rel="prev" href="FFTs.html#FFTs" title="FFTs">
+<link rel="next" href="Complex-FFT-Routines.html#Complex-FFT-Routines" title="Complex FFT Routines">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="FFT-Intro"></a>
+<a name="FFT_002dIntro"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Complex-FFT-Routines.html#Complex-FFT-Routines">Complex FFT Routines</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FFTs.html#FFTs">FFTs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="FFTs.html#FFTs">FFTs</a>
+<hr>
+</div>
+
+<h3 class="section">5.2 Introduction to FFTs</h3>
+
+<p class="noindent">There are two main types of Discrete Fourier Transform (DFT):
+     <ul>
+<li>routines for the transformation of complex data: in the ACML,
+   these routines have names beginning with <code>ZFFT</code>
+   or <code>CFFT</code>, for double and single precision, respectively;
+<li>routines for the transformation of real to complex data and vice versa:
+   in the ACML the names for the former begin with <code>DZFFT</code> or
+   <code>SCFFT</code>, for double and single precision, respectively; the names
+   for the latter begin with <code>ZDFFT</code> or <code>CSFFT</code>. 
+</ul>
+
+<p class="noindent">The following subsections provide definitions of the DFT for complex and real
+data types, and some guidelines on the efficient use of the ACML FFT routines.
+
+<ul class="menu">
+<li><a accesskey="1" href="DFT-Complex.html#DFT-Complex">DFT Complex</a>:              Transform definitions and storage for complex data
+<li><a accesskey="2" href="DFT-Real.html#DFT-Real">DFT Real</a>:                 Transform definitions and storage for real data
+<li><a accesskey="3" href="Efficiency.html#Efficiency">Efficiency</a>:               Efficiency
+<li><a accesskey="4" href="Plans.html#Plans">Plans</a>:                    Default and generated FFT plans
+</ul>
+
+   </body></html>
+

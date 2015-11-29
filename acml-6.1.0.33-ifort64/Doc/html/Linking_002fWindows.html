@@ -1,0 +1,145 @@
+<html lang="en">
+<head>
+<title>Linking/Windows - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="General.html#General" title="General">
+<link rel="prev" href="Linking_002fLinux.html#Linking_002fLinux" title="Linking/Linux">
+<link rel="next" href="Interfaces.html#Interfaces" title="Interfaces">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Linking%2fWindows"></a>
+<a name="Linking_002fWindows"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Interfaces.html#Interfaces">Interfaces</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Linking_002fLinux.html#Linking_002fLinux">Linking/Linux</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="General.html#General">General</a>
+<hr>
+</div>
+
+<h3 class="section">2.3 Accessing the Library (Microsoft Windows)</h3>
+
+<p><a name="index-accessing-ACML-under-Windows-14"></a><a name="index-linking-with-Windows-ACML-15"></a>
+
+<h4 class="subsection">2.3.1 Accessing the Library under 64-bit Windows using PGI compilers pgf77/pgf90/pgcc</h4>
+
+<p><a name="index-accessing-ACML-_0028PGI-pgf77_002fpgf90_002fpgcc-or-Microsoft-C-under-64_002dbit-Windows_0029-16"></a>
+Under 64-bit versions of Windows, ACML 6.1.0 comes
+as a static (.LIB) library or a DLL.
+
+   <p>To link with the 64-bit Windows DLL library PGI version of ACML, in a DOS
+command prompt use a command like
+
+<pre class="example">     pgf77 -Mdll driver.f c:\acml6.1.0\win64\lib\libacml_dll.lib
+</pre>
+   <p class="noindent">where libacml_dll.lib is the import library for the DLL. 
+In the example above we are linking with the single-processor WIN64
+version of ACML.
+
+   <p>If you have an SMP machine and want to take best advantage of it, link against
+the WIN64 OpenMP version of ACML like this:
+
+<pre class="example">     pgf77 -Mdll -mp driver.f c:\acml6.1.0\win64_mp\lib\libacml_mp_dll.lib
+</pre>
+   <p>Note that the directories and library names involved now include the
+suffix <em>_mp</em>.
+
+   <p>For the OpenMP version of ACML, if you link to the static library libacml_mp.lib
+rather than the DLL import library
+libacml_mp_dll.lib, you will need to use the PGI compiler flag -mp
+in order to tell the compiler to link with the appropriate compiler OpenMP run-time
+library. Without it you might get an "unresolved symbol" message at link time. 
+This should not be necessary when linking to the ACML DLL because the DLL itself
+knows that it depends on the run-time library; but using the -mp flag
+in any case will do no harm.
+
+   <p>Note that the performance of OpenMP code produced with the PGI WIN64 compilers
+depends on environment variables named <var>MP_BIND</var> and <var>MP_SPIN</var>,
+which control how multiple threads behave (see PGI compiler documentation
+for discussion of these variables). For ACML, empirical experiments
+show that higher values of <var>MP_SPIN</var> than the default are
+likely to give better performance. We recommend that users set
+<var>MP_BIND=yes</var> and <var>MP_SPIN=100000000</var>.
+
+   <p>Under WIN64, to compile and link a C program, the commands
+
+<pre class="example">     pgcc -Mdll driver.c -Ic:\acml6.1.0\win64\include
+          c:\acml6.1.0\win64\lib\libacml_dll.lib
+     pgcc -Mdll -mp driver.c -Ic:\acml6.1.0\win64_mp\include
+          c:\acml6.1.0\win64_mp\lib\libacml_mp_dll.lib
+</pre>
+   <p>will link against the single-threaded DLL and multi-threaded versions
+of ACML respectively.
+
+   <p>To use the Microsoft C command line compiler, <em>cl</em>, use commands like
+this:
+
+<pre class="example">     cl driver.c -Ic:\acml6.1.0\win64\include
+          c:\acml6.1.0\win64\lib\libacml_dll.lib
+     cl driver.c -Ic:\acml6.1.0\win64_mp\include
+          c:\acml6.1.0\win64_mp\lib\libacml_mp_dll.lib
+</pre>
+   <p>for single- and multi-threaded ACML variants respectively.
+
+<h4 class="subsection">2.3.2 Accessing the Library under 64-bit Windows using Microsoft C or Intel Fortran</h4>
+
+<p><a name="index-accessing-ACML-_0028Intel-Fortran_002fMicrosoft-C-under-64_002dbit-Windows_0029-17"></a>
+Under 64-bit versions of Windows, ACML 6.1.0 comes
+as a static (.LIB) library or a DLL.
+
+   <p>To link with the 64-bit Windows DLL library Intel Fortran version of ACML, in a DOS
+command prompt use a command like
+
+<pre class="example">     ifort /libs:dll driver.f c:\acml6.1.0\ifort64\lib\libacml_dll.lib
+</pre>
+   <p class="noindent">where libacml_dll.lib is the import library for the DLL. 
+In the example above we are linking with the single-processor
+ifort version of ACML.
+
+   <p>If you have an SMP machine and want to take best advantage of it, link against
+the ifort OpenMP version of ACML like this:
+
+<pre class="example">     ifort /libs:dll -Qopenmp driver.f
+       c:\acml6.1.0\win64_mp\lib\libacml_mp_dll.lib
+</pre>
+   <p>Note that the directories and library names involved now include the
+suffix <em>_mp</em>.
+
+   <p>For the OpenMP version of ACML, if you link to the static library libacml_mp.lib
+rather than the DLL import library
+libacml_mp_dll.lib, you will need to use the ifort compiler flag -Qopenmp
+in order to tell the compiler to link with the appropriate compiler OpenMP run-time
+library. Without it you might get an "unresolved symbol" message at link time. 
+This should not be necessary when linking to the ACML DLL because the DLL itself
+knows that it depends on the run-time library; but using the -Qopenmp flag
+in any case will do no harm.
+
+   <p>Under WIN64, to compile and link a C program using the Microsoft C
+command line compiler, <em>cl</em>, the commands
+
+<pre class="example">     cl driver.c -Ic:\acml6.1.0\ifort64\include
+          c:\acml6.1.0\ifort64\lib\libacml_dll.lib
+     cl driver.c -Ic:\acml6.1.0\ifort64_mp\include
+          c:\acml6.1.0\ifort64_mp\lib\libacml_mp_dll.lib
+</pre>
+   <p>will link against the single-threaded DLL and multi-threaded versions
+of ACML respectively.
+
+   </body></html>
+

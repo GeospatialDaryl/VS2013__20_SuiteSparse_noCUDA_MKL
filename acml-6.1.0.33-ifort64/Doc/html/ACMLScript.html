@@ -1,0 +1,564 @@
+<html lang="en">
+<head>
+<title>ACMLScript - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="RNGs.html#RNGs" title="RNGs">
+<link rel="next" href="Reference.html#Reference" title="Reference">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="ACMLScript"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Reference.html#Reference">Reference</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="RNGs.html#RNGs">RNGs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">7 ACMLScript: ACML scripting language</h2>
+
+<p><a name="index-ACMLScript-951"></a>
+ACMLScript is a scripting language embedded within the ACML library, introduced with
+the version 6 release.  It allows ACML to embed programming logic within text files,
+which avoids hard-coding logic within the library itself.  This provides both
+flexibility and transparency for end users.
+
+   <p>The challenge of ACML version 6 is to create a library that takes advantage of
+heterogeneous compute resources in a platform (such as OpenCL compute devices or
+shared memory), but to keep the user visible API backwards compatible with ACML
+version 5.  ACML should not expose the implementation details of OpenCL to the user,
+and the goal is to provide a drop-in replacement library that leverages these resources
+transparently.
+
+   <p>At this time, only the BLAS and FFTW components of ACML are heterogeneous (i.e. able
+to be offloaded to OpenCL devices), and the existing ACMLScript files only relate
+to those components.  Within BLAS, only the Level 3 routines are enabled with
+script files and for FFTW, only the basic and advanced API's are enabled.  More
+routines will come over time.
+
+   <p>The primary purpose for ACMLScript at this time is to encode the load balancing logic
+in scriptable form.  This allows the logic on how the library decides to offload
+computation onto OpenCL devices to be presented in an easy to read and open manner. 
+This also allows the logic to be changed to fit the needs of the user.
+
+   <p>ACMLScript files are implemented in the
+<a href="http://www.lua.org/">Lua scripting language</a>, using the Lua syntax and structure. 
+ACMLScript files can call back into the library to request a service to be performed;
+typically this a request for more information from the library for something that
+the script does not have direct access to.  The entry points that the library
+provides for the ACML scripts are documented below.
+
+<h3 class="section">7.1 Directory layout</h3>
+
+<p><a name="index-ACMLScript-directory-layout-952"></a>ACML now loads resources from disk (aside from the binary code itself, such as the
+scripts) during its runtime.  These resources should be located in known locations
+to the library, or the library assumes that the resources are not available, and
+reverts to default behavior which closely resembles ACML version 5.
+
+   <p>The first place the library looks for its resources is in a subdirectory to the location
+of the library itself called '<code>resources</code>'.  For example, if the libacml library
+is located in <samp><span class="file">/opt/acml5.3.1/gfortran64/lib</span></samp>, then the library attempts to access
+<samp><span class="file">/opt/acml5.3.1/gfortran64/lib/resources</span></samp>.  This is the location that the installer
+of ACML will install the resources by default, as a subdirectory of the library location.
+
+   <p>If an end user wishes for any reason to move the location of the on disk resources, ACML
+will check for the existence of an environment variable at startup, <samp><span class="env">ACML_SCRIPT_PATH</span></samp>. 
+This should point to the root of the resources tree, such as
+<samp><span class="file">/opt/acml5.3.1/gfortran64/lib/resources</span></samp>.  Underneath this root resources tree, subdirectories
+exist for each particular OpenCL device that ACML ships tuned script files for.  For
+instance, directories like <samp><span class="file"> ACML_SCRIPT_PATH/Tahiti </span></samp> or
+<samp><span class="file"> ACML_SCRIPT_PATH/Spectre </span></samp> might show up here, and the scripts therein
+are loaded for when those devices are detected.  The name for these subdirectories are queried
+from OpenCL itself, corresponding to the <samp><span class="env">CL_DEVICE_NAME</span></samp> property.  If ACML does
+not find a subdirectory for a particular device, it attempts to load fall-back scripts
+from the <samp><span class="file"> ACML_SCRIPT_PATH/Defaults </span></samp> subdirectory.  This subdirectory contains
+script files that direct ACML to revert to ACML 5 behavior, which is to compute only
+on the CPU cores.
+
+<h3 class="section">7.2 ACMLScript files</h3>
+
+<p><a name="index-ACMLScript-files-953"></a>
+
+<h4 class="subsection">7.2.1 context.lua</h4>
+
+<p><a name="index-context_002elua-954"></a>This script lives in the root <samp><span class="file">ACML_SCRIPT_PATH</span></samp> directory.  It is called when ACML first
+initializes its internal data structures, while the library is still loading.  At this
+time, ACML is searching the platform for all of the OpenCL devices that are available, and
+then passes control to this script to allow the user to customize the device selection
+process. 
+This file contains a subroutine called <code>createContexts( ... )</code> which is called by ACML and whose
+single parameter is a table of the detected OpenCL platforms on the system.  In most cases, only
+a single platform will be seen, but there can be instances of multiple platforms when an
+end user has devices from multiple vendors installed.  The table passed as a parameter is an
+array of key-value pairs; the key an unsigned integer starting from 1, and the value
+a nested table of the various OpenCL platform properties.  The nested table itself contains keys
+of the following names, with strings as their values:
+
+<div class="defun">
+&mdash; Table: <b>platforms</b><var> profile, version, name, vendor, extensions<a name="index-platforms-955"></a></var><br>
+<blockquote><p>profile corresponds to CL_PLATFORM_PROFILE <br>
+version corresponds to CL_PLATFORM_VERSION <br>
+name corresponds to CL_PLATFORM_NAME <br>
+vendor corresponds to CL_PLATFORM_VENDOR <br>
+extentions corresponds to CL_PLATFORM_EXTENSIONS <br>
+</p></blockquote></div>
+
+   <p>Since the platforms parameter is passed into the script as a nested table, it is most
+convenient to browse the platform information with nested Lua pair iterators
+Example:
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<pre class="example">     -- An example of printing platform properties to stdout
+     for index, platform in ipairs( platforms ) do
+         print( index )
+         for name, value in pairs( platform ) do
+             print( "\t", name, "\t", value )
+         end
+     end
+</pre>
+   </td></tr></table>
+
+   <p>&rArr; The return value from <code>createContexts( ... )</code> must be a table, which specifies the
+index value of the chosen platform as the key, and the index value of the device within
+that platform as the value.  It is always valid to hardcode a return value of
+( 1, 1 ), which says to pick the first platform, and pick the 1st device within that platform. 
+This is possible because the ACML runtime will not enumerate a platform with 0 possible
+devices within it.  The returned pair of the platform and device index helps to generate the
+OpenCL context within ACML library. 
+<br> Constraint: This routine is currently limited to return a single
+context only, and that context may only have exactly one device in it
+
+<h4 class="subsection">7.2.2 heuristic scripts</h4>
+
+<p><a name="index-heuristic-files-956"></a>Inside the device specific subdirectories (or the <samp><span class="file">Default</span></samp> subdirectory), there exists
+ACMLScript files that are specific to various API's supported by ACML.  For ACML version 6.0,
+those API's are limited to the Level 3 BLAS routines or the basic and advanced interfaces for
+FFTW.  All of these files contain a function called <code>heuristic( ... )</code>.  The
+parameters passed into the heuristic function correspond to the API of the referring function.
+
+   <p>For instance, the heuristic function for the GEMM routine looks like:
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<pre class="example">     -- The heuristic function analyses input parameters, and determines
+     -- where a give problem should be computer, on host or device.
+     -- The signature is similar in nature to the corresponding BLAS API.
+     -- Documentation for the individual parameters can be found online
+     -- in the netlib website.
+     -- type( transa ) == string; either 'n' or 't' or 'c'
+     -- type( transb ) == string; either 'n' or 't' or 'c'
+     -- type( m ) == number
+     -- type( n ) == number
+     -- type( k ) == number
+     -- type( alpha_real ) == number; real portion of a complex number
+     -- type( alpha_imag ) == number; imaginary portion of a complex number
+     -- type( lda ) == number
+     -- type( ldb ) == number
+     -- type( beta_real ) == number; real portion of a complex number
+     -- type( beta_imag ) == number; imaginary portion of a comlex number
+     -- type( ldc ) == number
+     -- type( precision ) == string; either 's or 'd' or 'c' or 'z'
+     -- return boolean expression as integer; true means to offload
+     -- problem to device, false to offload on host
+     function heuristic( transa, transb, m, n, k, alpha_real, alpha_imag,
+                       lda, ldb, beta_real, beta_imag, ldc, precision )
+     
+         local myThreshold = tableOfThresholds[ precision ]
+     
+         -- If any dimension is too small, compute on host
+         if( ( m &gt; myThreshold.m ) and ( n &gt; myThreshold.n ) and
+              ( k &gt; myThreshold.k ) ) then
+     
+             local psize = m * n * k
+     
+             -- If the total size is greater than threshold,
+             -- compute on device
+             if( psize &gt; myThreshold.psize ) then
+                 return true
+             end
+         end
+     
+         return false
+     end
+</pre>
+   </td></tr></table>
+
+   <p>&rArr; The heuristic functions is to return a boolean value to indicate
+where the computation for this particular problem should take place;  a true value
+indicates the OpenCL context created in the previously run <code>createContexts( ... )</code>
+function, or false to process on host.  Host processing does imply multi-threading if
+the user linked with the OpenMP version of ACML.
+
+<h3 class="section">7.3 ACMLScript types</h3>
+
+<p><a name="index-ACMLScript-types-957"></a>ACMLScripts have a few tables embedded at the top of the script, which are used more
+or less like an enumeration within the script file.
+
+<!-- ================================================================================= -->
+<h4 class="subsection">7.3.1 <code> DEVICE_TYPE </code></h4>
+
+<div class="defun">
+&mdash; local Table: <b>DEVICE_TYPE</b><var> DEFAULT, CPU, GPU, ACCELERATOR, CUSTOM, ALL<a name="index-DEVICE_005fTYPE-958"></a></var><br>
+<blockquote><p>This table acts like an enumeration, which should be passed as the second parameter
+to the acml_getDevices callback.  It is typically passed with the Lua '.' shorthand
+notation, such as <code>DEVICE_TYPE.ALL</code>
+
+     <div class="defun">
+&mdash; enum: number <b>DEFAULT</b><var><a name="index-DEFAULT-959"></a></var><br>
+<blockquote> <p>This instructs the library to pick a reasonable default to enumerate; this is
+guaranteed to only return 1 device
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; enum: number <b>CPU</b><var><a name="index-CPU-960"></a></var><br>
+<blockquote> <p>This instructs the library to enumerate all OpenCL devices that identify themselves
+as being of the CPU class.  This can return 0 to N devices. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; enum: number <b>GPU</b><var><a name="index-GPU-961"></a></var><br>
+<blockquote> <p>This instructs the library to enumerate all OpenCL devices that identify themselves
+as being of the GPU class.  This can return 0 to N devices. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; enum: number <b>ACCELERATOR</b><var><a name="index-ACCELERATOR-962"></a></var><br>
+<blockquote> <p>This instructs the library to enumerate all OpenCL devices that identify themselves
+as being of the ACCELERATOR class.  This can return 0 to N devices. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; enum: number <b>CUSTOM</b><var><a name="index-CUSTOM-963"></a></var><br>
+<blockquote> <p>This instructs the library to enumerate all OpenCL devices that identify themselves
+as being of the CUSTOM class.  This can return 0 to N devices. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; enum: number <b>ALL</b><var><a name="index-ALL-964"></a></var><br>
+<blockquote> <p>This instructs the library to enumerate all OpenCL devices on a given platform. 
+This can return 1 to N devices. 
+</p></blockquote></div>
+
+     </blockquote></div>
+
+<!-- ================================================================================= -->
+<h4 class="subsection">7.3.2 <code> VERSION </code></h4>
+
+<div class="defun">
+&mdash; global Table: <b>VERSION</b><var> MAJOR, MINOR, PATCH, TWEAK<a name="index-VERSION-965"></a></var><br>
+<blockquote><p>This encodes the particular version of the ACMLScript.  The library will read this
+table  and validate that the version of the ACMLScript is compatible with the library. 
+The version of a script consists of 4 independent numbers forming a version quad.
+
+     <div class="defun">
+&mdash; input: number <b>MAJOR</b><var><a name="index-MAJOR-966"></a></var><br>
+<blockquote> <p>The 1st number in the version quad.  It is only incremented for major breaking changes,
+in which an older library would no longer be able to call the script
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; input: number <b>MINOR</b><var><a name="index-MINOR-967"></a></var><br>
+<blockquote> <p>The 2nd number in the version quad.  It is incremented to represented logic changes or
+functionality differences, but is still interface compatible with the previous version. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; input: number <b>PATCH</b><var><a name="index-PATCH-968"></a></var><br>
+<blockquote> <p>The 3rd number in the version quad.  This is typically used to represent bug fixes or
+little functionality changes. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; input: number <b>TWEAK</b><var><a name="index-TWEAK-969"></a></var><br>
+<blockquote> <p>The 4th number in the version quad.  This is typically used to represent a build
+number or an incrementing version change. 
+</p></blockquote></div>
+
+     </blockquote></div>
+
+<!-- ================================================================================= -->
+<h3 class="section">7.4 ACMLScript callbacks</h3>
+
+<p><a name="index-ACMLScript-callbacks-970"></a>The ACML library contains API entry points that a script may use to retrieve additional
+information from the library.
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<h4 class="subsection">7.4.1 <code> acml_getDevices </code></h4>
+
+<div class="defun">
+&mdash; Script Callback: <code>Table</code> <b>acml_getDevices</b> (<var> platIndex, devType </var>)<var><a name="index-acml_005fgetDevices-971"></a></var><br>
+<blockquote><p>Returns a list of OpenCL devices detected by the OpenCL runtime, given the platform
+index and a filter for device type
+
+     <!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: int <b>platIndex</b><var><a name="index-platIndex-972"></a></var><br>
+<blockquote> <p>The index of the platform to retrieve devices from
+<br> Constraint: platIndex must be between 1 and the number of platforms, usually
+passed into the script. 
+</p></blockquote></div>
+
+     <!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: DEVICE_TYPE <b>devType</b><var><a name="index-devType-973"></a></var><br>
+<blockquote> <p>One of the following enumerated types, to filter the types of devices returned
+from the API. 
+</p></blockquote></div>
+
+     <!-- ================================================================================= -->
+        <p>&rArr; A table is returned from the API that is set up in key-value pairs. 
+The key is an integer index number, starting from 1 as is typical in Lua array
+numbering.  The value is an embedded table that contains the relevant information
+about the device, stored as key-string/value pairs.  The value string describes the data,
+and the value is the returned result.
+
+        <p>This table is frequently iterated through with the Lua <code>ipairs()</code> or
+<code>pairs()</code> iterators. 
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+     <pre class="example">          -- An example of choosing a platform based upon the
+          -- platform properties
+          local myPlatIndex = 1
+          for index, platform in ipairs( platforms ) do
+              if( platform.vendor == "Advanced Micro Devices, Inc." ) then
+                  devices = acml_getDevices( index, DEVICE_TYPE.ALL )
+                  myPlatIndex = index
+              end
+          end
+          
+          -- An example of printing device properties to stdout
+          for index, device in ipairs( devices ) do
+              print( index )
+              for name, value in pairs( device ) do
+                  print( "\t", name, "\t", value )
+              end
+          end
+          print( )
+</pre>
+        </td></tr></table>
+
+        <p>The fields of the table returned by <code>acml_getDevices</code> are given by:
+
+     <div class="defun">
+&mdash; Table: <b>deviceProperties</b><var> name, maxfrequency, maxcomputeunits, globalmemsize, maxalloc, unifiedmemory, extensions, hasdouble<a name="index-deviceProperties-974"></a></var><br>
+<blockquote> <p>name corresponds to CL_DEVICE_NAME <br>
+maxfrequency corresponds to CL_DEVICE_MAX_CLOCK_FREQUENCY <br>
+maxcomputeunits corresponds to CL_DEVICE_MAX_COMPUTE_UNITS <br>
+globalmemsize corresponds to CL_DEVICE_GLOBAL_MEM_SIZE <br>
+maxalloc corresponds to CL_DEVICE_MAX_MEM_ALLOC_SIZE <br>
+unifiedmemory corresponds to CL_DEVICE_HOST_UNIFIED_MEMORY <br>
+extensions corresponds to CL_DEVICE_EXTENSIONS <br>
+hasdouble looks for <code>cl_khr_fp64</code>, <br> then <code>cl_amd_fp64</code> in CL_DEVICE_EXTENSIONS <br>
+</p></blockquote></div>
+
+     </blockquote></div>
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<h4 class="subsection">7.4.2 <code> acml_getDeviceName </code></h4>
+
+<div class="defun">
+&mdash; Script Callback: <code>Table</code> <b>acml_getDeviceName</b> (<var> contextIndex </var>)<var><a name="index-acml_005fgetDeviceName-975"></a></var><br>
+<blockquote><p>Returns a string that identifies the name of the device in the chosen context
+
+     <!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: int <b>contextIndex</b><var><a name="index-contextIndex-976"></a></var><br>
+<blockquote> <p>The index of the context to query
+<br> Constraint: contextIndex must be 1 at this time; the library does
+not support multi-GPU configurations at this time
+</p></blockquote></div>
+
+     <!-- ================================================================================= -->
+        <p>&rArr; A string representing the name of the device
+
+     </blockquote></div>
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<h4 class="subsection">7.4.3 <code> acml_getHostMaxFrequency </code></h4>
+
+<div class="defun">
+&mdash; Script Callback: <code>Table</code> <b>acml_getHostMaxFrequency</b> ( )<var><a name="index-acml_005fgetHostMaxFrequency-977"></a></var><br>
+<blockquote><p>Return a number that represents the maximum frequency at which the host could
+operate at.  Note:  depending on power management, the host could be operating at a
+lower clock rate at any given point in time.
+
+     <!-- ================================================================================= -->
+        <p>&rArr; An unsigned number given in MHz
+
+     </blockquote></div>
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<h4 class="subsection">7.4.4 <code> acml_getDeviceMaxFrequency </code></h4>
+
+<div class="defun">
+&mdash; Script Callback: <code>Table</code> <b>acml_getDeviceMaxFrequency</b> (<var> contextIndex </var>)<var><a name="index-acml_005fgetDeviceMaxFrequency-978"></a></var><br>
+<blockquote><p>Return a number that represents the maximum frequency at which the device in the
+given context operates at.  Note:  depending on power management, the device could
+be operating at a lower clock rate at any given point in time.
+
+     <!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: int <b>contextIndex</b><var><a name="index-contextIndex-979"></a></var><br>
+<blockquote> <p>The index of the context to query
+<br> Constraint: contextIndex must be 1 at this time; the library does
+not support multi-GPU configurations at this time
+</p></blockquote></div>
+
+     <!-- ================================================================================= -->
+        <p>&rArr; An unsigned number given in MHz
+
+     </blockquote></div>
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<h4 class="subsection">7.4.5 <code> acml_getDeviceMaxComputeUnits </code></h4>
+
+<div class="defun">
+&mdash; Script Callback: <code>Table</code> <b>acml_getDeviceMaxComputeUnits</b> (<var> contextIndex </var>)<var><a name="index-acml_005fgetDeviceMaxComputeUnits-980"></a></var><br>
+<blockquote><p>Returns the maximum number of individual compute units the device in the given context
+contains.
+
+     <!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: int <b>contextIndex</b><var><a name="index-contextIndex-981"></a></var><br>
+<blockquote> <p>The index of the context to query
+<br> Constraint: contextIndex must be 1 at this time; the library does
+not support multi-GPU configurations at this time
+</p></blockquote></div>
+
+     <!-- ================================================================================= -->
+        <p>&rArr; An unsigned number
+
+     </blockquote></div>
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<h4 class="subsection">7.4.6 <code> acml_getDeviceMaxMemoryAlloc </code></h4>
+
+<div class="defun">
+&mdash; Script Callback: <code>Table</code> <b>acml_getDeviceMaxMemoryAlloc</b> (<var> contextIndex </var>)<var><a name="index-acml_005fgetDeviceMaxMemoryAlloc-982"></a></var><br>
+<blockquote><p>Returns the maximum amount of memory that can be allocated within a single buffer
+for the device in the given context
+
+     <!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: int <b>contextIndex</b><var><a name="index-contextIndex-983"></a></var><br>
+<blockquote> <p>The index of the context to query
+<br> Constraint: contextIndex must be 1 at this time; the library does
+not support multi-GPU configurations at this time
+</p></blockquote></div>
+
+     <!-- ================================================================================= -->
+        <p>&rArr; An unsigned number representing MB
+
+     </blockquote></div>
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<h4 class="subsection">7.4.7 <code> acml_getUnifiedHostDeviceMemory </code></h4>
+
+<div class="defun">
+&mdash; Script Callback: <code>Table</code> <b>acml_getUnifiedHostDeviceMemory</b> (<var> contextIndex </var>)<var><a name="index-acml_005fgetUnifiedHostDeviceMemory-984"></a></var><br>
+<blockquote><p>Return a boolean indicating the the device in the given context shares its main
+memory with the host; an APU is an example of this
+
+     <!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: int <b>contextIndex</b><var><a name="index-contextIndex-985"></a></var><br>
+<blockquote> <p>The index of the context to query
+<br> Constraint: contextIndex must be 1 at this time; the library does
+not support multi-GPU configurations at this time
+</p></blockquote></div>
+
+     <!-- ================================================================================= -->
+        <p>&rArr; A boolean
+
+     </blockquote></div>
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<h4 class="subsection">7.4.8 <code> acml_getDeviceGlobalMemorySize </code></h4>
+
+<div class="defun">
+&mdash; Script Callback: <code>Table</code> <b>acml_getDeviceGlobalMemorySize</b> (<var> contextIndex </var>)<var><a name="index-acml_005fgetDeviceGlobalMemorySize-986"></a></var><br>
+<blockquote><p>Returns the amount of memory on the device in the given context
+
+     <!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: int <b>contextIndex</b><var><a name="index-contextIndex-987"></a></var><br>
+<blockquote> <p>The index of the context to query
+<br> Constraint: contextIndex must be 1 at this time; the library does
+not support multi-GPU configurations at this time
+</p></blockquote></div>
+
+     <!-- ================================================================================= -->
+        <p>&rArr; An unsigned number representing MB
+
+     </blockquote></div>
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<h4 class="subsection">7.4.9 <code> acml_getDeviceDoubleSupport </code></h4>
+
+<div class="defun">
+&mdash; Script Callback: <code>Table</code> <b>acml_getDeviceDoubleSupport</b> (<var> contextIndex </var>)<var><a name="index-acml_005fgetDeviceDoubleSupport-988"></a></var><br>
+<blockquote><p>Returns whether the device in the given context supports double precision operations
+
+     <!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: int <b>contextIndex</b><var><a name="index-contextIndex-989"></a></var><br>
+<blockquote> <p>The index of the context to query
+<br> Constraint: contextIndex must be 1 at this time; the library does
+not support multi-GPU configurations at this time
+</p></blockquote></div>
+
+     <!-- ================================================================================= -->
+        <p>&rArr; A boolean
+
+     </blockquote></div>
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<h4 class="subsection">7.4.10 <code> acml_getDeviceExtensions </code></h4>
+
+<div class="defun">
+&mdash; Script Callback: <code>Table</code> <b>acml_getDeviceExtensions</b> (<var> contextIndex </var>)<var><a name="index-acml_005fgetDeviceExtensions-990"></a></var><br>
+<blockquote><p>Returns a string that contains all the OpenCL extensions that the device in the given
+context supports.
+
+     <!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: int <b>contextIndex</b><var><a name="index-contextIndex-991"></a></var><br>
+<blockquote> <p>The index of the context to query
+<br> Constraint: contextIndex must be 1 at this time; the library does
+not support multi-GPU configurations at this time
+</p></blockquote></div>
+
+     <!-- ================================================================================= -->
+        <p>&rArr; A whitespace separated string that contains all OpenCL extensions
+
+     </blockquote></div>
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- End of ACMLScript section -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+   </body></html>
+

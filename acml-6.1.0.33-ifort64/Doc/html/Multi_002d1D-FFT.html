@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+<title>Multi-1D FFT - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Complex-FFT-Routines.html#Complex-FFT-Routines" title="Complex FFT Routines">
+<link rel="prev" href="1D-FFT.html#g_t1D-FFT" title="1D FFT">
+<link rel="next" href="2D-FFT.html#g_t2D-FFT" title="2D FFT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Multi-1D-FFT"></a>
+<a name="Multi_002d1D-FFT"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="2D-FFT.html#g_t2D-FFT">2D FFT</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="1D-FFT.html#g_t1D-FFT">1D FFT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Complex-FFT-Routines.html#Complex-FFT-Routines">Complex FFT Routines</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.3.2 FFT of multiple complex sequences</h4>
+
+<p><a name="index-FFT-of-multiple-complex-sequences-104"></a>The routines documented here compute the discrete Fourier transforms
+(DFTs) of a number of sequences of complex numbers in either single or
+double precision arithmetic. The sequences must all have the same
+length. The DFTs are computed using a highly-efficient FFT
+algorithm. There are two sets of interfaces available: simple drivers
+and expert drivers. The simple drivers perform in-place transforms on
+data held contiguously in memory using a fixed scaling factor; these
+are simpler to use and are sufficient for many problems. The expert
+drivers offer greater flexibility by including a number of additional
+arguments. These allow you to control: the scaling factor applied;
+whether the result should be output to a separate vector; the
+increments used in storing successive elements of a given sequence
+(for both input and output sequences); and the increments used in
+storing corresponding elements in successive sequences (for both input
+and output).
+
+<ul class="menu">
+<li><a accesskey="1" href="ZFFT1M.html#ZFFT1M">ZFFT1M</a>:         Multiple one-dimensional Double Complex FFTs, simple driver
+<li><a accesskey="2" href="CFFT1M.html#CFFT1M">CFFT1M</a>:         Multiple one-dimensional, single precision, Complex FFTs, simple driver
+<li><a accesskey="3" href="ZFFT1MX.html#ZFFT1MX">ZFFT1MX</a>:        Multiple one-dimensional Double Complex FFTs, expert driver
+<li><a accesskey="4" href="CFFT1MX.html#CFFT1MX">CFFT1MX</a>:        Multiple one-dimensional, single precision, Complex FFTs, expert driver
+</ul>
+
+   </body></html>
+

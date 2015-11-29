@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+<title>3D FFT - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Complex-FFT-Routines.html#Complex-FFT-Routines" title="Complex FFT Routines">
+<link rel="prev" href="2D-FFT.html#g_t2D-FFT" title="2D FFT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="g_t3D-FFT"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="2D-FFT.html#g_t2D-FFT">2D FFT</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Complex-FFT-Routines.html#Complex-FFT-Routines">Complex FFT Routines</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.3.4 3D FFT of three-dimensional arrays of data</h4>
+
+<p><a name="index-g_t3D-FFT-192"></a>The routines documented here compute the three-dimensional discrete
+Fourier transforms (DFT) of a three-dimensional array of complex numbers
+in either single or double precision arithmetic. 
+The 3D DFT is computed using a highly-efficient FFT algorithm.
+
+   <p>Please note that at Release 2.7 of ACML it was necessary to modify
+slightly the interfaces of two of the expert FFT drivers introduced at
+Release 2.2 of ACML. The two routines are <code>CFFT3DX</code> and <code>ZFFT3DX</code>. 
+The changes were required to permit the optimization of these routines by
+adding an initialization stage which can then use the plan generator
+(MODE=100) to select the optimal plan. User codes that called <code>CFFT3DX</code>
+or <code>ZFFT3DX</code> using a release of ACML prior to 2.7 will need to be modified
+in one of two ways. Calls to <code>CFFT3DX</code>/<code>ZFFT3DX</code> with
+MODE = -1 or 1 can be fixed for ACML Release 2.7 and later by either:
+
+     <ul>
+<li>preceding the call with a call setting MODE = 0 (default initialization),
+    or MODE = 100 (initialization using plan generator); or,
+<li>doubling the MODE argument value to MODE = -2 or 2 respectively
+    (thus incorporating default initialization). 
+</ul>
+
+   <p>Additionally, the minimum length of the communication (work)space
+arrays in <code>CFFT3DX</code> and <code>ZFFT3DX</code> has been increased by 100 to allow for
+plan storage. Please consult the individual routine documents for full
+details on their use.
+
+<ul class="menu">
+<li><a accesskey="1" href="ZFFT3D.html#ZFFT3D">ZFFT3D</a>:           Three-dimensional Double Complex FFT, simple driver
+<li><a accesskey="2" href="CFFT3D.html#CFFT3D">CFFT3D</a>:           Three-dimensional, single precision, Complex FFT, simple driver
+<li><a accesskey="3" href="ZFFT3DX.html#ZFFT3DX">ZFFT3DX</a>:          Three-dimensional Double Complex FFT, expert driver 1
+<li><a accesskey="4" href="CFFT3DX.html#CFFT3DX">CFFT3DX</a>:          Three-dimensional, single precision, Complex FFT, expert driver 1
+<li><a accesskey="5" href="ZFFT3DY.html#ZFFT3DY">ZFFT3DY</a>:          Three-dimensional Double Complex FFT, expert driver 2
+<li><a accesskey="6" href="CFFT3DY.html#CFFT3DY">CFFT3DY</a>:          Three-dimensional, single precision, Complex FFT, expert driver 2
+</ul>
+
+   </body></html>
+

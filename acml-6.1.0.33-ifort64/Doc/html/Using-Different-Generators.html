@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+<title>Using Different Generators - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Multiple-Streams.html#Multiple-Streams" title="Multiple Streams">
+<link rel="prev" href="Using-Different-Seeds.html#Using-Different-Seeds" title="Using Different Seeds">
+<link rel="next" href="Skip-Ahead.html#Skip-Ahead" title="Skip Ahead">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Using-Different-Generators"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Skip-Ahead.html#Skip-Ahead">Skip Ahead</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Using-Different-Seeds.html#Using-Different-Seeds">Using Different Seeds</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Multiple-Streams.html#Multiple-Streams">Multiple Streams</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.2.2 Using Different Generators</h4>
+
+<p><a name="index-multiple-streams_002c-using-different-generators-546"></a><a name="index-multiple-streams_002c-Wichmann_002dHill-generator-547"></a><a name="index-Wichmann_002dHill_002c-multiple-streams-548"></a>
+Independent sequences of variates can be generated using different
+base generators for each sequence. For example, sequence 1 can be
+generated using the NAG basic generator, sequence 2 using the
+L'Ecuyer's Combined Recursive generator, sequence 3 using the Mersenne
+Twister.  The Wichmann-Hill generator implemented in the ACML is in
+fact a series of 273 independent generators. The particular
+sub-generator being used can be selected using the <var>SUBID</var>
+variable (see <a href="DRANDINITIALIZE.html#DRANDINITIALIZE">DRANDINITIALIZE</a> for details). Therefore, in total,
+277 independent streams can be generated with each using an
+independent generator (273 Wichmann-Hill generators, and 4 additional
+base generators). 
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+
+   </body></html>
+

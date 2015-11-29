@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+<title>UINI - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="User-Supplied-Generators.html#User-Supplied-Generators" title="User Supplied Generators">
+<link rel="prev" href="DRANDINITIALIZEUSER.html#DRANDINITIALIZEUSER" title="DRANDINITIALIZEUSER">
+<link rel="next" href="UGEN.html#UGEN" title="UGEN">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="UINI"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="UGEN.html#UGEN">UGEN</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="DRANDINITIALIZEUSER.html#DRANDINITIALIZEUSER">DRANDINITIALIZEUSER</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="User-Supplied-Generators.html#User-Supplied-Generators">User Supplied Generators</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>UINI</code></h5>
+
+<p>Specification for a user supplied initialization routine.
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>UINI</b> (<var>GENID,SUBID,SEED,LSEED,STATE,LSTATE,INFO</var>)<var><a name="index-UINI-529"></a></var><br>
+<blockquote><!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: INTEGER <b>GENID</b><var><a name="index-GENID-530"></a></var><br>
+<blockquote> <p>On input: the ID associated with the generator. It may be used for
+anything you like. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>SUBID</b><var><a name="index-SUBID-531"></a></var><br>
+<blockquote> <p>On input: the sub-ID associated with the generator. It may be used for
+anything you like. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>SEED</b>(<var>LSEED</var>)<var><a name="index-SEED-532"></a></var><br>
+<blockquote> <p>On input: an array containing the initial seed for your generator. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>LSEED</b><var><a name="index-LSEED-533"></a></var><br>
+<blockquote> <p>On input: either the size of the <var>SEED</var> array, or a value &lt; 1. 
+<br> On output: if <var>LSEED</var>&lt;1 on entry, <var>LSEED</var> must be set
+to the required size of the <var>SEED</var> array. This allows a
+caller of <code>UINI</code> to query the required size. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>STATE</b>(<var>LSTATE</var>)<var><a name="index-STATE-534"></a></var><br>
+<blockquote> <p>On output: if <var>LSTATE</var>&lt;1 on entry, <var>STATE</var> should be unchanged. 
+<br> Otherwise, <var>STATE</var> is a state vector holding internal details required
+by your generator. On exit from <code>UINI</code>, the array <var>STATE</var> must
+hold the following information:
+
+             <p><code>STATE(1)</code> = <code>ESTATE</code>, where <code>ESTATE</code> is your minimum allowed size
+             of array <var>STATE</var>.
+
+             <p><code>STATE(2)</code> = <code>MAGIC</code>, where <code>MAGIC</code> is a magic number of your own
+             choice. This can be used by your routine <code>UGEN</code> as a check
+             that <code>UINI</code> has previously been called.
+
+             <p><code>STATE(3)</code> = <code>GENID</code>
+
+             <p><code>STATE(4)</code> = <code>SUBID</code>
+
+             <p><code>STATE(5)</code> ... <code>STATE(ESTATE-1)</code> = internal state values required
+              by your generator routine <code>UGEN</code>; for example, the
+              current value of your seed.
+
+             <p><code>STATE(ESTATE)</code> = <code>MAGIC</code>, i.e. the same value as <code>STATE(2)</code>. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>LSTATE</b><var><a name="index-LSTATE-535"></a></var><br>
+<blockquote> <p>On input: either the size of the <var>STATE</var> array, or a value &lt; 1. 
+<br> On output: if <var>LSTATE</var>&lt;1 on entry, <var>LSTATE</var> should be set
+to the required size of the <var>STATE</var> array, i.e. the
+value <code>ESTATE</code> as described above. This allows the
+caller of <code>UINI</code> to query the required size. 
+<br> Constraint: either <var>LSTATE</var>&lt;1 or <var>LSTATE</var>&gt;=ESTATE
+. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-536"></a></var><br>
+<blockquote> <p>On output: an error code, to be used in whatever way you wish;
+for example to flag an incorrect argument to <code>UINI</code>. 
+If no error is encountered, <code>UINI</code> must set <var>INFO</var> to 0. 
+</p></blockquote></div>
+        </p></blockquote></div>
+   <!-- ================================================================================================================================================================== -->
+
+   </body></html>
+

@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+<title>Examples - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="General.html#General" title="General">
+<link rel="prev" href="Docs.html#Docs" title="Docs">
+<link rel="next" href="Performance-Examples.html#Performance-Examples" title="Performance Examples">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Examples"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Performance-Examples.html#Performance-Examples">Performance Examples</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Docs.html#Docs">Docs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="General.html#General">General</a>
+<hr>
+</div>
+
+<h3 class="section">2.8 Example programs calling ACML</h3>
+
+<p><a name="index-example-programs-33"></a><a name="index-installation-test-34"></a><a name="index-ACML-installation-test-35"></a>
+The /examples subdirectory of the top ACML installation directory
+(for example, possible default locations are
+/opt/acml6.1.0/pgi64/examples under Linux, or, under windows,
+c:\acml6.1.0\win64\examples),
+ contains example programs showing how
+to call the ACML, along with a GNUmakefile to build and run them. 
+Examples of calling both FORTRAN and C interfaces are included. 
+They may be used as an ACML installation test.
+
+   <p>Depending on where your copy of the ACML is installed, and which
+compiler and flags you wish to use, it may be necessary to modify
+some variables in the GNUmakefile before using it.
+
+   <p>For 64-bit Windows versions of ACML it may be useful to have the
+Cygwin UNIX-like tools installed, so that you can use the <em>make</em>
+command that comes with them to build the examples. 
+However, it is not necessary
+to have the Cygwin tools. The examples directory contains
+a bat script, <em>acmlexample.bat</em>, which can be used
+to run one of the example programs. Another bat script,
+<em>acmlallexamples.bat</em>, builds and runs all the examples
+in the directory. Alternatively, if you do have the
+Cygwin tools installed, you can use the GNUmakefile
+to build the examples.
+
+   <p>If you need more example programs showing how to call LAPACK
+routines from Fortran, we refer you to this web page:
+
+   <blockquote>
+<a href="http://www.nag.com/lapack/">http://www.nag.com/lapack/</a>
+</blockquote>
+
+   <p>Here you will find examples for all double precision
+LAPACK driver routines, and all of these should work when
+linked with ACML. Note that as well as the example programs
+themselves, it is necessary to download and compile a small amount
+of utility code used by the programs. See the web page for
+detailed instructions.
+
+   </body></html>
+

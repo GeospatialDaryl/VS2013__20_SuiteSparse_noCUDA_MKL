@@ -1,0 +1,7 @@
+ACML (AMD Core Math Library) version 6.1.0.33  (Mon Nov 17 16:07:56 CST 2014)
+Copyright AMD,NAG 2014
+Build system: CYGWIN_NT-6.2-WOW64 1.7.31(0.272/5/3) i686 acml-build-win
+Built using Fortran compiler: Intel(R) Visual Fortran Intel(R) 64 Compiler XE for applications running on Intel(R) 64, Version 13.1.0.149 Build 20130118
+   with flags:  -nologo -auto -threads -Qprec -MD -DWIN_IFORT -DIS_64BIT -DWIN64 -DUSE_OMP -Qopenmp -DUSE_ACMLMALLOCFAST -O3
+ and C compiler: Microsoft (R) C/C++ Optimizing Compiler Version 17.00.50727.1 for x64
+   with flags:  -DIS_64BIT -W3 -DWIN64 -DWINDOWS -DWIN_IFORT -nologo -DUSE_OMP -DUSE_ACMLMALLOCFAST -O2 -MD

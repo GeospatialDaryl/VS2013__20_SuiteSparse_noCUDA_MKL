@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+<title>Wichmann-Hill Generator - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Base-Generators.html#Base-Generators" title="Base Generators">
+<link rel="prev" href="Basic-NAG-Generator.html#Basic-NAG-Generator" title="Basic NAG Generator">
+<link rel="next" href="Mersenne-Twister.html#Mersenne-Twister" title="Mersenne Twister">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Wichmann-Hill-Generator"></a>
+<a name="Wichmann_002dHill-Generator"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Mersenne-Twister.html#Mersenne-Twister">Mersenne Twister</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Basic-NAG-Generator.html#Basic-NAG-Generator">Basic NAG Generator</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Base-Generators.html#Base-Generators">Base Generators</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.4 Wichmann-Hill Generator</h4>
+
+<p><a name="index-base-generator_002c-Wichmann_002dHill-503"></a><a name="index-Wichmann_002dHill-base-generator-504"></a><a name="index-linear-congruential-generator_002c-Wichmann_002dHill-505"></a>The Wichmann-Hill [10] base generator uses a combination of four
+linear congruential generators (LCGs) and has the form:
+w(i) = a1 * w(i-1) mod m1, x(i) = a2 * x(i-1) mod m2, y(i) = a3 *
+y(i-1) mod m3, z(i) = a4 * z(i-1) mod m4 and u(i) = [w(i) / m1 + x(i)
+/ m2 + y(i) / m3 + z(i) / m4] mod 1, i=1,2,... form the required
+sequence. There are 273 sets of parameters, (a1,a2,a3,a4,m1,m2,m3,m4),
+to choose from. These values have been selected so that the resulting
+generators are independent and have a period of approximately 2^(80)
+[10]. 
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+
+   </body></html>
+

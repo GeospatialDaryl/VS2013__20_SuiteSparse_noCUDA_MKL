@@ -1,0 +1,11 @@
+AMD clFFT
+    Copyright 2013, 2014 Advanced Micro Devices, Inc.
+
+    This product includes software developed at
+    Advanced Micro Devices, Inc. (http://www.amd.com).
+
+AMD clBLAS
+    Copyright 2013, 2014 Advanced Micro Devices, Inc.
+
+    This product includes software developed at
+    Advanced Micro Devices, Inc. (http://www.amd.com).

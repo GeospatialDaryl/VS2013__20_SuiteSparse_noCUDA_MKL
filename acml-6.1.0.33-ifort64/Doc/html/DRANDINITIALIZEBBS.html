@@ -1,0 +1,156 @@
+<html lang="en">
+<head>
+<title>DRANDINITIALIZEBBS - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators" title="Initialization of the Base Generators">
+<link rel="prev" href="DRANDINITIALIZE.html#DRANDINITIALIZE" title="DRANDINITIALIZE">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="DRANDINITIALIZEBBS"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="DRANDINITIALIZE.html#DRANDINITIALIZE">DRANDINITIALIZE</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators">Initialization of the Base Generators</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>DRANDINITIALIZEBBS / SRANDINITIALIZEBBS</code></h5>
+
+<p>Alternative initialization routine for the Blum-Blum-Shub
+generator. Unlike the other base generators supplied with the ACML,
+the Blum-Blum-Shub generator requires two additional parameters,
+p and q as well as an initial state, s. 
+As p, q and s can be of an arbitrary size. In order to avoid overflow
+these values are expressed as a polynomial in B, where B=2^(24). For
+example, p can be factored into a polynomial of order l_p, with p =
+p_1 + p_2B + p_3B^2 + ... +  p_(l_p) * B^(l_p-1), similarly q = q_1 +
+q_2B + q_3B^2 + ... + q_(l_q) * B^(l_q-1) and s = s_1 + s_2B + s_3B^2
++ \cdots + s_(l_s) * B^(l_s-1).
+
+   <p><a name="index-SRANDINITIALIZEBBS-478"></a><em>
+(Note that SRANDINITIALIZEBBS is the single precision version of DRANDINITIALIZEBBS. The argument lists of both routines are identical except that any double precision arguments of DRANDINITIALIZEBBS are replaced in SRANDINITIALIZEBBS by single precision arguments - type REAL in FORTRAN or type float in C). 
+</em>
+<!-- ================================================================================= -->
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>DRANDINITIALIZEBBS</b> (<var>NBITS,LP,P,LQ,Q,LS,S,STATE,LSTATE, INFO</var>)<var><a name="index-DRANDINITIALIZEBBS-479"></a></var><br>
+<blockquote><!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: INTEGER <b>NBITS</b><var><a name="index-NBITS-480"></a></var><br>
+<blockquote> <p>On input: the number of bits, v, to use from each iteration of
+the Blum-Blum-Shub generator. If <var>NBITS</var>&lt;1 then
+<var>NBITS</var>=1. If <var>NBITS</var>&gt;15 then
+<var>NBITS</var>=15. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>LP</b><var><a name="index-LP-481"></a></var><br>
+<blockquote> <p>On input: the order of the polynomial used to express p (l_p). 
+<br> Constraint: 1 &lt;=<var>LP</var>
+&lt;=25.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>P</b>(<var>LP</var>)<var><a name="index-P-482"></a></var><br>
+<blockquote> <p>On input: the coefficients of the polynomial used to express
+p. <var>P</var>(i)=p_i, i=1 to l_p. 
+<br> Constraint: 0 &lt;=<var>P</var>
+(i)
+&lt; 2^(24)
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>LQ</b><var><a name="index-LQ-483"></a></var><br>
+<blockquote> <p>On input: the order of the polynomial used to express q (l_q). 
+<br> Constraint: 1 &lt;=<var>LQ</var>
+&lt;=25.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>Q</b>(<var>LQ</var>)<var><a name="index-Q-484"></a></var><br>
+<blockquote> <p>On input: the coefficients of the polynomial used to express
+q. <var>Q</var>(i)=q_i, i=1 to l_q. 
+<br> Constraint: 0 &lt;=<var>Q</var>
+(i)
+&lt; 2^(24)
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>LS</b><var><a name="index-LS-485"></a></var><br>
+<blockquote> <p>On input: the order of the polynomial used to express s (l_s). 
+<br> Constraint: 1 &lt;=<var>LS</var>
+&lt;=25.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>S</b>(<var>LS</var>)<var><a name="index-S-486"></a></var><br>
+<blockquote> <p>On input: the coefficients of the polynomial used to express
+s. <var>S</var>(i)=s_i, i=1 to l_s. 
+<br> Constraint: 0 &lt;=<var>S</var>
+(i)
+&lt; 2^(24)
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>STATE</b>(<var>*</var>)<var><a name="index-STATE-487"></a></var><br>
+<blockquote> <p>On output: the initial state for the Blum-Blum-Shub generator with
+parameters <var>P</var>,<var>Q</var>,<var>S</var> and <var>NBITS</var>. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>LSTATE</b><var><a name="index-LSTATE-488"></a></var><br>
+<blockquote> <p>On input: either the length of the state vector, <var>STATE</var>, or a value &lt;=0
+. 
+<br> On output: if <var>LSTATE</var>&lt;=0
+ on input, then <var>LSTATE</var> is set
+to the minimum length of the state vector <var>STATE</var> for the
+parameters chosen, and the routine returns. Otherwise <var>LSTATE</var> is
+left unchanged. 
+<br> Constraint: <var>LSTATE</var>&lt;=0
+ or <var>LSTATE</var>
+&gt;=l_p+l_q+l_s+6
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-489"></a></var><br>
+<blockquote> <p>On output: <var>INFO</var> is an error indicator. If <var>INFO</var> = -i
+on exit, the i-th argument had an illegal value. If <var>INFO</var>
+=1 on exit, then <var>LSTATE</var> has been set to the required
+length for the <var>STATE</var> vector. If <var>INFO</var> = 0 then the
+state vector, <var>STATE</var>, has been successfully initialized. 
+</p></blockquote></div>
+        </p></blockquote></div>
+   <!-- ========================================================================================================== -->
+<!-- ========================================================================================================== -->
+
+   </body></html>
+

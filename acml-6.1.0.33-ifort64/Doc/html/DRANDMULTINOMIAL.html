@@ -1,0 +1,168 @@
+<html lang="en">
+<head>
+<title>DRANDMULTINOMIAL - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Discrete-Multivariate-Distributions.html#Discrete-Multivariate-Distributions" title="Discrete Multivariate Distributions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="DRANDMULTINOMIAL"></a>
+<p>
+Up:&nbsp;<a rel="up" accesskey="u" href="Discrete-Multivariate-Distributions.html#Discrete-Multivariate-Distributions">Discrete Multivariate Distributions</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>DRANDMULTINOMIAL / SRANDMULTINOMIAL</code></h5>
+
+<p><a name="index-multinomial-distribution-938"></a><a name="index-discrete-multivariate-distribution_002c-multinomial-939"></a><a name="index-multivariate-distribution_002c-multinomial-940"></a>Generates a matrix of random variates from a Multinomial distribution
+with probability, f(X), defined by:
+f(X) = [M! * P1^(X1) * P2^(X2) * ... * PK^(XK)] / [X1! * X2! * ... * XK!],
+where X = (X1,X2,...,XK), P = (P1,P2,...,PK), X1 + X2 + ... + XK = 1 and P1 + P2 + ... + PK = 1.
+
+   <p><a name="index-SRANDMULTINOMIAL-941"></a><em>
+(Note that SRANDMULTINOMIAL is the single precision version of DRANDMULTINOMIAL. The argument lists of both routines are identical except that any double precision arguments of DRANDMULTINOMIAL are replaced in SRANDMULTINOMIAL by single precision arguments - type REAL in FORTRAN or type float in C). 
+</em>
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>DRANDMULTINOMIAL</b> (<var>N,M,P,K,STATE,X,LDX,INFO</var>)<var><a name="index-DRANDMULTINOMIAL-942"></a></var><br>
+<blockquote><!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: INTEGER <b>N</b><var><a name="index-N-943"></a></var><br>
+<blockquote><!-- @deftypevr {Input} INTEGER N -->
+             <p>On input: number of variates required. 
+<br> Constraint: <var>N</var>&gt;=0.
+
+          <!-- @end deftypevr -->
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>M</b><var><a name="index-M-944"></a></var><br>
+<blockquote> <p>On input: number of trials. 
+<br>Constraint: <var>M</var>&gt;=0.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: DOUBLE PRECISION <b>P</b>(<var>K</var>)<var><a name="index-P-945"></a></var><br>
+<blockquote> <p>On input: vector of probabilities for each of the <var>K</var> possible outcomes. 
+<br>Constraint:
+0 &lt;= P &lt;= 1, for all elements of P and P1 + P2 + ... + PK = 1. 
+</p></blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>K</b><var><a name="index-K-946"></a></var><br>
+<blockquote> <p>On input: number of possible outcomes. 
+<br>Constraint: <var>K</var>&gt;=2.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>STATE</b>(<var>*</var>)<var><a name="index-STATE-947"></a></var><br>
+<blockquote><!-- @deftypevr {Input/Output} INTEGER STATE(*) -->
+             <p>The <var>STATE</var> vector holds information on the state of the base
+generator being used and as such its minimum length varies. Prior to
+calling <code>DRANDBINOMIAL</code> <var>STATE</var> must have been initialized. See
+<a href="Initialization-of-the-Base-Generators.html#Initialization-of-the-Base-Generators">Initialization of the Base Generators</a> for information on
+initialization of the <var>STATE</var> variable. 
+<br> On input: the current state of the base generator. 
+<br> On output: the updated state of the base generator. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>X</b>(<var>LDX,K</var>)<var><a name="index-X-948"></a></var><br>
+<blockquote><!-- @deftypevr {Output} INTEGER X(@var{LDX},@var{M}) -->
+             <p>On output: matrix of variates from the specified distribution. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>LDX</b><var><a name="index-LDX-949"></a></var><br>
+<blockquote><!-- @deftypevr {Input} INTEGER LDX -->
+             <p>On input: leading dimension of <var>X</var> in the calling routine. 
+<br> Constraint: <var>LDX</var>&gt;=<var>N</var>.
+
+          <!-- @end deftypevr -->
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-950"></a></var><br>
+<blockquote><!-- @deftypevr {Output} INTEGER INFO -->
+             <p>On output: <var>INFO</var> is an error indicator. On successful exit,
+<var>INFO</var> contains 0. If <var>INFO</var> = -i on exit, the i-th
+argument had an illegal value. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        </p></blockquote></div>
+   <!-- ================================================================================= -->
+Example:
+<p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<pre class="example">     C Generate 100 values from the Multinomial distribution
+           INTEGER LSTATE,N,M
+           PARAMETER (LSTATE=16,N=100,M=10)
+           INTEGER I,J,INFO,SEED(1),STATE(LSTATE)
+           INTEGER LDX,K
+           INTEGER  X(N,M)
+           DOUBLE PRECISION P(M)
+     
+     C Set array sizes
+           LDX = N
+     
+     C Set the seed
+           SEED(1) = 1234
+     
+     C Read in the distributional parameters
+           READ(5,*) K
+           READ(5,*) (P(I),I=1,K)
+     
+     C Initialize the STATE vector
+           CALL DRANDINITIALIZE(1,1,SEED,1,STATE,LSTATE,INFO)
+     
+     C Generate N variates from the Multinomial distribution
+           CALL DRANDMULTINOMIAL(N,M,P,K,STATE,X,LDX,INFO)
+     
+     C Print the results
+           DO 20 I = 1,N
+             WRITE(6,*) (X(I,J),J=1,K)
+           20 CONTINUE
+</pre>
+   </td></tr></table>
+   <!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- End of RNG section -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+<!-- Start of ACMLScript section -->
+<!-- ================================================================================= -->
+<!-- ================================================================================= -->
+   </body></html>
+

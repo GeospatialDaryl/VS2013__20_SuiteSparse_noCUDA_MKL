@@ -1,0 +1,131 @@
+<html lang="en">
+<head>
+<title>DRANDGEOMETRICREFERENCE - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Discrete-Univariate-Distributions.html#Discrete-Univariate-Distributions" title="Discrete Univariate Distributions">
+<link rel="prev" href="DRANDBINOMIALREFERENCE.html#DRANDBINOMIALREFERENCE" title="DRANDBINOMIALREFERENCE">
+<link rel="next" href="DRANDHYPERGEOMETRICREFERENCE.html#DRANDHYPERGEOMETRICREFERENCE" title="DRANDHYPERGEOMETRICREFERENCE">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="DRANDGEOMETRICREFERENCE"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="DRANDHYPERGEOMETRICREFERENCE.html#DRANDHYPERGEOMETRICREFERENCE">DRANDHYPERGEOMETRICREFERENCE</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="DRANDBINOMIALREFERENCE.html#DRANDBINOMIALREFERENCE">DRANDBINOMIALREFERENCE</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Discrete-Univariate-Distributions.html#Discrete-Univariate-Distributions">Discrete Univariate Distributions</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>DRANDGEOMETRICREFERENCE / SRANDGEOMETRICREFERENCE</code></h5>
+
+<p><a name="index-geometric-distribution_002c-using-reference-vector-815"></a><a name="index-discrete-univariate-distribution_002c-geometric_002c-using-reference-vector-816"></a><a name="index-univariate-distribution_002c-geometric_002c-using-reference-vector-817"></a><a name="index-reference-vector_002c-geometric-distribution-818"></a>Initializes a reference vector for use with <code>DRANDGENERALDISCRETE</code>. 
+Reference vector is for
+a Geometric distribution with probability, f(X), defined by:
+f(X) = P * (1 - P)^X, X=0,1,....
+
+   <p><a name="index-SRAND_0040_002dGEO_0040_002dMET_0040_002dRIC_0040_002dREF_0040_002dER_0040_002dENCE-819"></a><em>
+(Note that SRANDGEOMETRICREFERENCE is the single precision version of DRANDGEOMETRICREFERENCE. The argument lists of both routines are identical except that any double precision arguments of DRANDGEOMETRICREFERENCE are replaced in SRANDGEOMETRICREFERENCE by single precision arguments - type REAL in FORTRAN or type float in C). 
+</em>
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>DRANDGEOMETRICREFERENCE</b> (<var>P,REF,LREF,INFO</var>)<var><a name="index-DRANDGEOMETRICREFERENCE-820"></a></var><br>
+<blockquote><!-- ================================================================================= -->
+     <div class="defun">
+&mdash; Input: DOUBLE PRECISION <b>P</b><var><a name="index-P-821"></a></var><br>
+<blockquote> <p>On input: distribution parameter. 
+<br>Constraint: 0&lt;=<var>P</var>
+&lt;1.
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: DOUBLE PRECISION <b>REF</b>(<var>LREF</var>)<var><a name="index-REF-822"></a></var><br>
+<blockquote><!-- @deftypevr {Output} DOUBLE PRECISION REF(@var{LREF}) -->
+             <p>On output: if <var>INFO</var> returns with a value of 0 then
+<var>REF</var> contains reference information required to generate values
+from a Geometric distribution using DRANDGENERALDISCRETE. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>LREF</b><var><a name="index-LREF-823"></a></var><br>
+<blockquote><!-- @deftypevr {Input/Output} INTEGER LREF -->
+             <p>On input: either the length of the reference vector <var>REF</var>, or -1. 
+<br> On output: if <var>LREF</var>=-1 on input, then <var>LREF</var> is set
+to the recommended length of the reference vector and the routine
+returns. Otherwise <var>LREF</var> is left unchanged. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        <!-- ================================================================================= -->
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-824"></a></var><br>
+<blockquote><!-- @deftypevr {Output} INTEGER INFO -->
+             <p>On output: <var>INFO</var> is an error indicator. If <var>INFO</var> = -i
+on exit, the i-th argument had an illegal value. If <var>INFO</var>
+=1 on exit, then <var>LREF</var> has been set to the recommended
+length for the reference vector <var>REF</var>. If <var>INFO</var> = 0
+then the reference vector, <var>REF</var>, has been successfully
+initialized. 
+<!-- @end deftypevr -->
+
+             </blockquote></div>
+        </p></blockquote></div>
+
+<!-- Using set rather than the raw variables in the example as PDF and INFO act -->
+<!-- differently with raw variables, but the same with @value{} -->
+<pre class="display">     Example:
+     <p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+     <pre class="example">          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Generate 100 values from the Geometric distribution
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER LSTATE,N
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->PARAMETER (LSTATE=16,N=100)
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER I,INFO,SEED(1),STATE(LSTATE)
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->DOUBLE PRECISION P
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER X(N)
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->INTEGER LREF
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->DOUBLE PRECISION REF(1000)
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Set the seed
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->SEED(1) = 1234
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Read in the distributional parameters
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->READ(5,*) P
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Initialize the STATE vector
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->CALL DRANDINITIALIZE(1,1,SEED,1,STATE,LSTATE,INFO)
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Initialize the reference vector
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->LREF = 1000
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->CALL DRANDGEOMETRICREFERENCE(P,REF,LREF,INFO)
+          
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Generate N variates from the Geometric distribution
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->CALL DRANDGENERALDISCRETE(N,REF,STATE,X,INFO)
+          C&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->Print the results
+          &nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->&nbsp;<!-- /@w -->WRITE(6,*) (X(I),I=1,N)
+</pre>
+     </td></tr></table>
+</pre>
+   <!-- ================================================================================= -->
+<!-- ================================================================================= -->
+   </body></html>
+

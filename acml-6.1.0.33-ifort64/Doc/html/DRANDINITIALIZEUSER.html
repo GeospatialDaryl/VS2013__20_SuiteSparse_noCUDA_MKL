@@ -1,0 +1,156 @@
+<html lang="en">
+<head>
+<title>DRANDINITIALIZEUSER - AMD Core Math Library (ACML) 6.1.0</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="AMD Core Math Library (ACML) 6.1.0">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="User-Supplied-Generators.html#User-Supplied-Generators" title="User Supplied Generators">
+<link rel="next" href="UINI.html#UINI" title="UINI">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="DRANDINITIALIZEUSER"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="UINI.html#UINI">UINI</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="User-Supplied-Generators.html#User-Supplied-Generators">User Supplied Generators</a>
+<hr>
+</div>
+
+<h5 class="unnumberedsubsubsec"><code>DRANDINITIALIZEUSER / SRANDINITIALIZEUSER</code></h5>
+
+<p>Registers a user supplied base generator so that it can be used with
+the ACML distributional generators.
+
+   <p><a name="index-SRANDINITIALIZEUSER-518"></a><em>
+(Note that SRANDINITIALIZEUSER is the single precision version of DRANDINITIALIZEUSER. The argument lists of both routines are identical except that any double precision arguments of DRANDINITIALIZEUSER are replaced in SRANDINITIALIZEUSER by single precision arguments - type REAL in FORTRAN or type float in C). 
+</em>
+<!-- ================================================================================= -->
+
+<div class="defun">
+&mdash; SUBROUTINE: <b>DRANDINITIALIZEUSER</b> (<var>UINI,UGEN,GENID,SUBID,SEED,LSEED, STATE,LSTATE,INFO</var>)<var><a name="index-DRANDINITIALIZEUSER-519"></a></var><br>
+<blockquote><div class="defun">
+&mdash; Input: SUBROUTINE <b>UINI</b><var><a name="index-UINI-520"></a></var><br>
+<blockquote> <p>On input: routine that will be used to initialize the user supplied generator, <var>UGEN</var>. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: SUBROUTINE <b>UGEN</b><var><a name="index-UGEN-521"></a></var><br>
+<blockquote> <p>On input: user supplied base generator. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>GENID</b><var><a name="index-GENID-522"></a></var><br>
+<blockquote> <p>On input: parameter is passed directly to <var>UINI</var>. Its function
+therefore depends on that routine. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>SUBID</b><var><a name="index-SUBID-523"></a></var><br>
+<blockquote> <p>On input: parameter is passed directly to <var>UINI</var>. Its function
+therefore depends on that routine. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input: INTEGER <b>SEED</b>(<var>LSEED</var>)<var><a name="index-SEED-524"></a></var><br>
+<blockquote> <p>On input: parameter is passed directly to <var>UINI</var>. Its function
+therefore depends on that routine. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>LSEED</b><var><a name="index-LSEED-525"></a></var><br>
+<blockquote> <p>On input: length of the vector <var>SEED</var>. This parameter is passed
+directly to <var>UINI</var> and therefore its required value depends on
+that routine. 
+<br> On output: whether <var>LSEED</var> changes will depend on <var>UINI</var>. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>STATE</b>(<var>LSTATE</var>)<var><a name="index-STATE-526"></a></var><br>
+<blockquote> <p>On output: the state vector required by all of the supplied
+distributional generators. The value of <var>STATE</var> returned by
+<var>UINI</var> has some housekeeping elements appended to the end before
+being returned by <code>DRANDINITIALIZEUSER</code>. 
+See <a href="User-Supplied-Generators.html#User-Supplied-Generators">User Supplied Generators</a> for details about the form of <var>STATE</var>. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Input/Output: INTEGER <b>LSTATE</b><var><a name="index-LSTATE-527"></a></var><br>
+<blockquote> <p>On input: length of the vector <var>STATE</var>. This parameter is passed
+directly to <var>UINI</var> and therefore its required value depends on
+that routine. 
+<br> On output: whether <var>LSTATE</var> changes will depend on
+<var>UINI</var>. If <var>LSTATE</var>&lt;=0
+ then it is assumed that a request
+for the required length of <var>STATE</var> has been made. The value of
+<var>LSTATE</var> returned from <var>UINI</var> is therefore adjusted to allow
+for housekeeping elements to be added to the end of the <var>STATE</var>
+vector. This results in the value of <var>LSTATE</var> returned by
+<code>DRANDINITIALIZEUSER</code> being 3 larger than that returned by
+<var>UINI</var>. 
+</p></blockquote></div>
+
+     <div class="defun">
+&mdash; Output: INTEGER <b>INFO</b><var><a name="index-INFO-528"></a></var><br>
+<blockquote> <p>On output: <var>INFO</var> is an error
+indicator. <code>DRANDINITIALIZEUSER</code> will return a value of -6
+if the value of <var>LSTATE</var> is between 1 and
+3. Otherwise <var>INFO</var> is passed directly back from
+<var>UINI</var>. It is recommended that the value of <var>INFO</var> returned by
+<var>UINI</var> is kept consistent with the rest of the ACML, that is if
+<var>INFO</var> = -i on exit, the i-th argument had an illegal
+value. If <var>INFO</var> =1 on exit, then either, or both of
+<var>LSEED</var> and / or <var>LSTATE</var> have been set to the required length
+for vectors <var>SEED</var> and <var>STATE</var> respectively and the
+<var>STATE</var> vector has not have been initialized. If <var>INFO</var>
+= 0 then the state vector, <var>STATE</var>, has been successfully
+initialized. 
+</p></blockquote></div>
+        </p></blockquote></div>
+   <!-- ================================================================================= -->
+<pre class="display">     Example:
+     <p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+     <pre class="example">          C     Generate 100 values from the Uniform distribution using
+          C     a user supplied base generator
+                INTEGER LSTATE,N
+                PARAMETER (LSTATE=16,N=100)
+                INTEGER I,INFO,NSKIP,SEED(1),STATE(LSTATE)
+                INTEGER X(N)
+                DOUBLE PRECISION A,B
+          
+          C     Set the seed
+                SEED(1) = 1234
+          
+          C     Set the distributional parameters
+                A = 0.0D0
+                B = 1.0D0
+          
+          C     Initialize the base generator. Here ACMLRNGNB0GND is a user
+          C     supplied generator and ACMLRNGNB0INI its initializer
+                CALL DRANDINITIALIZEUSER(ACMLRNGNB0INI,ACMLRNGNB0GND,1,0,SEED,
+               *    LSEED,STATE,LSTATE,INFO)
+          
+          C     Generate N variates from the Univariate distribution
+                CALL DRANDUNIFORM(N,A,B,STATE,X,LDX,INFO)
+          
+          C     Print the results
+                WRITE(6,*) (X(I),I=1,N)
+</pre>
+     </td></tr></table>
+</pre>
+   <!-- ================================================================================= -->
+   </body></html>
+
